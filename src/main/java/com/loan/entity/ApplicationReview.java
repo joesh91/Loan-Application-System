@@ -22,7 +22,7 @@ public class ApplicationReview {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "review_id")
-	private long reviewId;
+	private Long reviewId;
 
 	@OneToOne
 	@JoinColumn(name = "application_id")
@@ -51,11 +51,11 @@ public class ApplicationReview {
 
 	// GETTERS AND SETTERS
 
-	public long getReviewId() {
+	public Long getReviewId() {
 		return reviewId;
 	}
 
-	public void setReviewId(long reviewId) {
+	public void setReviewId(Long reviewId) {
 		this.reviewId = reviewId;
 	}
 
@@ -67,11 +67,11 @@ public class ApplicationReview {
 		this.loanApplication = loanApplication;
 	}
 
-	public Staff getStaffId() {
+	public Staff getStaff() {
 		return staff;
 	}
 
-	public void setStaffId(Staff staffId) {
+	public void setStaff(Staff staffId) {
 		this.staff = staffId;
 	}
 

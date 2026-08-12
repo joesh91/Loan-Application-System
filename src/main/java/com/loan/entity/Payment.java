@@ -20,7 +20,7 @@ public class Payment {
 	@Id
 	@Column(name = "payment_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int paymentId;
+	private Long paymentId;
 
 	@ManyToOne
 	@JoinColumn(name = "loanId")
@@ -41,11 +41,11 @@ public class Payment {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getPaymentId() {
+	public Long getPaymentId() {
 		return paymentId;
 	}
 
-	public void setPaymentId(int paymentId) {
+	public void setPaymentId(Long paymentId) {
 		this.paymentId = paymentId;
 	}
 

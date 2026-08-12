@@ -45,11 +45,11 @@ public class LoanApplicationDAO {
 
 	}
 
-	public LoanApplication findById(int lapp) {
+	public LoanApplication findById(long loanId) {
 
 		EntityManager em = emf.createEntityManager();
 
-		LoanApplication la = em.find(LoanApplication.class, lapp);
+		LoanApplication la = em.find(LoanApplication.class, loanId);
 		em.close();
 
 		return la;

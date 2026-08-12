@@ -4,8 +4,9 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;
 
-import com.loan.entity.Loan;
 import com.loan.service.LoanService;
+import com.loan.dto.LoanDecisionDto;
+import com.loan.dto.LoanDto;
 
 import java.util.List;
 import jakarta.ws.rs.POST;
@@ -26,55 +27,56 @@ public class LoanResource {
 	// CREATE A LOAN
 
 	@POST
-	public Response registerLoan(Loan loan) {
+	public Response registerLoan(LoanDto loanDto) {
 
-		if (loan != null) {
-			loanService.submitLoan(loan);
-			return Response.status(Response.Status.CREATED).entity(loan).build();
+		if (loanDto == null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
-		return Response.status(Response.Status.BAD_REQUEST).build();
+		loanService.submitLoan(loanDto);
+		return Response.status(Response.Status.CREATED).entity(loanDto).build();
 	}
 
 	// VIEW A LOAN
 
 	@GET
 	@Path("/{id}")
-	public Response searchLoan(@PathParam("id") int loanId) {
+	public Response searchLoan(@PathParam("id") Long loanId) {
 
-		Loan loan = loanService.findLoan(loanId);
-		if (loan != null) {
-			return Response.ok(loan).build();
+		LoanDto loanDto = loanService.findLoan(loanId);
+		if (loanDto != null) {
+			return Response.ok(loanDto).build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}
 
 	// VIEW ALL LOANS
+	
 	@GET
 	public Response getAllLoans() {
-
-		List<Loan> loans = loanService.getAllLoans();
+		List<LoanDto> loans = loanService.getAllLoans();
 
 		if (loans != null) {
 			return Response.ok(loans).build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}
+	
 
 	// UPDATE A LOAN
 
 	@PUT
 	@Path("/{id}")
-	public Response updateLoan(@PathParam("id") int loanId, Loan loan) {
+	public Response updateLoan(@PathParam("id") Long loanId, LoanDto loanDto) {
 
-		if (loan == null) {
+		if (loanDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 
-		loan.setLoanId(loanId);
-
-		loanService.updateLoan(loan);
-
-		return Response.ok(loan).build();
+		loanDto.setLoanId(loanId);
+		
+		loanService.updateLoan(loanDto);
+		
+		return Response.ok(loanDto).build();
 
 	}
 
@@ -82,14 +84,26 @@ public class LoanResource {
 
 	@DELETE
 	@Path("/{id}")
-	public Response deleteLoan(@PathParam("id") int loanId) {
+	public Response deleteLoan(@PathParam("id") Long loanId) {
 
-		Loan loan = loanService.findLoan(loanId);
-		if (loan != null) {
-			loanService.deleteLoan(loan);
+		LoanDto loanDto = loanService.findLoan(loanId);
+		if (loanDto != null) {
+			loanService.deleteLoan(loanDto);
 			return Response.noContent().build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
+	}
+	
+	@PUT
+	@Path("/decision")
+	public Response makeDecision(LoanDecisionDto loanDecisionDto) {
+		
+		if(loanDecisionDto == null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		
+		loanService.makeDecision(loanDecisionDto);
+		return Response.ok(loanDecisionDto).build();
 	}
 
 }

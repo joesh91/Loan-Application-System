@@ -37,16 +37,16 @@ public class ApplicationReviewDAO {
 		EntityManager em = emf.createEntityManager();
 
 		em.getTransaction().begin();
-		em.remove(appReview);
+		em.remove(em.merge(appReview));
 		em.getTransaction().commit();
 		em.close();
 	}
 
-	public ApplicationReview findById(int appReview) {
+	public ApplicationReview findById(long reviewID) {
 
 		EntityManager em = emf.createEntityManager();
 
-		ApplicationReview app = em.find(ApplicationReview.class, appReview);
+		ApplicationReview app = em.find(ApplicationReview.class, reviewID);
 		em.close();
 
 		return app;

@@ -21,7 +21,7 @@ public class Loan {
 	@Id
 	@Column(name = "LOAN_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long loanId;
+	private Long loanId;
 
 	@OneToOne
 	@JoinColumn(name = "APPLICATION_ID")
@@ -34,7 +34,7 @@ public class Loan {
 	private double intRate;
 
 	@Column(name = "DURATION_MONTH")
-	private int duration;
+	private Long duration;
 
 	@Column(name = "START_DATE", updatable = false)
 	@CreationTimestamp
@@ -51,19 +51,19 @@ public class Loan {
 		// TODO Auto-generated constructor stub
 	}
 
-	public long getLoanId() {
+	public Long getLoanId() {
 		return loanId;
 	}
 
-	public void setLoanId(long loanId) {
+	public void setLoanId(Long loanId) {
 		this.loanId = loanId;
 	}
 
-	public LoanApplication getApplicationId() {
+	public LoanApplication getApplication() {
 		return application;
 	}
 
-	public void setApplicationId(LoanApplication applicationId) {
+	public void setApplication(LoanApplication applicationId) {
 		this.application = applicationId;
 	}
 
@@ -83,11 +83,11 @@ public class Loan {
 		this.intRate = intRate;
 	}
 
-	public int getDuration() {
+	public Long getDuration() {
 		return duration;
 	}
 
-	public void setDuration(int durationM) {
+	public void setDuration(Long durationM) {
 		this.duration = durationM;
 	}
 

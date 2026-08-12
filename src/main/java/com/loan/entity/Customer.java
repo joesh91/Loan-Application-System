@@ -17,7 +17,7 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "CUSTOMER_ID")
-	private int customerId;
+	private Long customerId;
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;
@@ -45,11 +45,11 @@ public class Customer {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getCustomerId() {
+	public Long getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(int customerId) {
+	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
 

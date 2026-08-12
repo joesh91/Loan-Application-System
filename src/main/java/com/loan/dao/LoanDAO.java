@@ -41,7 +41,7 @@ public class LoanDAO {
 		em.close();
 	}
 
-	public Loan findById(int loanId) {
+	public Loan findById(Long loanId) {
 
 		EntityManager em = emf.createEntityManager();
 

@@ -42,7 +42,7 @@ public class UserDAO {
 		em.close();
 	}
 
-	public User findById(int userId) {
+	public User findById(Long userId) {
 
 		EntityManager em = emf.createEntityManager();
 

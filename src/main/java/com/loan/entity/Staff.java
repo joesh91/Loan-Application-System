@@ -11,7 +11,7 @@ public class Staff {
 
 	@Id
 	@Column(name = "staff_id")
-	private int staffId;
+	private Long staffId;
 
 	@Column(name = "name")
 	private String name;
@@ -30,11 +30,11 @@ public class Staff {
 
 	// GETTERS AND SETTERS
 
-	public int getStaffId() {
+	public Long getStaffId() {
 		return staffId;
 	}
 
-	public void setStaffId(int staffId) {
+	public void setStaffId(Long staffId) {
 		this.staffId = staffId;
 	}
 

@@ -4,7 +4,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import com.loan.entity.Payment;
+import com.loan.dto.PaymentDto;
 import com.loan.dto.PaymentStatusRequest;
 import com.loan.service.PaymentService;
 import java.util.List;
@@ -27,11 +27,11 @@ public class PaymentResource {
 	// MAKE PAYMENT
 
 	@POST
-	public Response makePayment(Payment payment) {
+	public Response makePayment(PaymentDto paymentDto) {
 
-		if (payment != null) {
-			paymentService.makePayment(payment);
-			return Response.status(Response.Status.CREATED).entity(payment).build();
+		if (paymentDto != null) {
+			paymentService.makePayment(paymentDto);
+			return Response.status(Response.Status.CREATED).entity(paymentDto).build();
 		}
 		return Response.status(Response.Status.BAD_REQUEST).build();
 	}
@@ -40,15 +40,14 @@ public class PaymentResource {
 
 	@GET
 	@Path("/{id}")
-	public Response searchPayment(@PathParam("id") int paymentID) {
+	public Response searchPayment(@PathParam("id") Long paymentID) {
 
-		Payment payment = paymentService.findPayment(paymentID);
+		PaymentDto paymentDto = paymentService.findPayment(paymentID);
 
-		if (payment == null) {
+		if (paymentDto == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
-
-		return Response.ok(payment).build();
+		return Response.ok(paymentDto).build();
 	}
 
 	// GET ALL PAYMENTS
@@ -56,7 +55,7 @@ public class PaymentResource {
 	@GET
 	public Response getAllPayments() {
 
-		List<Payment> payments = paymentService.getAllPayments();
+		List<PaymentDto> payments = paymentService.getAllPayments();
 
 		return Response.ok(payments).build();
 	}
@@ -65,29 +64,29 @@ public class PaymentResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updatePayment(@PathParam("id") int paymentID, Payment payment) {
+	public Response updatePayment(@PathParam("id") Long paymentID, PaymentDto paymentDto) {
 
-		if (payment == null) {
+		if (paymentDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
-		payment.setPaymentId(paymentID);
-		paymentService.updatePayment(payment);
+		paymentDto.setPaymentId(paymentID);
+		paymentService.updatePayment(paymentDto);
 
-		return Response.ok(payment).build();
+		return Response.ok(paymentDto).build();
 	}
 
 	// DELETE PAYMENT
 
 	@DELETE
 	@Path("/{id}")
-	public Response deletePayment(@PathParam("id") int paymentID) {
+	public Response deletePayment(@PathParam("id") Long paymentID) {
 
-		Payment payment = paymentService.findPayment(paymentID);
+		PaymentDto paymentDto = paymentService.findPayment(paymentID);
 
-		if (payment == null) {
+		if (paymentDto == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
-		paymentService.deletePayment(payment);
+		paymentService.deletePayment(paymentDto);
 		return Response.noContent().build();
 	}
 
@@ -95,16 +94,15 @@ public class PaymentResource {
 
 	@PUT
 	@Path("/{id}/status")
-	public Response makeDecision(@PathParam("id") int paymentID, PaymentStatusRequest request) {
+	public Response makeDecision(@PathParam("id") Long paymentID, PaymentStatusRequest request) {
 
-		Payment payment = paymentService.findPayment(paymentID);
+		PaymentDto paymentDto = paymentService.findPayment(paymentID);
 
-		if (payment == null) {
+		if (paymentDto == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
-		}
-		payment.setPaymentStatus(request.getDecision());
-		paymentService.updatePayment(payment);
-		return Response.ok(payment).build();
+		}	
+		paymentService.makeDecision(paymentDto.getPaymentId(),request.getDecision());
+		return Response.ok(paymentDto).build();
 	}
 
 }

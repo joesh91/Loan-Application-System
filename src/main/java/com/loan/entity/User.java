@@ -16,7 +16,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USERS_ID")
-	private int userId;
+	private Long userId;
 
 	@Column(name = "USERNAME")
 	private String userName;
@@ -30,16 +30,18 @@ public class User {
 	@OneToOne
 	@JoinColumn(name = "CUSTOMER_ID")
 	private Customer customer;
+	
+	
 
 	public User() {
 
 	}
 
-	public int getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 

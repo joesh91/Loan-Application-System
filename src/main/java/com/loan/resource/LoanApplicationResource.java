@@ -5,7 +5,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;
 
 import com.loan.service.LoanApplicationService;
-import com.loan.entity.LoanApplication;
+import com.loan.dto.LoanApplicationDto;
 
 import java.util.List;
 
@@ -27,43 +27,45 @@ public class LoanApplicationResource {
 	LoanApplicationService loanApplicationService = new LoanApplicationService();
 
 	// SUBMIT LOAN APPLICATION FROM SERVICE LAYER
-
+	
 	@POST
-	public Response submitLoanApplication(LoanApplication loanApplication) {
+	public Response submitLoanApplication(LoanApplicationDto loanApplicationDto) {
 
-		if (loanApplication != null) {
-			loanApplicationService.submitLoanApplication(loanApplication);
-			return Response.status(Response.Status.CREATED).entity(loanApplication).build();
+		if(loanApplicationDto == null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
-		return Response.status(Response.Status.BAD_REQUEST).build();
-
+		
+		loanApplicationService.submitLoanApplication(loanApplicationDto);
+		return Response.status(Response.Status.CREATED).entity(loanApplicationDto).build();
+		
 	}
-
+	
+	
 	// SEARCH A LOAN APPLICATION BY ID
 
 	@GET
 	@Path("/{id}")
-	public Response findLoanApplication(@PathParam("id") int loanApplicationID) {
+	public Response findLoanApplication(@PathParam("id") Long loanApplicationId) {
 
-		LoanApplication loanApplication = loanApplicationService.searchLoanApplication(loanApplicationID);
+		LoanApplicationDto loanApplicationDto = loanApplicationService.searchLoanApplication(loanApplicationId);
 
-		if (loanApplication != null) {
-
-			return Response.ok(loanApplication).build();
+		if (loanApplicationDto == null) {
+			return Response.status(Response.Status.NOT_FOUND).build();
 		}
-
-		return Response.status(Response.Status.NOT_FOUND).build();
-	}
-
+		
+		return Response.status(Response.Status.FOUND).entity(loanApplicationDto).build();
+				
+	}	
+				
 	// SEARCH ALL LOAN APPLICATIONS
 
 	@GET
 	public Response getAllLoanApplications() {
 
-		List<LoanApplication> loanApplicationList = loanApplicationService.getAllLoanApplications();
+		List<LoanApplicationDto> loanApplicationListdto = loanApplicationService.getAllLoanApplications();
 
-		if (loanApplicationList != null) {
-			return Response.ok(loanApplicationList).build();
+		if (loanApplicationListdto != null) {
+			return Response.ok(loanApplicationListdto).build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}
@@ -72,23 +74,23 @@ public class LoanApplicationResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateLoanApplication(@PathParam("id") int loanApplicationID, LoanApplication loanApplication) {
+	public Response updateLoanApplication(@PathParam("id") Long loanApplicationID, LoanApplicationDto loanApplicationDto) {
 
-		loanApplication.setApplicationId(loanApplicationID);
+		loanApplicationDto.setApplicationId(loanApplicationID);
 
-		loanApplicationService.updateLoanApplication(loanApplication);
+		loanApplicationService.updateLoanApplication(loanApplicationDto);
 
-		return Response.ok(loanApplication).build();
+		return Response.ok(loanApplicationDto).entity(loanApplicationDto).build();
 	}
 
 	@DELETE
 	@Path("/{id}")
-	public Response deleteLoanApplication(@PathParam("id") int loanApplicationID) {
+	public Response deleteLoanApplication(@PathParam("id") Long loanApplicationID) {
 
-		LoanApplication loanApplication = loanApplicationService.searchLoanApplication(loanApplicationID);
+		LoanApplicationDto loanApplicationDto = loanApplicationService.searchLoanApplication(loanApplicationID);
 
-		if (loanApplication != null) {
-			loanApplicationService.deleteLoanApplication(loanApplication);
+		if (loanApplicationDto != null) {
+			loanApplicationService.deleteLoanApplication(loanApplicationDto);
 			return Response.noContent().build();
 		}
 

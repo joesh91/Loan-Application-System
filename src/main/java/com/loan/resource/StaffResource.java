@@ -4,7 +4,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import com.loan.entity.Staff;
+import com.loan.dto.StaffDto;
 import com.loan.service.StaffService;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.Path;
@@ -25,29 +25,29 @@ public class StaffResource {
 	// REGISTER A STAFF MEMBER
 
 	@POST
-	public Response registerStaff(Staff staff) {
+	public Response registerStaff(StaffDto staffDto) {
 
-		if (staff == null) {
+		if (staffDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 
-		staffService.registerStaff(staff);
-		return Response.status(Response.Status.CREATED).entity(staff).build();
+		staffService.registerStaff(staffDto);
+		return Response.status(Response.Status.CREATED).entity(staffDto).build();
 	}
 
 	// VIEW A STAFF MEMBER
 
 	@GET
 	@Path("/{id}")
-	public Response searchStaff(@PathParam("id") int staffId) {
+	public Response searchStaff(@PathParam("id") Long staffId) {
 
-		Staff staff = staffService.findStaff(staffId);
+		StaffDto staffDto = staffService.findStaff(staffId);
 
-		if (staff == null) {
+		if (staffDto == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 
-		return Response.ok(staff).build();
+		return Response.ok(staffDto).build();
 	}
 
 	// GET ALL STAFF MEMBERS
@@ -55,41 +55,41 @@ public class StaffResource {
 	@GET
 	public Response getAllStaff() {
 
-		List<Staff> staff = staffService.getAllStaff();
+		List<StaffDto> staffDto = staffService.getAllStaff();
 
-		return Response.ok(staff).build();
+		return Response.ok(staffDto).build();
 	}
 
 	// UPDATE STAFF MEMBER
 
 	@PUT
 	@Path("/{id}")
-	public Response updateStaff(@PathParam("id") int staffId, Staff staff) {
+	public Response updateStaff(@PathParam("id") Long staffId, StaffDto staffDto) {
 
-		if (staff == null) {
+		if (staffDto == null) {
 
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 
-		staff.setStaffId(staffId);
-		staffService.updateStaff(staff);
+		staffDto.setStaffId(staffId);
+		staffService.updateStaff(staffDto);
 
-		return Response.ok(staff).build();
+		return Response.ok(staffDto).build();
 	}
 
 	// DELETE STAFF MEMBER
 
 	@DELETE
 	@Path("/{id}")
-	public Response deleteStaff(@PathParam("id") int staffId) {
+	public Response deleteStaff(@PathParam("id") Long staffId) {
 
-		Staff staff = staffService.findStaff(staffId);
+		StaffDto staffDto = staffService.findStaff(staffId);
 
-		if (staff == null) {
+		if (staffDto == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 
-		staffService.deleteStaff(staff);
+		staffService.deleteStaff(staffDto);
 		return Response.noContent().build();
 	}
 

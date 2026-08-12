@@ -43,11 +43,11 @@ public class StaffDAO {
 		em.close();
 	}
 
-	public Staff findById(int staffId) {
+	public Staff findById(long userID) {
 
 		EntityManager em = emf.createEntityManager();
 
-		Staff staff = em.find(Staff.class, staffId);
+		Staff staff = em.find(Staff.class, userID);
 		em.close();
 
 		return staff;

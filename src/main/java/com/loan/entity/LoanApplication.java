@@ -22,7 +22,7 @@ public class LoanApplication {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "APPLICATION_ID")
-	private int applicationId;
+	private Long applicationId;
 
 	@Column(name = "LOAN_TYPE")
 	private String loanType;
@@ -48,11 +48,11 @@ public class LoanApplication {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getApplicationId() {
+	public Long getApplicationId() {
 		return applicationId;
 	}
 
-	public void setApplicationId(int applicationId) {
+	public void setApplicationId(Long applicationId) {
 		this.applicationId = applicationId;
 	}
 

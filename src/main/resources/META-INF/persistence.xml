@@ -27,7 +27,7 @@
 				value="postgres" />
 
 			<property name="jakarta.persistence.jdbc.password"
-				value="YOUR_PASSWORD_HERE" />
+				value="root" />
 
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.PostgreSQLDialect" />

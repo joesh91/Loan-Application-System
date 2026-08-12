@@ -3,6 +3,7 @@ package com.loan.dto;
 public class PaymentStatusRequest {
 
 	private String decision;
+	
 
 	public PaymentStatusRequest() {
 

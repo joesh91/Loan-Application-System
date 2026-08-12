@@ -1,6 +1,7 @@
 package com.loan.resource;
 
 import jakarta.ws.rs.Produces;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;
 
@@ -13,7 +14,7 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.core.Response;
 
 import com.loan.service.CustomerService;
-import com.loan.entity.Customer;
+import com.loan.dto.CustomerDto;
 
 import java.util.List;
 
@@ -24,23 +25,33 @@ public class CustomerResource {
 
 	CustomerService customerService = new CustomerService();
 
+
 	// NEW CUSTOMER REGISTRATION
-
+	
 	@POST
-	public Response registerCustomer(Customer customer) {
-
-		customerService.registerCustomer(customer);
-
-		return Response.status(Response.Status.CREATED).entity(customer).build();
+	public Response registerCustomer(@Valid CustomerDto customerDto) {
+			
+		if(customerDto == null) {
+			return Response.status(Response.Status.BAD_REQUEST)
+					.entity("CUSTOMER DATA IS REQURIED.")
+					.build();
+		}
+		
+		customerService.registerCustomer(customerDto);
+		
+		return Response.status(Response.Status.CREATED)
+				.entity("CUSTOMER REGISTERED SUCCESSFULLY")
+				.build();
 	}
+
 
 	// SEARCH CUSTOMER BY ID
 
 	@GET
 	@Path("/{id}")
-	public Response findCustomer(@PathParam("id") int customerID) {
+	public Response findCustomer(@PathParam("id") Long customerID) {
 
-		Customer customer = customerService.findCustomer(customerID);
+		CustomerDto customer = customerService.findCustomer(customerID);
 
 		if (customer != null) {
 			return Response.ok(customer).build();
@@ -54,7 +65,7 @@ public class CustomerResource {
 	@GET
 	public Response getAllCustomers() {
 
-		List<Customer> customerList = customerService.getAllCustomers();
+		List<CustomerDto> customerList = customerService.getAllCustomers();
 
 		return Response.ok(customerList).build();
 	}
@@ -63,22 +74,22 @@ public class CustomerResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateCustomer(@PathParam("id") int customerID, Customer customer) {
+	public Response updateCustomer(@PathParam("id") Long customerID, CustomerDto customerDto) {
 
-		customer.setCustomerId(customerID);
+		customerDto.setCustomerID(customerID);
+		
+		customerService.updateCustomer(customerDto);
 
-		customerService.updateCustomer(customer);
-
-		return Response.ok(customer).build();
+		return Response.ok(customerDto).build();
 	}
 
 	// DELETE CUSTOMER
 
 	@DELETE
 	@Path("/{id}")
-	public Response deleteCustomer(@PathParam("id") int customerID) {
+	public Response deleteCustomer(@PathParam("id") Long customerID) {
 
-		Customer customer = customerService.findCustomer(customerID);
+		CustomerDto customer = customerService.findCustomer(customerID);
 
 		if (customer != null) {
 			customerService.deleteCustomer(customer);

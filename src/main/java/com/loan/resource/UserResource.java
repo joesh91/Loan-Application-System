@@ -4,7 +4,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import com.loan.entity.User;
+import com.loan.dto.UserDto;
 import com.loan.service.UserService;
 import java.util.List;
 
@@ -26,27 +26,27 @@ public class UserResource {
 	// REGISTER USER
 
 	@POST
-	public Response registerUser(User user) {
+	public Response registerUser(UserDto userDto) {
 
-		if (user == null) {
+		if (userDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 
-		userService.registerUser(user);
-		return Response.status(Response.Status.CREATED).entity(user).build();
+		userService.registerUser(userDto);
+		return Response.status(Response.Status.CREATED).entity(userDto).build();
 	}
 
 	// VIEW USER
 
 	@GET
 	@Path("/{id}")
-	public Response searchUser(@PathParam("id") int userId) {
+	public Response searchUser(@PathParam("id") Long userId) {
 
-		User user = userService.findUser(userId);
-		if (user == null) {
+		UserDto userDto = userService.findUser(userId);
+		if (userDto == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
-		return Response.ok(user).build();
+		return Response.ok(userDto).build();
 	}
 
 	// GET ALL USERS
@@ -54,9 +54,9 @@ public class UserResource {
 	@GET
 	public Response getAllUsers() {
 
-		List<User> users = userService.getAllUsers();
+		List<UserDto> usersDtos = userService.getAllUsers();
 
-		return Response.ok(users).build();
+		return Response.ok(usersDtos).build();
 
 	}
 
@@ -64,30 +64,32 @@ public class UserResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateUser(@PathParam("id") int userId, User user) {
-
-		if (user == null) {
+	public Response updateUser(@PathParam("id") Long userId ,UserDto userDto) {
+		
+		if(userDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
-
-		user.setUserId(userId);
-		userService.updateUser(user);
-
-		return Response.ok(user).build();
+		
+		userDto.setUserId(userId);
+		userService.updateUser(userDto);
+		
+		return Response.ok(userDto).build();
 	}
+		
+	
 
 	// DELETE USER
 
 	@DELETE
 	@Path("/{id}")
-	public Response deleteUser(@PathParam("id") int userId) {
+	public Response deleteUser(@PathParam("id") Long userId) {
 
-		User user = userService.findUser(userId);
-		if (user == null) {
+		UserDto userDto = userService.findUser(userId);
+		if (userDto == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 
-		userService.deleteUser(user);
+		userService.deleteUser(userDto);
 		return Response.noContent().build();
 	}
 

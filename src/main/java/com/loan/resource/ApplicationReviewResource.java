@@ -1,10 +1,11 @@
 package com.loan.resource;
 
+import com.loan.dto.ApplicationReviewDto;
+
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import com.loan.entity.ApplicationReview;
 import com.loan.service.ApplicationReviewService;
 
 import jakarta.ws.rs.Path;
@@ -16,6 +17,7 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
+
 @Path("applicationreviews")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -26,11 +28,11 @@ public class ApplicationReviewResource {
 	// SUBMIT AN REVIEW
 
 	@POST
-	public Response submitApplicationReview(ApplicationReview applicationReview) {
+	public Response submitApplicationReview(ApplicationReviewDto applicationReviewDto) {
 
-		if (applicationReview != null) {
-			applicationReviewService.submitReview(applicationReview);
-			return Response.status(Response.Status.CREATED).entity(applicationReview).build();
+		if (applicationReviewDto != null) {
+			applicationReviewService.submitReview(applicationReviewDto);
+			return Response.status(Response.Status.CREATED).entity(applicationReviewDto).build();
 		}
 
 		return Response.status(Response.Status.BAD_REQUEST).build();
@@ -40,12 +42,12 @@ public class ApplicationReviewResource {
 
 	@GET
 	@Path("/{id}")
-	public Response searchApplicationReview(@PathParam("id") int applicationReviewID) {
+	public Response searchApplicationReview(@PathParam("id") int applicationReviewId) {
 
-		ApplicationReview applicationReview = applicationReviewService.searchReview(applicationReviewID);
+		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
 
-		if (applicationReview != null) {
-			return Response.ok(applicationReview).build();
+		if (applicationReviewDto != null) {
+			return Response.ok(applicationReviewDto).build();
 		}
 
 		return Response.status(Response.Status.NOT_FOUND).build();
@@ -56,41 +58,47 @@ public class ApplicationReviewResource {
 	@GET
 	public Response getAllApplicationReviews() {
 
-		List<ApplicationReview> applicationReviews = applicationReviewService.getAllApplicationReview();
-
-		return Response.ok(applicationReviews).build();
-
+		List<ApplicationReviewDto> applicationReviewsDtos = applicationReviewService.getAllApplicationReview();
+		
+		return Response.ok(applicationReviewsDtos).build();
 	}
 
 	// UPDATE A REVIEW
 
 	@PUT
 	@Path("/{id}")
-	public Response updateApplicationReview(@PathParam("id") int applicationReviewID,
-			ApplicationReview applicationReview) {
+	public Response updateApplicationReview(@PathParam("id") Long applicationReviewId,
+			ApplicationReviewDto applicationReviewDto) {
 
-		if (applicationReview == null) {
+		if (applicationReviewDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 
-		applicationReview.setReviewId(applicationReviewID);
+		applicationReviewDto.setReviewId(applicationReviewId);
 
-		applicationReviewService.updateReview(applicationReview);
+		applicationReviewService.updateReview(applicationReviewDto);
 
-		return Response.ok(applicationReview).build();
+		return Response.ok(applicationReviewDto).build();
 	}
 
 	// DELETE A REVIEW
 
 	@DELETE
 	@Path("/{id}")
-	public Response deleteApplicationReview(@PathParam("id") int applicationReviewID) {
+	public Response deleteApplicationReview(@PathParam("id") long applicationReviewID) {
 
-		ApplicationReview applicationReview = applicationReviewService.searchReview(applicationReviewID);
-		if (applicationReview != null) {
-			applicationReviewService.deleteReview(applicationReview);
+		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewID);
+		if (applicationReviewDto != null) {
+			applicationReviewService.deleteReview(applicationReviewDto);
 			return Response.noContent().build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}
 }
+
+
+
+
+
+
+

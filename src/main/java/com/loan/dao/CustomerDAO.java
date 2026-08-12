@@ -44,10 +44,10 @@ public class CustomerDAO {
 
 	}
 
-	public Customer findById(int customerID) {
+	public Customer findById(Long customerId) {
 
 		EntityManager em = emf.createEntityManager();
-		Customer customer = em.find(Customer.class, customerID);
+		Customer customer = em.find(Customer.class, customerId);
 		em.close();
 
 		return customer;

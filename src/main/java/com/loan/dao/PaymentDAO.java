@@ -44,10 +44,9 @@ public class PaymentDAO {
 		em.close();
 	}
 
-	public Payment findById(int paymentId) {
+	public Payment findById(Long paymentId) {
 
 		EntityManager em = emf.createEntityManager();
-
 		Payment py = em.find(Payment.class, paymentId);
 		em.close();
 
