@@ -3,6 +3,7 @@ package com.loan.resource;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.validation.Valid;
 
 import com.loan.service.LoanApplicationService;
 import com.loan.dto.LoanApplicationDto;
@@ -29,7 +30,7 @@ public class LoanApplicationResource {
 	// SUBMIT LOAN APPLICATION FROM SERVICE LAYER
 	
 	@POST
-	public Response submitLoanApplication(LoanApplicationDto loanApplicationDto) {
+	public Response submitLoanApplication(@Valid LoanApplicationDto loanApplicationDto) {
 
 		if(loanApplicationDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -74,7 +75,7 @@ public class LoanApplicationResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateLoanApplication(@PathParam("id") Long loanApplicationID, LoanApplicationDto loanApplicationDto) {
+	public Response updateLoanApplication(@Valid @PathParam("id") Long loanApplicationID, LoanApplicationDto loanApplicationDto) {
 
 		loanApplicationDto.setApplicationId(loanApplicationID);
 

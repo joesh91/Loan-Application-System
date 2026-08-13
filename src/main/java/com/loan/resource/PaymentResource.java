@@ -1,5 +1,6 @@
 package com.loan.resource;
 
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
@@ -27,7 +28,7 @@ public class PaymentResource {
 	// MAKE PAYMENT
 
 	@POST
-	public Response makePayment(PaymentDto paymentDto) {
+	public Response makePayment(@Valid PaymentDto paymentDto) {
 
 		if (paymentDto != null) {
 			paymentService.makePayment(paymentDto);
@@ -64,7 +65,7 @@ public class PaymentResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updatePayment(@PathParam("id") Long paymentID, PaymentDto paymentDto) {
+	public Response updatePayment(@Valid @PathParam("id") Long paymentID, PaymentDto paymentDto) {
 
 		if (paymentDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();

@@ -1,5 +1,6 @@
 package com.loan.resource;
 
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
@@ -25,7 +26,7 @@ public class StaffResource {
 	// REGISTER A STAFF MEMBER
 
 	@POST
-	public Response registerStaff(StaffDto staffDto) {
+	public Response registerStaff(@Valid StaffDto staffDto) {
 
 		if (staffDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -64,7 +65,7 @@ public class StaffResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateStaff(@PathParam("id") Long staffId, StaffDto staffDto) {
+	public Response updateStaff(@Valid @PathParam("id") Long staffId, StaffDto staffDto) {
 
 		if (staffDto == null) {
 

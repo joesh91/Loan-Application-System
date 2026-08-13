@@ -6,7 +6,7 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
-public class LoanApplicationNotFoundMapper implements ExceptionMapper<LoanApplicationNotFoundException> {
+public class LoanApplicationNotFoundExceptionMapper implements ExceptionMapper<LoanApplicationNotFoundException> {
 	
 	@Override
 	public Response toResponse(LoanApplicationNotFoundException exception) {

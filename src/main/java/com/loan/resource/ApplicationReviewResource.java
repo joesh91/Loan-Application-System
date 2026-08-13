@@ -2,6 +2,7 @@ package com.loan.resource;
 
 import com.loan.dto.ApplicationReviewDto;
 
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
@@ -28,7 +29,7 @@ public class ApplicationReviewResource {
 	// SUBMIT AN REVIEW
 
 	@POST
-	public Response submitApplicationReview(ApplicationReviewDto applicationReviewDto) {
+	public Response submitApplicationReview(@Valid ApplicationReviewDto applicationReviewDto) {
 
 		if (applicationReviewDto != null) {
 			applicationReviewService.submitReview(applicationReviewDto);
@@ -67,7 +68,7 @@ public class ApplicationReviewResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateApplicationReview(@PathParam("id") Long applicationReviewId,
+	public Response updateApplicationReview(@Valid @PathParam("id") Long applicationReviewId,
 			ApplicationReviewDto applicationReviewDto) {
 
 		if (applicationReviewDto == null) {

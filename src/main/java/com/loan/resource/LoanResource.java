@@ -3,6 +3,7 @@ package com.loan.resource;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.validation.Valid;
 
 import com.loan.service.LoanService;
 import com.loan.dto.LoanDecisionDto;
@@ -27,7 +28,7 @@ public class LoanResource {
 	// CREATE A LOAN
 
 	@POST
-	public Response registerLoan(LoanDto loanDto) {
+	public Response registerLoan(@Valid LoanDto loanDto) {
 
 		if (loanDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -66,7 +67,7 @@ public class LoanResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateLoan(@PathParam("id") Long loanId, LoanDto loanDto) {
+	public Response updateLoan(@Valid @PathParam("id") Long loanId, LoanDto loanDto) {
 
 		if (loanDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -96,7 +97,7 @@ public class LoanResource {
 	
 	@PUT
 	@Path("/decision")
-	public Response makeDecision(LoanDecisionDto loanDecisionDto) {
+	public Response makeDecision(@Valid LoanDecisionDto loanDecisionDto) {
 		
 		if(loanDecisionDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();

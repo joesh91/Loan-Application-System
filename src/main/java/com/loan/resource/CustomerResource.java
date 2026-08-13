@@ -74,7 +74,7 @@ public class CustomerResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateCustomer(@PathParam("id") Long customerID, CustomerDto customerDto) {
+	public Response updateCustomer(@Valid @PathParam("id") Long customerID, CustomerDto customerDto) {
 
 		customerDto.setCustomerID(customerID);
 		

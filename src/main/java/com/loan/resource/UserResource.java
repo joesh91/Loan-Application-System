@@ -1,5 +1,6 @@
 package com.loan.resource;
 
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
@@ -26,7 +27,7 @@ public class UserResource {
 	// REGISTER USER
 
 	@POST
-	public Response registerUser(UserDto userDto) {
+	public Response registerUser(@Valid UserDto userDto) {
 
 		if (userDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -64,7 +65,7 @@ public class UserResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateUser(@PathParam("id") Long userId ,UserDto userDto) {
+	public Response updateUser(@Valid @PathParam("id") Long userId ,UserDto userDto) {
 		
 		if(userDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
