@@ -9,10 +9,12 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class LoanDto {
-
+	
+	
 	private Long loanId;
 
 	@NotNull(message="APPLICATION ID IS REQUIRED.")
+	@Positive(message="APPLICATION ID SHOULD NOT CONTAIN NEGATIVE VALUE ")
 	private Long applicationId;
 
 	@NotNull(message="AMOUNT IS REQUIRED.")
@@ -27,7 +29,7 @@ public class LoanDto {
 	@Positive(message="DURATION MUST BE GREATER THAN ZERO.")
 	private Long duration;
 
-	
+
 	private LocalDate startDate;
 
 

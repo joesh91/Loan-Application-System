@@ -143,6 +143,7 @@ public class ApplicationReviewService {
 			applicationReviewDto.setReviewDate(a.getReviewDate());
 			applicationReviewDto.setComments(a.getComments());
 			applicationReviewDto.setDecision(ReviewDecision.valueOf(a.getDecision()));
+			applicationReviewDto.setReviewId(a.getReviewId());
 			
 			applicationReviewDtos.add(applicationReviewDto);
 		}				

@@ -3,6 +3,7 @@ package com.loan.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 public class UserDto {
 	
@@ -22,11 +23,10 @@ public class UserDto {
 	private String role;
 
 	@NotNull(message="CUSTOMER ID IS REQUIRED.")
+	@Positive(message="CUSTOMER ID SHOULD NOT CONTAIN NEGATIVE VALUE")
 	private Long customerId;
 
-	
-	
-	
+
 	public Long getUserId() {
 		return userId;
 	}

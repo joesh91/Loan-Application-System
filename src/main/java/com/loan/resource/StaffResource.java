@@ -28,10 +28,6 @@ public class StaffResource {
 	@POST
 	public Response registerStaff(@Valid StaffDto staffDto) {
 
-		if (staffDto == null) {
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		}
-
 		staffService.registerStaff(staffDto);
 		return Response.status(Response.Status.CREATED).entity(staffDto).build();
 	}
@@ -43,10 +39,6 @@ public class StaffResource {
 	public Response searchStaff(@PathParam("id") Long staffId) {
 
 		StaffDto staffDto = staffService.findStaff(staffId);
-
-		if (staffDto == null) {
-			return Response.status(Response.Status.NOT_FOUND).build();
-		}
 
 		return Response.ok(staffDto).build();
 	}
@@ -65,12 +57,7 @@ public class StaffResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateStaff(@Valid @PathParam("id") Long staffId, StaffDto staffDto) {
-
-		if (staffDto == null) {
-
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		}
+	public Response updateStaff(@PathParam("id") Long staffId, @Valid StaffDto staffDto) {
 
 		staffDto.setStaffId(staffId);
 		staffService.updateStaff(staffDto);
@@ -85,10 +72,6 @@ public class StaffResource {
 	public Response deleteStaff(@PathParam("id") Long staffId) {
 
 		StaffDto staffDto = staffService.findStaff(staffId);
-
-		if (staffDto == null) {
-			return Response.status(Response.Status.NOT_FOUND).build();
-		}
 
 		staffService.deleteStaff(staffDto);
 		return Response.noContent().build();

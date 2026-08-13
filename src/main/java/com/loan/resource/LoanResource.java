@@ -30,9 +30,6 @@ public class LoanResource {
 	@POST
 	public Response registerLoan(@Valid LoanDto loanDto) {
 
-		if (loanDto == null) {
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		}
 		loanService.submitLoan(loanDto);
 		return Response.status(Response.Status.CREATED).entity(loanDto).build();
 	}
@@ -44,39 +41,27 @@ public class LoanResource {
 	public Response searchLoan(@PathParam("id") Long loanId) {
 
 		LoanDto loanDto = loanService.findLoan(loanId);
-		if (loanDto != null) {
-			return Response.ok(loanDto).build();
-		}
-		return Response.status(Response.Status.NOT_FOUND).build();
+		return Response.ok(loanDto).build();
+
 	}
 
 	// VIEW ALL LOANS
-	
+
 	@GET
 	public Response getAllLoans() {
 		List<LoanDto> loans = loanService.getAllLoans();
+		return Response.ok(loans).build();
 
-		if (loans != null) {
-			return Response.ok(loans).build();
-		}
-		return Response.status(Response.Status.NOT_FOUND).build();
 	}
-	
 
 	// UPDATE A LOAN
 
 	@PUT
 	@Path("/{id}")
-	public Response updateLoan(@Valid @PathParam("id") Long loanId, LoanDto loanDto) {
-
-		if (loanDto == null) {
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		}
+	public Response updateLoan(@PathParam("id") Long loanId, @Valid LoanDto loanDto) {
 
 		loanDto.setLoanId(loanId);
-		
 		loanService.updateLoan(loanDto);
-		
 		return Response.ok(loanDto).build();
 
 	}
@@ -88,21 +73,15 @@ public class LoanResource {
 	public Response deleteLoan(@PathParam("id") Long loanId) {
 
 		LoanDto loanDto = loanService.findLoan(loanId);
-		if (loanDto != null) {
-			loanService.deleteLoan(loanDto);
-			return Response.noContent().build();
-		}
-		return Response.status(Response.Status.NOT_FOUND).build();
+		loanService.deleteLoan(loanDto);
+		return Response.noContent().build();
+
 	}
-	
+
 	@PUT
 	@Path("/decision")
 	public Response makeDecision(@Valid LoanDecisionDto loanDecisionDto) {
-		
-		if(loanDecisionDto == null) {
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		}
-		
+
 		loanService.makeDecision(loanDecisionDto);
 		return Response.ok(loanDecisionDto).build();
 	}

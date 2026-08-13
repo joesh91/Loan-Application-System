@@ -30,17 +30,10 @@ public class CustomerResource {
 	
 	@POST
 	public Response registerCustomer(@Valid CustomerDto customerDto) {
-			
-		if(customerDto == null) {
-			return Response.status(Response.Status.BAD_REQUEST)
-					.entity("CUSTOMER DATA IS REQURIED.")
-					.build();
-		}
-		
+	
 		customerService.registerCustomer(customerDto);
-		
 		return Response.status(Response.Status.CREATED)
-				.entity("CUSTOMER REGISTERED SUCCESSFULLY")
+				.entity(customerDto)
 				.build();
 	}
 
@@ -51,12 +44,8 @@ public class CustomerResource {
 	@Path("/{id}")
 	public Response findCustomer(@PathParam("id") Long customerID) {
 
-		CustomerDto customer = customerService.findCustomer(customerID);
-
-		if (customer != null) {
+			CustomerDto customer = customerService.findCustomer(customerID);
 			return Response.ok(customer).build();
-		}
-		return Response.status(Response.Status.NOT_FOUND).build();
 
 	}
 
@@ -66,7 +55,6 @@ public class CustomerResource {
 	public Response getAllCustomers() {
 
 		List<CustomerDto> customerList = customerService.getAllCustomers();
-
 		return Response.ok(customerList).build();
 	}
 
@@ -74,12 +62,10 @@ public class CustomerResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateCustomer(@Valid @PathParam("id") Long customerID, CustomerDto customerDto) {
+	public Response updateCustomer( @PathParam("id") Long customerID,  @Valid CustomerDto customerDto) {
 
 		customerDto.setCustomerID(customerID);
-		
 		customerService.updateCustomer(customerDto);
-
 		return Response.ok(customerDto).build();
 	}
 
@@ -91,11 +77,9 @@ public class CustomerResource {
 
 		CustomerDto customer = customerService.findCustomer(customerID);
 
-		if (customer != null) {
 			customerService.deleteCustomer(customer);
 			return Response.noContent().build();
-		}
-		return Response.status(Response.Status.NOT_FOUND).build();
+		
 	}
 
 }

@@ -32,12 +32,9 @@ public class ApplicationReviewResource {
 	@POST
 	public Response submitApplicationReview(@Valid ApplicationReviewDto applicationReviewDto) {
 
-		if (applicationReviewDto != null) {
 			applicationReviewService.submitReview(applicationReviewDto);
 			return Response.status(Response.Status.CREATED).entity(applicationReviewDto).build();
-		}
-
-		return Response.status(Response.Status.BAD_REQUEST).build();
+	
 	}
 
 	// SEARCH A REVIEW
@@ -46,13 +43,9 @@ public class ApplicationReviewResource {
 	@Path("/{id}")
 	public Response searchApplicationReview(@PathParam("id") Long applicationReviewId) {
 
-		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
-
-		if (applicationReviewDto != null) {
+			ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
 			return Response.ok(applicationReviewDto).build();
-		}
-
-		return Response.status(Response.Status.NOT_FOUND).build();
+		
 	}
 
 	// GET ALL REVIEWS
@@ -61,7 +54,6 @@ public class ApplicationReviewResource {
 	public Response getAllApplicationReviews() {
 
 		List<ApplicationReviewDto> applicationReviewsDtos = applicationReviewService.getAllApplicationReview();
-		
 		return Response.ok(applicationReviewsDtos).build();
 	}
 
@@ -70,16 +62,10 @@ public class ApplicationReviewResource {
 	@PUT
 	@Path("/{id}")
 	public Response updateApplicationReview(@PathParam("id") Long applicationReviewId,
-			@Valid ApplicationReviewDto applicationReviewDto) {
-
-		if (applicationReviewDto == null) {
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		}
+											@Valid ApplicationReviewDto applicationReviewDto) {
 
 		applicationReviewDto.setReviewId(applicationReviewId);
-
 		applicationReviewService.updateReview(applicationReviewDto);
-
 		return Response.ok(applicationReviewDto).build();
 	}
 
@@ -89,12 +75,10 @@ public class ApplicationReviewResource {
 	@Path("/{id}")
 	public Response deleteApplicationReview(@PathParam("id") Long applicationReviewID) {
 
-		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewID);
-		if (applicationReviewDto != null) {
+			ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewID);
 			applicationReviewService.deleteReview(applicationReviewDto);
 			return Response.noContent().build();
-		}
-		return Response.status(Response.Status.NOT_FOUND).build();
+	
 	}
 	
 	
@@ -103,20 +87,9 @@ public class ApplicationReviewResource {
 	@Path("/{id}/decision")
 	public Response makeDecision(@PathParam("id") Long applicationReviewId, LoanApplicationReviewDecision loanApplicationReviewDecision) {
 		
-			if (loanApplicationReviewDecision == null) {
-	        return Response.status(Response.Status.BAD_REQUEST).build();
-			}
-		
 			ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
-			
-			if(applicationReviewDto == null) {
-				return Response.status(Response.Status.NOT_FOUND).build();
-			}
-			
 			applicationReviewService.makeDecision(loanApplicationReviewDecision.getDecision().name(),applicationReviewDto );
-			
-		
-		return Response.ok(applicationReviewDto).build();
+			return Response.ok(applicationReviewDto).build();
 	}
 	
 }

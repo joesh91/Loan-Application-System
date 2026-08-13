@@ -30,11 +30,9 @@ public class PaymentResource {
 	@POST
 	public Response makePayment(@Valid PaymentDto paymentDto) {
 
-		if (paymentDto != null) {
 			paymentService.makePayment(paymentDto);
 			return Response.status(Response.Status.CREATED).entity(paymentDto).build();
-		}
-		return Response.status(Response.Status.BAD_REQUEST).build();
+		
 	}
 
 	// VIEW PAYMENT DETAILS
@@ -44,10 +42,6 @@ public class PaymentResource {
 	public Response searchPayment(@PathParam("id") Long paymentID) {
 
 		PaymentDto paymentDto = paymentService.findPayment(paymentID);
-
-		if (paymentDto == null) {
-			return Response.status(Response.Status.NOT_FOUND).build();
-		}
 		return Response.ok(paymentDto).build();
 	}
 
@@ -57,7 +51,6 @@ public class PaymentResource {
 	public Response getAllPayments() {
 
 		List<PaymentDto> payments = paymentService.getAllPayments();
-
 		return Response.ok(payments).build();
 	}
 
@@ -65,14 +58,10 @@ public class PaymentResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updatePayment(@Valid @PathParam("id") Long paymentID, PaymentDto paymentDto) {
+	public Response updatePayment( @PathParam("id") Long paymentID, @Valid PaymentDto paymentDto) {
 
-		if (paymentDto == null) {
-			return Response.status(Response.Status.BAD_REQUEST).build();
-		}
 		paymentDto.setPaymentId(paymentID);
 		paymentService.updatePayment(paymentDto);
-
 		return Response.ok(paymentDto).build();
 	}
 
@@ -83,10 +72,6 @@ public class PaymentResource {
 	public Response deletePayment(@PathParam("id") Long paymentID) {
 
 		PaymentDto paymentDto = paymentService.findPayment(paymentID);
-
-		if (paymentDto == null) {
-			return Response.status(Response.Status.NOT_FOUND).build();
-		}
 		paymentService.deletePayment(paymentDto);
 		return Response.noContent().build();
 	}
@@ -95,13 +80,9 @@ public class PaymentResource {
 
 	@PUT
 	@Path("/{id}/status")
-	public Response makeDecision(@PathParam("id") Long paymentID, PaymentStatusRequest request) {
+	public Response makeDecision(@PathParam("id") Long paymentID, @Valid PaymentStatusRequest request) {
 
 		PaymentDto paymentDto = paymentService.findPayment(paymentID);
-
-		if (paymentDto == null) {
-			return Response.status(Response.Status.NOT_FOUND).build();
-		}	
 		paymentService.makeDecision(paymentDto.getPaymentId(),request.getDecision());
 		return Response.ok(paymentDto).build();
 	}

@@ -13,6 +13,7 @@ public class PaymentDto {
 	private Long paymentId;
 
 	@NotNull(message="LOAN ID IS REQUIRED")
+	@Positive(message="LOAN ID SHOULD NO CONTAIN NEGATIVE VALUES")
 	private Long loanId;
 	
 	private LocalDate paymentDate;

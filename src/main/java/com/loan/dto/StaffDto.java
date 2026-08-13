@@ -2,10 +2,13 @@ package com.loan.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public class StaffDto {
 
-	
+	@NotNull(message="STAFF ID CANNOT BE BLANK")
+	@Positive(message="STAFF ID NUMBER SHOULD NOT CONTAIN NEGATIVE VALUE")
 	private Long staffId;
 
 	@NotBlank(message="NAME IS REQUIRED")

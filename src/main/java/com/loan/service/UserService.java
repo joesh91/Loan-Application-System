@@ -38,7 +38,7 @@ public class UserService {
 
 // 	UPDATE USER 
 
-	public void updateUser(UserDto userDto) {
+	public void updateUser( UserDto userDto) {
 
 		if(userDto==null) {
 			throw new UserNotFoundException("USER DETAILS CANNOT BE EMPTY.");
