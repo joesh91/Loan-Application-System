@@ -12,7 +12,7 @@ public class StaffDto {
 	private String name;
 
 	@NotBlank(message="EMAIL IS REQUIRED.")
-	@Email(message="EMAIL IS REQUIRED")
+	@Email(message="INVALID EMAIL FORMAT")
 	private String email;
 
 	@NotBlank(message="POSITION IS REQURIED.")

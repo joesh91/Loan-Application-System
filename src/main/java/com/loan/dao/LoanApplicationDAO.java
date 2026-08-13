@@ -45,7 +45,7 @@ public class LoanApplicationDAO {
 
 	}
 
-	public LoanApplication findById(long loanId) {
+	public LoanApplication findById(Long loanId) {
 
 		EntityManager em = emf.createEntityManager();
 

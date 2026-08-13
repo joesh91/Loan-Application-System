@@ -7,6 +7,7 @@ import com.loan.entity.ApplicationReview;
 import com.loan.dto.ApplicationReviewDto;
 import com.loan.entity.LoanApplication;
 import com.loan.entity.Staff;
+import com.loan.enums.ReviewDecision;
 import com.loan.exception.ApplicationReviewNotFoundException;
 import com.loan.exception.LoanApplicationNotFoundException;
 import com.loan.exception.StaffNotFoundException;
@@ -41,7 +42,7 @@ public class ApplicationReviewService {
 		applicationReview.setLoanApplication(loanApplication);
 		applicationReview.setStaff(staff);
 		applicationReview.setComments(applicationReviewDto.getComments());
-		applicationReview.setDecision(applicationReviewDto.getDecision());
+		applicationReview.setDecision(applicationReviewDto.getDecision().name());
 		
 		applicationReviewDAO.save(applicationReview);
 
@@ -78,7 +79,7 @@ public class ApplicationReviewService {
 		
 		existingApplicationReview.setLoanApplication(loanApplication);
 		existingApplicationReview.setStaff(staff);
-		existingApplicationReview.setDecision(applicationReviewDto.getDecision());
+		existingApplicationReview.setDecision(applicationReviewDto.getDecision().name());
 		existingApplicationReview.setComments(applicationReviewDto.getComments());
 		
 		applicationReviewDAO.update(existingApplicationReview);
@@ -119,8 +120,8 @@ public class ApplicationReviewService {
 			applicationReviewDto.setLoanApplication(applicationReview.getLoanApplication().getApplicationId());
 			applicationReviewDto.setStaff(applicationReview.getStaff().getStaffId());
 			applicationReviewDto.setComments(applicationReview.getComments());
-			applicationReviewDto.setDecision(applicationReview.getDecision());
 			applicationReviewDto.setReviewId(applicationReview.getReviewId());
+			applicationReviewDto.setDecision(ReviewDecision.valueOf(applicationReview.getDecision()));
 			
 			return applicationReviewDto;
 	}
@@ -141,22 +142,28 @@ public class ApplicationReviewService {
 			applicationReviewDto.setStaff(a.getStaff().getStaffId());
 			applicationReviewDto.setReviewDate(a.getReviewDate());
 			applicationReviewDto.setComments(a.getComments());
-			applicationReviewDto.setDecision(a.getDecision());
+			applicationReviewDto.setDecision(ReviewDecision.valueOf(a.getDecision()));
 			
 			applicationReviewDtos.add(applicationReviewDto);
-		}		
-		
-		
+		}				
 		return applicationReviewDtos;
-
 	}
 
 	// MAKE A DECISION
 
-	public void makeDecision(String decision, ApplicationReview applicationReview) {
+	public void makeDecision(String decision, ApplicationReviewDto applicationReviewDto) {
+		
+		if(applicationReviewDto == null) {
+			throw new ApplicationReviewNotFoundException("APPLICATION REVIEW DETAILS CANNOT BE EMPTY");
+		}
 
+		ApplicationReview applicationReview = applicationReviewDAO.findById(applicationReviewDto.getReviewId());
+		
+		if(applicationReview == null) {
+			throw new ApplicationReviewNotFoundException("APPLICATION REVIEW DETAILS ARE NOT FOUND");
+		}
+		
 		applicationReview.setDecision(decision);
-
 		applicationReviewDAO.update(applicationReview);
 	}
 

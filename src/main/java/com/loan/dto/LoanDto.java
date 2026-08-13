@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class LoanDto {
 
@@ -14,12 +16,15 @@ public class LoanDto {
 	private Long applicationId;
 
 	@NotNull(message="AMOUNT IS REQUIRED.")
+	@Positive(message="AMOUNT MUST BE GREATER THAN ZERO.")
 	private BigDecimal appAmount;
 
 	@NotNull(message="INTEREST RATE IS REQUIRED.")
-	private double intRate;
+	@Positive(message="INTEREST RATE MUST BE GREATER THAN ZERO.")
+	private Double intRate;
 
 	@NotNull(message="DURATION IS REQUIRED.")
+	@Positive(message="DURATION MUST BE GREATER THAN ZERO.")
 	private Long duration;
 
 	
@@ -29,11 +34,9 @@ public class LoanDto {
 	private LocalDate endDate;
 
 	@NotBlank(message="STATUS IS REQUIRED.")
+	@Size(max=25,message="STATUS CHARACTOR COUNT MUST NOT EXCEED 25.")
 	private String status;
 
-	
-	
-	
 	
 	public Long getLoanId() {
 		return loanId;
@@ -59,11 +62,11 @@ public class LoanDto {
 		this.appAmount = appAmount;
 	}
 
-	public double getIntRate() {
+	public Double getIntRate() {
 		return intRate;
 	}
 
-	public void setIntRate(double intRate) {
+	public void setIntRate(Double intRate) {
 		this.intRate = intRate;
 	}
 

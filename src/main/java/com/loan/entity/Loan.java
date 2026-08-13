@@ -31,7 +31,7 @@ public class Loan {
 	private BigDecimal appAmount;
 
 	@Column(name = "INTEREST_RATE")
-	private double intRate;
+	private Double intRate;
 
 	@Column(name = "DURATION_MONTH")
 	private Long duration;
@@ -75,11 +75,11 @@ public class Loan {
 		this.appAmount = appAmount;
 	}
 
-	public double getIntRate() {
+	public Double getIntRate() {
 		return intRate;
 	}
 
-	public void setIntRate(double intRate) {
+	public void setIntRate(Double intRate) {
 		this.intRate = intRate;
 	}
 

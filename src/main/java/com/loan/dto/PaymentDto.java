@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class PaymentDto {
 
@@ -16,9 +18,11 @@ public class PaymentDto {
 	private LocalDate paymentDate;
 
 	@NotNull(message="AMOUNT IS REQUIRED")
-	private double amount;
+	@Positive(message="AMOUT MUST BE GREATER THAN ZERO.")
+	private Double amount;
 
 	@NotBlank(message="PAYMENT STATUS IS REQUIRED")
+	@Size(max=25,message="STATUS CHARACTOR COUNT MUST NOT EXCEED 25.")
 	private String paymentStatus;
 	
 	
@@ -48,11 +52,11 @@ public class PaymentDto {
 		this.paymentDate = paymentDate;
 	}
 
-	public double getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 

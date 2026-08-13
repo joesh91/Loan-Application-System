@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public class LoanApplicationDto {
 
@@ -16,6 +17,7 @@ public class LoanApplicationDto {
 	private String loanType;
 
 	@NotNull(message="AMOUNT IS REQUIRED.")
+	@Positive(message="AMOUNT MUST BE GREATER THAN ZERO")
 	private BigDecimal requestedAmount;
 
 	@NotBlank(message="PURPOSE IS REQUIRED.")

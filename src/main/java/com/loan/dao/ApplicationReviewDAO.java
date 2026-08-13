@@ -42,7 +42,7 @@ public class ApplicationReviewDAO {
 		em.close();
 	}
 
-	public ApplicationReview findById(long reviewID) {
+	public ApplicationReview findById(Long reviewID) {
 
 		EntityManager em = emf.createEntityManager();
 

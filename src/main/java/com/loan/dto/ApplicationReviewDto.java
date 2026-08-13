@@ -1,9 +1,11 @@
 package com.loan.dto;
 
 import java.time.LocalDate;
+import com.loan.enums.ReviewDecision;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class ApplicationReviewDto {
 	
@@ -16,10 +18,11 @@ public class ApplicationReviewDto {
 	@NotNull(message="STAFF ID IS REQUIRED.")
 	private Long staff;
 
-	@NotBlank(message="DECISION IS REQUIRED.")
-	private String decision;
+	@NotNull(message="DECISION IS REQUIRED.")
+	private ReviewDecision decision;
 
-	@NotBlank(message="COMMETNS ARE REQUIRED.")
+	@NotBlank(message="COMMENTS ARE REQUIRED.")
+	@Size(max=500,message="COMMENTS CANNOT EXCEED 500 CHARACTERS.")
 	private String comments;
 
 	private LocalDate reviewDate;
@@ -61,11 +64,11 @@ public class ApplicationReviewDto {
 		this.staff = i;
 	}
 
-	public String getDecision() {
+	public ReviewDecision getDecision() {
 		return decision;
 	}
 
-	public void setDecision(String decision) {
+	public void setDecision(ReviewDecision decision) {
 		this.decision = decision;
 	}
 

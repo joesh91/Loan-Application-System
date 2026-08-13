@@ -1,6 +1,7 @@
 package com.loan.resource;
 
 import com.loan.dto.ApplicationReviewDto;
+import com.loan.dto.LoanApplicationReviewDecision;
 
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -43,7 +44,7 @@ public class ApplicationReviewResource {
 
 	@GET
 	@Path("/{id}")
-	public Response searchApplicationReview(@PathParam("id") int applicationReviewId) {
+	public Response searchApplicationReview(@PathParam("id") Long applicationReviewId) {
 
 		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
 
@@ -68,8 +69,8 @@ public class ApplicationReviewResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateApplicationReview(@Valid @PathParam("id") Long applicationReviewId,
-			ApplicationReviewDto applicationReviewDto) {
+	public Response updateApplicationReview(@PathParam("id") Long applicationReviewId,
+			@Valid ApplicationReviewDto applicationReviewDto) {
 
 		if (applicationReviewDto == null) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -86,7 +87,7 @@ public class ApplicationReviewResource {
 
 	@DELETE
 	@Path("/{id}")
-	public Response deleteApplicationReview(@PathParam("id") long applicationReviewID) {
+	public Response deleteApplicationReview(@PathParam("id") Long applicationReviewID) {
 
 		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewID);
 		if (applicationReviewDto != null) {
@@ -95,11 +96,27 @@ public class ApplicationReviewResource {
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}
+	
+	
+	// MAKE A DECISION
+	@PUT
+	@Path("/{id}/decision")
+	public Response makeDecision(@PathParam("id") Long applicationReviewId, LoanApplicationReviewDecision loanApplicationReviewDecision) {
+		
+			if (loanApplicationReviewDecision == null) {
+	        return Response.status(Response.Status.BAD_REQUEST).build();
+			}
+		
+			ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
+			
+			if(applicationReviewDto == null) {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+			
+			applicationReviewService.makeDecision(loanApplicationReviewDecision.getDecision().name(),applicationReviewDto );
+			
+		
+		return Response.ok(applicationReviewDto).build();
+	}
+	
 }
-
-
-
-
-
-
-

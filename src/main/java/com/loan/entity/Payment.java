@@ -31,7 +31,7 @@ public class Payment {
 	private LocalDate paymentDate;
 
 	@Column(name = "amount")
-	private double amount;
+	private Double amount;
 
 	@Column(name = "payment_status")
 	private String paymentStatus;
@@ -65,11 +65,11 @@ public class Payment {
 		this.paymentDate = paymentDate;
 	}
 
-	public double getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
