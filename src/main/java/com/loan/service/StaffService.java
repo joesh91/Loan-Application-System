@@ -15,39 +15,39 @@ public class StaffService {
 
 	public void registerStaff(StaffDto staffDto) {
 
-		if(staffDto == null) {
+		if (staffDto == null) {
 			throw new StaffNotFoundException("STAFF DETAILS CANNT BE EMPTY.");
 		}
-		
+
 		Staff staff = new Staff();
 		staff.setEmail(staffDto.getEmail());
 		staff.setName(staffDto.getName());
 		staff.setPosition(staffDto.getPosition());
 		staff.setStaffId(staffDto.getStaffId());
-		
+
 		staffDAO.save(staff);
-		
+
 	}
 
 	// UPDATE A Staff
 
 	public void updateStaff(StaffDto staffDto) {
 
-		if(staffDto == null) {
+		if (staffDto == null) {
 			throw new StaffNotFoundException("STAFF DETAILS CANNOT BE EMPTY.");
 		}
-		
+
 		Staff staff = staffDAO.findById(staffDto.getStaffId());
-		
-		if(staff == null) {
+
+		if (staff == null) {
 			throw new StaffNotFoundException("STAFF DETAILS ARE NOT FOUND.");
 		}
-		
+
 		staff.setEmail(staffDto.getEmail());
 		staff.setName(staffDto.getName());
 		staff.setPosition(staffDto.getPosition());
 		staff.setStaffId(staffDto.getStaffId());
-		
+
 		staffDAO.update(staff);
 	}
 
@@ -55,16 +55,16 @@ public class StaffService {
 
 	public void deleteStaff(StaffDto staffDto) {
 
-		if(staffDto == null) {
+		if (staffDto == null) {
 			throw new StaffNotFoundException("STAFF DETAILS CANNOT BE EMPTY.");
 		}
-		
+
 		Staff staff = staffDAO.findById(staffDto.getStaffId());
-		
-		if(staff == null) {
+
+		if (staff == null) {
 			throw new StaffNotFoundException("STAFF DETAILS ARE NOT FOUND.");
 		}
-		
+
 		staffDAO.delete(staff);
 	}
 
@@ -73,18 +73,18 @@ public class StaffService {
 	public StaffDto findStaff(Long userID) {
 
 		Staff staff = staffDAO.findById(userID);
-		
-		if(staff == null) {
+
+		if (staff == null) {
 			throw new StaffNotFoundException("STAFF DETAILS ARE NOT FOUND.");
 		}
-		
+
 		StaffDto staffDto = new StaffDto();
-		
+
 		staffDto.setEmail(staff.getEmail());
 		staffDto.setName(staff.getName());
 		staffDto.setPosition(staff.getPosition());
 		staffDto.setStaffId(staff.getStaffId());
-		
+
 		return staffDto;
 	}
 
@@ -93,21 +93,21 @@ public class StaffService {
 	public List<StaffDto> getAllStaff() {
 
 		List<Staff> staffs = staffDAO.findAll();
-		
+
 		List<StaffDto> staffDtos = new ArrayList<>();
-		
-		for(Staff s : staffs) {
-			
+
+		for (Staff s : staffs) {
+
 			StaffDto staffDto = new StaffDto();
-			
+
 			staffDto.setEmail(s.getEmail());
 			staffDto.setName(s.getName());
 			staffDto.setPosition(s.getPosition());
 			staffDto.setStaffId(s.getStaffId());
-			
+
 			staffDtos.add(staffDto);
 		}
-		
+
 		return staffDtos;
 	}
 

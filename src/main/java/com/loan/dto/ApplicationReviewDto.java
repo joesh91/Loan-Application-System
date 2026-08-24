@@ -8,27 +8,24 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class ApplicationReviewDto {
-	
-	
+
 	private Long reviewId;
 
-	@NotNull(message="LOAN APPLICATION ID IS REQUIRED.")
+	@NotNull(message = "LOAN APPLICATION ID IS REQUIRED.")
 	private Long loanApplication;
 
-	@NotNull(message="STAFF ID IS REQUIRED.")
+	@NotNull(message = "STAFF ID IS REQUIRED.")
 	private Long staff;
 
-	@NotNull(message="DECISION IS REQUIRED.")
+	@NotNull(message = "DECISION IS REQUIRED.")
 	private ReviewDecision decision;
 
-	@NotBlank(message="COMMENTS ARE REQUIRED.")
-	@Size(max=500,message="COMMENTS CANNOT EXCEED 500 CHARACTERS.")
+	@NotBlank(message = "COMMENTS ARE REQUIRED.")
+	@Size(max = 500, message = "COMMENTS CANNOT EXCEED 500 CHARACTERS.")
 	private String comments;
 
 	private LocalDate reviewDate;
-	
-	
-	
+
 	public void setReviewId(Long reviewId) {
 		this.reviewId = reviewId;
 	}
@@ -41,16 +38,13 @@ public class ApplicationReviewDto {
 		return reviewDate;
 	}
 
-
 	public void setReviewDate(LocalDate reviewDate) {
 		this.reviewDate = reviewDate;
 	}
 
-
 	public Long getLoanApplication() {
 		return loanApplication;
 	}
-	
 
 	public void setLoanApplication(Long loanApplication) {
 		this.loanApplication = loanApplication;
@@ -79,6 +73,5 @@ public class ApplicationReviewDto {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-
 
 }

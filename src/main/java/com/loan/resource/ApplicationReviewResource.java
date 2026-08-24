@@ -19,7 +19,6 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-
 @Path("applicationreviews")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -32,9 +31,9 @@ public class ApplicationReviewResource {
 	@POST
 	public Response submitApplicationReview(@Valid ApplicationReviewDto applicationReviewDto) {
 
-			applicationReviewService.submitReview(applicationReviewDto);
-			return Response.status(Response.Status.CREATED).entity(applicationReviewDto).build();
-	
+		applicationReviewService.submitReview(applicationReviewDto);
+		return Response.status(Response.Status.CREATED).entity(applicationReviewDto).build();
+
 	}
 
 	// SEARCH A REVIEW
@@ -43,9 +42,9 @@ public class ApplicationReviewResource {
 	@Path("/{id}")
 	public Response searchApplicationReview(@PathParam("id") Long applicationReviewId) {
 
-			ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
-			return Response.ok(applicationReviewDto).build();
-		
+		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
+		return Response.ok(applicationReviewDto).build();
+
 	}
 
 	// GET ALL REVIEWS
@@ -62,7 +61,7 @@ public class ApplicationReviewResource {
 	@PUT
 	@Path("/{id}")
 	public Response updateApplicationReview(@PathParam("id") Long applicationReviewId,
-											@Valid ApplicationReviewDto applicationReviewDto) {
+			@Valid ApplicationReviewDto applicationReviewDto) {
 
 		applicationReviewDto.setReviewId(applicationReviewId);
 		applicationReviewService.updateReview(applicationReviewDto);
@@ -75,21 +74,21 @@ public class ApplicationReviewResource {
 	@Path("/{id}")
 	public Response deleteApplicationReview(@PathParam("id") Long applicationReviewID) {
 
-			ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewID);
-			applicationReviewService.deleteReview(applicationReviewDto);
-			return Response.noContent().build();
-	
+		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewID);
+		applicationReviewService.deleteReview(applicationReviewDto);
+		return Response.noContent().build();
+
 	}
-	
-	
+
 	// MAKE A DECISION
 	@PUT
 	@Path("/{id}/decision")
-	public Response makeDecision(@PathParam("id") Long applicationReviewId, LoanApplicationReviewDecision loanApplicationReviewDecision) {
-		
-			ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
-			applicationReviewService.makeDecision(loanApplicationReviewDecision.getDecision().name(),applicationReviewDto );
-			return Response.ok(applicationReviewDto).build();
+	public Response makeDecision(@PathParam("id") Long applicationReviewId,
+			LoanApplicationReviewDecision loanApplicationReviewDecision) {
+
+		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
+		applicationReviewService.makeDecision(loanApplicationReviewDecision.getDecision().name(), applicationReviewDto);
+		return Response.ok(applicationReviewDto).build();
 	}
-	
+
 }

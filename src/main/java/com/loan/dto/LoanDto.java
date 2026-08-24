@@ -9,37 +9,33 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class LoanDto {
-	
-	
+
 	private Long loanId;
 
-	@NotNull(message="APPLICATION ID IS REQUIRED.")
-	@Positive(message="APPLICATION ID SHOULD NOT CONTAIN NEGATIVE VALUE ")
+	@NotNull(message = "APPLICATION ID IS REQUIRED.")
+	@Positive(message = "APPLICATION ID SHOULD NOT CONTAIN NEGATIVE VALUE ")
 	private Long applicationId;
 
-	@NotNull(message="AMOUNT IS REQUIRED.")
-	@Positive(message="AMOUNT MUST BE GREATER THAN ZERO.")
+	@NotNull(message = "AMOUNT IS REQUIRED.")
+	@Positive(message = "AMOUNT MUST BE GREATER THAN ZERO.")
 	private BigDecimal appAmount;
 
-	@NotNull(message="INTEREST RATE IS REQUIRED.")
-	@Positive(message="INTEREST RATE MUST BE GREATER THAN ZERO.")
+	@NotNull(message = "INTEREST RATE IS REQUIRED.")
+	@Positive(message = "INTEREST RATE MUST BE GREATER THAN ZERO.")
 	private Double intRate;
 
-	@NotNull(message="DURATION IS REQUIRED.")
-	@Positive(message="DURATION MUST BE GREATER THAN ZERO.")
+	@NotNull(message = "DURATION IS REQUIRED.")
+	@Positive(message = "DURATION MUST BE GREATER THAN ZERO.")
 	private Long duration;
-
 
 	private LocalDate startDate;
 
-
 	private LocalDate endDate;
 
-	@NotBlank(message="STATUS IS REQUIRED.")
-	@Size(max=25,message="STATUS CHARACTOR COUNT MUST NOT EXCEED 25.")
+	@NotBlank(message = "STATUS IS REQUIRED.")
+	@Size(max = 25, message = "STATUS CHARACTOR COUNT MUST NOT EXCEED 25.")
 	private String status;
 
-	
 	public Long getLoanId() {
 		return loanId;
 	}
@@ -103,6 +99,5 @@ public class LoanDto {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
+
 }

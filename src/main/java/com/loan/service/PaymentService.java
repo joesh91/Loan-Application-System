@@ -19,24 +19,24 @@ public class PaymentService {
 
 	public void makePayment(PaymentDto paymentDto) {
 
-		if(paymentDto == null) {
+		if (paymentDto == null) {
 			throw new PaymentNotFoundException("PAYMENT DETAILS CANNOT BE EMPTY.");
 		}
-		
+
 		LoanDAO loanDao = new LoanDAO();
 		Loan loan = loanDao.findById(paymentDto.getLoanId());
-		
-		if(loan == null) {
+
+		if (loan == null) {
 			throw new LoanNotFoundException("LOAN ID " + paymentDto.getLoanId() + " NOT FOUND.");
-		}	
-		
+		}
+
 		Payment payment = new Payment();
-		
+
 		payment.setLoan(loan);
 		payment.setAmount(paymentDto.getAmount());
 		payment.setPaymentStatus(paymentDto.getPaymentStatus());
-		
-		paymentDAO.save(payment);	
+
+		paymentDAO.save(payment);
 
 	}
 
@@ -44,26 +44,24 @@ public class PaymentService {
 
 	public void updatePayment(PaymentDto paymentDto) {
 
-		if(paymentDto == null) {
+		if (paymentDto == null) {
 			throw new PaymentNotFoundException("PAYMENT DETAILS CANNOT BE EMPTY.");
 		}
-		
+
 		Payment payment = paymentDAO.findById(paymentDto.getPaymentId());
-		
-		if(payment == null) {
+
+		if (payment == null) {
 			throw new PaymentNotFoundException("PAYMENT DETAILS ARENOT FOUND");
 		}
-		
+
 		LoanDAO loanDao = new LoanDAO();
 		Loan loan = loanDao.findById(paymentDto.getLoanId());
-		
-		
+
 		payment.setAmount(paymentDto.getAmount());
 		payment.setLoan(loan);
 		payment.setPaymentDate(paymentDto.getPaymentDate());
 		payment.setPaymentStatus(paymentDto.getPaymentStatus());
-	
-		
+
 		paymentDAO.update(payment);
 	}
 
@@ -71,18 +69,18 @@ public class PaymentService {
 
 	public void deletePayment(PaymentDto paymentDto) {
 
-		if(paymentDto == null) {
+		if (paymentDto == null) {
 			throw new PaymentNotFoundException("PAYMENT DETAILS CANNOT BE EMPTY.");
 		}
-		
-		Payment delitingPayment  = paymentDAO.findById(paymentDto.getPaymentId());
-		
-		if(delitingPayment == null) {
+
+		Payment delitingPayment = paymentDAO.findById(paymentDto.getPaymentId());
+
+		if (delitingPayment == null) {
 			throw new PaymentNotFoundException("PAYMENT EDTAILS ARE NOT FOUND");
 		}
-		
+
 		paymentDAO.delete(delitingPayment);
-		
+
 	}
 
 	// SEARCH A PAYMENT
@@ -90,44 +88,44 @@ public class PaymentService {
 	public PaymentDto findPayment(Long paymentID) {
 
 		Payment payment = paymentDAO.findById(paymentID);
-			
-			if(payment == null) {
-				throw new PaymentNotFoundException("PAYMENT DETAILS NOT FOUND.");
-			}
 
-			PaymentDto paymentDto = new PaymentDto();
-			
-			paymentDto.setPaymentId(payment.getPaymentId());			
-			paymentDto.setLoanId(payment.getLoan().getLoanId());
-			paymentDto.setAmount(payment.getAmount());
-			paymentDto.setPaymentDate(payment.getPaymentDate());
-			paymentDto.setPaymentStatus(payment.getPaymentStatus());
-			
+		if (payment == null) {
+			throw new PaymentNotFoundException("PAYMENT DETAILS NOT FOUND.");
+		}
+
+		PaymentDto paymentDto = new PaymentDto();
+
+		paymentDto.setPaymentId(payment.getPaymentId());
+		paymentDto.setLoanId(payment.getLoan().getLoanId());
+		paymentDto.setAmount(payment.getAmount());
+		paymentDto.setPaymentDate(payment.getPaymentDate());
+		paymentDto.setPaymentStatus(payment.getPaymentStatus());
+
 		return paymentDto;
-		
+
 	}
-		
+
 	// GET ALL PAYMENTS
 
 	public List<PaymentDto> getAllPayments() {
 
-		List <Payment> payments = paymentDAO.findAll();
-		
-		List <PaymentDto> paymentDtos = new ArrayList<>();
-		
-		for(Payment p : payments) {
-			
+		List<Payment> payments = paymentDAO.findAll();
+
+		List<PaymentDto> paymentDtos = new ArrayList<>();
+
+		for (Payment p : payments) {
+
 			PaymentDto paymentDto = new PaymentDto();
-			
+
 			paymentDto.setAmount(p.getAmount());
 			paymentDto.setLoanId(p.getLoan().getLoanId());
 			paymentDto.setPaymentDate(p.getPaymentDate());
 			paymentDto.setPaymentId(p.getPaymentId());
 			paymentDto.setPaymentStatus(p.getPaymentStatus());
-			
+
 			paymentDtos.add(paymentDto);
 		}
-		
+
 		return paymentDtos;
 	}
 
@@ -137,7 +135,7 @@ public class PaymentService {
 
 		Payment payment = paymentDAO.findById(paymentID);
 
-		if(payment == null) {
+		if (payment == null) {
 			throw new PaymentNotFoundException("PAYMENT DETAILS ARE NOT FOUND.");
 		}
 		payment.setPaymentStatus(paymentStatus);

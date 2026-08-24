@@ -30,9 +30,9 @@ public class PaymentResource {
 	@POST
 	public Response makePayment(@Valid PaymentDto paymentDto) {
 
-			paymentService.makePayment(paymentDto);
-			return Response.status(Response.Status.CREATED).entity(paymentDto).build();
-		
+		paymentService.makePayment(paymentDto);
+		return Response.status(Response.Status.CREATED).entity(paymentDto).build();
+
 	}
 
 	// VIEW PAYMENT DETAILS
@@ -58,7 +58,7 @@ public class PaymentResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updatePayment( @PathParam("id") Long paymentID, @Valid PaymentDto paymentDto) {
+	public Response updatePayment(@PathParam("id") Long paymentID, @Valid PaymentDto paymentDto) {
 
 		paymentDto.setPaymentId(paymentID);
 		paymentService.updatePayment(paymentDto);
@@ -83,7 +83,7 @@ public class PaymentResource {
 	public Response makeDecision(@PathParam("id") Long paymentID, @Valid PaymentStatusRequest request) {
 
 		PaymentDto paymentDto = paymentService.findPayment(paymentID);
-		paymentService.makeDecision(paymentDto.getPaymentId(),request.getDecision());
+		paymentService.makeDecision(paymentDto.getPaymentId(), request.getDecision());
 		return Response.ok(paymentDto).build();
 	}
 

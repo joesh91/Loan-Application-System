@@ -30,8 +30,6 @@ public class User {
 	@OneToOne
 	@JoinColumn(name = "CUSTOMER_ID")
 	private Customer customer;
-	
-	
 
 	public User() {
 

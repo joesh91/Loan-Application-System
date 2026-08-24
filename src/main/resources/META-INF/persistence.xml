@@ -28,14 +28,19 @@
 
 			<property name="jakarta.persistence.jdbc.password"
 				value="root" />
-
+				
+				
+			<!--  Tells Hibernate which SQL dialect to use for generating queries. -->
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.PostgreSQLDialect" />
 
+			<!-- Controls whether Hibernate prints the SQL statements it generates. -->
 			<property name="hibernate.show_sql" value="true" />
 
+			<!-- Makes the SQL output more readable by formatting it (line breaks, indentation).	 -->
 			<property name="hibernate.format_sql" value="true" />
 
+			<!-- Defines how Hibernate handles schema generation (DDL). -->
 			<property name="hibernate.hbm2ddl.quto" value="validate" />
 
 

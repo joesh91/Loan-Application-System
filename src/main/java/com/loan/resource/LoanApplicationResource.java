@@ -69,8 +69,8 @@ public class LoanApplicationResource {
 		return Response.ok(loanApplicationDto).entity(loanApplicationDto).build();
 	}
 
-	//	DELETE LOAN APPLICATION
-	
+	// DELETE LOAN APPLICATION
+
 	@DELETE
 	@Path("/{id}")
 	public Response deleteLoanApplication(@PathParam("id") Long loanApplicationID) {

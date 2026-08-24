@@ -9,25 +9,21 @@ import jakarta.validation.constraints.Size;
 
 public class PaymentDto {
 
-
 	private Long paymentId;
 
-	@NotNull(message="LOAN ID IS REQUIRED")
-	@Positive(message="LOAN ID SHOULD NO CONTAIN NEGATIVE VALUES")
+	@NotNull(message = "LOAN ID IS REQUIRED")
+	@Positive(message = "LOAN ID SHOULD NO CONTAIN NEGATIVE VALUES")
 	private Long loanId;
-	
+
 	private LocalDate paymentDate;
 
-	@NotNull(message="AMOUNT IS REQUIRED")
-	@Positive(message="AMOUT MUST BE GREATER THAN ZERO.")
+	@NotNull(message = "AMOUNT IS REQUIRED")
+	@Positive(message = "AMOUT MUST BE GREATER THAN ZERO.")
 	private Double amount;
 
-	@NotBlank(message="PAYMENT STATUS IS REQUIRED")
-	@Size(max=25,message="STATUS CHARACTOR COUNT MUST NOT EXCEED 25.")
+	@NotBlank(message = "PAYMENT STATUS IS REQUIRED")
+	@Size(max = 25, message = "STATUS CHARACTOR COUNT MUST NOT EXCEED 25.")
 	private String paymentStatus;
-	
-	
-	
 
 	public Long getPaymentId() {
 		return paymentId;
@@ -68,6 +64,5 @@ public class PaymentDto {
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
-	
-	
+
 }

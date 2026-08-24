@@ -1,9 +1,11 @@
 package com.loan.exception;
 
-public class StaffNotFoundException extends RuntimeException{
-	
+public class StaffNotFoundException extends RuntimeException {
+
+	private static final long serialVersionUID = 1L;
+
 	public StaffNotFoundException(String message) {
-		super (message);
+		super(message);
 	}
 
 }

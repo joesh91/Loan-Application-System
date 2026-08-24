@@ -3,7 +3,7 @@ package com.loan.dto;
 import com.loan.enums.ReviewDecision;
 
 public class LoanApplicationReviewDecision {
-	
+
 	private ReviewDecision decision;
 
 	public ReviewDecision getDecision() {
@@ -18,9 +18,5 @@ public class LoanApplicationReviewDecision {
 	public String toString() {
 		return "LoanApplicationReviewDecision [decision=" + decision + "]";
 	}
-	
-	
-	
-	
 
 }

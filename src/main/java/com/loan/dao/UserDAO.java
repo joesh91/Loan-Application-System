@@ -62,4 +62,19 @@ public class UserDAO {
 		return users;
 
 	}
+	
+	public User findByUserName(String userName) {
+		
+		EntityManager em = emf.createEntityManager();
+		try {
+			return em.createQuery("SELECT U FROM User U WHERE U.userName = :userName",User.class)
+					.setParameter("userName", userName)
+					.getResultStream()
+					.findFirst()
+					.orElse(null);
+			
+		}finally{
+			em.close();			
+		}
+	}
 }

@@ -7,22 +7,19 @@ import jakarta.validation.constraints.Positive;
 
 public class StaffDto {
 
-	@NotNull(message="STAFF ID CANNOT BE BLANK")
-	@Positive(message="STAFF ID NUMBER SHOULD NOT CONTAIN NEGATIVE VALUE")
+	@NotNull(message = "STAFF ID CANNOT BE BLANK")
+	@Positive(message = "STAFF ID NUMBER SHOULD NOT CONTAIN NEGATIVE VALUE")
 	private Long staffId;
 
-	@NotBlank(message="NAME IS REQUIRED")
+	@NotBlank(message = "NAME IS REQUIRED")
 	private String name;
 
-	@NotBlank(message="EMAIL IS REQUIRED.")
-	@Email(message="INVALID EMAIL FORMAT")
+	@NotBlank(message = "EMAIL IS REQUIRED.")
+	@Email(message = "INVALID EMAIL FORMAT")
 	private String email;
 
-	@NotBlank(message="POSITION IS REQURIED.")
+	@NotBlank(message = "POSITION IS REQURIED.")
 	private String position;
-	
-	
-	
 
 	public Long getStaffId() {
 		return staffId;
@@ -55,6 +52,5 @@ public class StaffDto {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	
-	
+
 }

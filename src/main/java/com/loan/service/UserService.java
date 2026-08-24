@@ -2,66 +2,70 @@ package com.loan.service;
 
 import com.loan.dao.CustomerDAO;
 import com.loan.dao.UserDAO;
+import com.loan.dto.LoginRequestDto;
+import com.loan.dto.LoginResponseDto;
 import com.loan.dto.UserDto;
 import com.loan.entity.Customer;
 import com.loan.entity.User;
+import com.loan.exception.AuthenticationException;
 import com.loan.exception.CustomerNotFoundException;
 import com.loan.exception.UserNotFoundException;
+import com.loan.security.JwtUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
 
-	UserDAO userDAO = new UserDAO();
+		UserDAO userDAO = new UserDAO();
 
 // 	REGISTER USER 
 
 	public void registerUser(UserDto userDto) {
 
-		if(userDto == null) {
+		if (userDto == null) {
 			throw new UserNotFoundException("USER DETAILS CANNOT BE EMPTY.");
 		}
-		
+
 		CustomerDAO customerDao = new CustomerDAO();
 		Customer customer = customerDao.findById(userDto.getCustomerId());
-		
+
 		User user = new User();
-		
+
 		user.setCustomer(customer);
 		user.setPassWord(userDto.getPassWord());
 		user.setRole(userDto.getRole());
 		user.setUserName(userDto.getUserName());
-		
+
 		userDAO.save(user);
 	}
 
 // 	UPDATE USER 
 
-	public void updateUser( UserDto userDto) {
+	public void updateUser(UserDto userDto) {
 
-		if(userDto==null) {
+		if (userDto == null) {
 			throw new UserNotFoundException("USER DETAILS CANNOT BE EMPTY.");
 		}
-		
+
 		User user = userDAO.findById(userDto.getUserId());
-		
-		if(user == null) {
+
+		if (user == null) {
 			throw new UserNotFoundException("USER DETAILS ARE NOT FOUND.");
 		}
-		
+
 		CustomerDAO customerDao = new CustomerDAO();
 		Customer customer = customerDao.findById(userDto.getCustomerId());
-		
-		if(customer == null) {
+
+		if (customer == null) {
 			throw new CustomerNotFoundException("CUSTOMER DETAILS ARE NOT FOUND.");
 		}
-		
+
 		user.setCustomer(customer);
 		user.setPassWord(userDto.getPassWord());
 		user.setRole(userDto.getRole());
 		user.setUserName(userDto.getUserName());
-		
+
 		userDAO.update(user);
 	}
 
@@ -69,16 +73,16 @@ public class UserService {
 
 	public void deleteUser(UserDto userDto) {
 
-		if(userDto == null) {
+		if (userDto == null) {
 			throw new UserNotFoundException("USER DETAILS CANNOT BE EMPTY.");
 		}
-		
+
 		User user = userDAO.findById(userDto.getUserId());
-		
-		if(user == null) {
+
+		if (user == null) {
 			throw new UserNotFoundException("USER DETAILS ARE NOT FOUND.");
 		}
-		
+
 		userDAO.delete(user);
 	}
 
@@ -87,19 +91,19 @@ public class UserService {
 	public UserDto findUser(Long userID) {
 
 		User user = userDAO.findById(userID);
-		
-		if(user == null) {
+
+		if (user == null) {
 			throw new UserNotFoundException("USER DETAILS NOT FOUND.");
 		}
-		
+
 		UserDto userDto = new UserDto();
-		
+
 		userDto.setCustomerId(user.getCustomer().getCustomerId());
 		userDto.setPassWord(user.getPassWord());
-		userDto.setRole(user.getPassWord());
+		userDto.setRole(user.getRole());
 		userDto.setUserId(user.getUserId());
 		userDto.setUserName(user.getUserName());
-		
+
 		return userDto;
 	}
 
@@ -108,22 +112,47 @@ public class UserService {
 	public List<UserDto> getAllUsers() {
 
 		List<User> users = userDAO.findAll();
-		
+
 		List<UserDto> userDtos = new ArrayList<>();
-		
-		for(User u : users) {
-			
+
+		for (User u : users) {
+
 			UserDto userDto = new UserDto();
-			
+
 			userDto.setCustomerId(u.getCustomer().getCustomerId());
 			userDto.setPassWord(u.getPassWord());
 			userDto.setRole(u.getRole());
 			userDto.setUserId(u.getUserId());
 			userDto.setUserName(u.getUserName());
-			
+
 			userDtos.add(userDto);
 		}
-		
-		return userDtos;		
+
+		return userDtos;
 	}
+	
+//	AUTHENTICATION
+	
+	private JwtUtil jwtUtil = new JwtUtil();
+	
+	public LoginResponseDto login(LoginRequestDto loginRequest) {
+		
+		User user = userDAO.findByUserName(loginRequest.getUserName());
+		
+			if(user == null) {
+				throw new UserNotFoundException("INVALID USERNAME");
+			}
+			
+			if(!user.getPassWord().equals(loginRequest.getPassWord())) {
+				throw new AuthenticationException("INVALID PASSWORD");
+			}
+					
+			String token = jwtUtil.generateToken(user);
+			
+			return new LoginResponseDto(token);
+	}
+	
+	
+	
+	
 }

@@ -5,6 +5,8 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import com.loan.dto.LoginRequestDto;
+import com.loan.dto.LoginResponseDto;
 import com.loan.dto.UserDto;
 import com.loan.service.UserService;
 import java.util.List;
@@ -18,7 +20,7 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.POST;
 
 @Path("/users")
-@Consumes(MediaType.APPLICATION_JSON) 
+@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
@@ -57,14 +59,12 @@ public class UserResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateUser(@PathParam("id") Long userId ,@Valid UserDto userDto) {
-		
+	public Response updateUser(@PathParam("id") Long userId, @Valid UserDto userDto) {
+
 		userDto.setUserId(userId);
 		userService.updateUser(userDto);
 		return Response.ok(userDto).build();
 	}
-		
-	
 
 	// DELETE USER
 
@@ -75,6 +75,19 @@ public class UserResource {
 		UserDto userDto = userService.findUser(userId);
 		userService.deleteUser(userDto);
 		return Response.noContent().build();
+	}
+	
+	// AUTHENTICATE USER
+	
+	@POST
+	@Path("/login")
+	public Response login(LoginRequestDto loginRequestDto) {
+		
+		LoginResponseDto loginResponseDto = userService.login(loginRequestDto);
+		
+		return Response.ok(loginResponseDto).build();
+
+		
 	}
 
 }

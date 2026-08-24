@@ -25,18 +25,14 @@ public class CustomerResource {
 
 	CustomerService customerService = new CustomerService();
 
-
 	// NEW CUSTOMER REGISTRATION
-	
+
 	@POST
 	public Response registerCustomer(@Valid CustomerDto customerDto) {
-	
-		customerService.registerCustomer(customerDto);
-		return Response.status(Response.Status.CREATED)
-				.entity(customerDto)
-				.build();
-	}
 
+		customerService.registerCustomer(customerDto);
+		return Response.status(Response.Status.CREATED).entity(customerDto).build();
+	}
 
 	// SEARCH CUSTOMER BY ID
 
@@ -44,8 +40,8 @@ public class CustomerResource {
 	@Path("/{id}")
 	public Response findCustomer(@PathParam("id") Long customerID) {
 
-			CustomerDto customer = customerService.findCustomer(customerID);
-			return Response.ok(customer).build();
+		CustomerDto customer = customerService.findCustomer(customerID);
+		return Response.ok(customer).build();
 
 	}
 
@@ -62,7 +58,7 @@ public class CustomerResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateCustomer( @PathParam("id") Long customerID,  @Valid CustomerDto customerDto) {
+	public Response updateCustomer(@PathParam("id") Long customerID, @Valid CustomerDto customerDto) {
 
 		customerDto.setCustomerID(customerID);
 		customerService.updateCustomer(customerDto);
@@ -77,9 +73,9 @@ public class CustomerResource {
 
 		CustomerDto customer = customerService.findCustomer(customerID);
 
-			customerService.deleteCustomer(customer);
-			return Response.noContent().build();
-		
+		customerService.deleteCustomer(customer);
+		return Response.noContent().build();
+
 	}
 
 }
