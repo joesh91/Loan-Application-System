@@ -19,6 +19,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.POST;
 
+import jakarta.annotation.security.RolesAllowed;
+
 @Path("/users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -29,6 +31,7 @@ public class UserResource {
 	// REGISTER USER
 
 	@POST
+	@RolesAllowed("ADMIN")
 	public Response registerUser(@Valid UserDto userDto) {
 
 		userService.registerUser(userDto);
@@ -48,6 +51,7 @@ public class UserResource {
 	// GET ALL USERS
 
 	@GET
+	@RolesAllowed("ADMIN")
 	public Response getAllUsers() {
 
 		List<UserDto> usersDtos = userService.getAllUsers();
@@ -70,8 +74,11 @@ public class UserResource {
 
 	@DELETE
 	@Path("/{id}")
+	@RolesAllowed("ADMIN")
 	public Response deleteUser(@PathParam("id") Long userId) {
-
+		
+		System.out.println("TEST DELETE");
+		
 		UserDto userDto = userService.findUser(userId);
 		userService.deleteUser(userDto);
 		return Response.noContent().build();

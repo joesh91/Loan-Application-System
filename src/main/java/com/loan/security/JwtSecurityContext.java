@@ -22,7 +22,7 @@ public class JwtSecurityContext implements SecurityContext{
 
 	@Override
 	public boolean isUserInRole(String role) {
-		// TODO Auto-generated method stub
+		System.out.println("ROLE CHECK");
 		return this.role.equals(role);
 	}
 
