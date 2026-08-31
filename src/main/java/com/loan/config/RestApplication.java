@@ -5,6 +5,7 @@ import jakarta.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.loan.resource.CustomerRegistrationResource;
 import com.loan.resource.CustomerResource;
 import com.loan.resource.LoanApplicationResource;
 import com.loan.resource.UserResource;
@@ -30,6 +31,7 @@ public class RestApplication extends Application {
 		classes.add(UserResource.class);
 		classes.add(CustomerResource.class);
 		classes.add(LoanApplicationResource.class);
+		classes.add(CustomerRegistrationResource.class);
 
 		
 		return classes;

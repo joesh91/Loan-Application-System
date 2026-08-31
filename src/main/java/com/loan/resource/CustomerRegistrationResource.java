@@ -1,0 +1,115 @@
+package com.loan.resource;
+
+import java.util.List;
+
+import com.loan.dto.CustomerRegistrationApproveDto;
+import com.loan.dto.CustomerRegistrationDto;
+import com.loan.service.CustomerRegistrationService;
+
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+@Path("/registration")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class CustomerRegistrationResource {
+
+	CustomerRegistrationService customerRegistrationService = new CustomerRegistrationService();
+	
+	// NEW REGISTRATION OF CUSTOMER DETAILS
+	
+	@POST
+	public Response registerCustomer(@Valid CustomerRegistrationDto customerRegistrationDto) {
+		
+		customerRegistrationService.saveNewCustomerRegistration(customerRegistrationDto);
+		
+		return Response.status(Response.Status.CREATED).entity(customerRegistrationDto).build();
+	}
+	
+	//	VIEW REGISTRATION DETAILS BY ID
+	
+	@GET
+	@Path("/{id}")
+	public Response getRegistrationById(@PathParam("id") Long registrationId) {
+		
+	    CustomerRegistrationDto registrationDto = customerRegistrationService.findCustomerRegistrationDtoById(registrationId);
+		
+		return Response.ok(registrationDto).build();
+		
+	}
+	
+	//	VIEW ALL REGISTRATIONS
+	
+	@GET
+	public Response getAllRegistrations() {
+		
+		List <CustomerRegistrationDto> registrationList = customerRegistrationService.getAllCustomerRegistrationDtos();
+		
+		return Response.ok(registrationList).build();
+	}
+	
+	//	UPDATE A REGISTRATION
+	
+	@PUT
+	@Path("/{id}")
+	public Response updateRegistration(@PathParam("id") Long registrationId ,@Valid CustomerRegistrationDto customerRegistrationDto) {
+		
+		customerRegistrationDto.setCustomerRegistrationId(registrationId);
+		
+		customerRegistrationService.updateRegistration(customerRegistrationDto);
+		
+		return Response.ok(customerRegistrationDto).build();
+	}
+	
+	//	DELETE A REGISTRATION
+	
+	@DELETE
+	@Path("/{id}")
+	public Response deleteRegistration(@PathParam("id")Long registrationId) {
+		
+		CustomerRegistrationDto customerRegistrationDto = customerRegistrationService.findCustomerRegistrationDtoById(registrationId);
+		
+		customerRegistrationService.deleteRegistration(customerRegistrationDto);
+		
+		return Response.noContent().build();
+	}
+	
+	//	APPROVE REGISTRATION STATUS
+	
+	@PUT
+	@Path("/approve/{id}")
+	public Response approveRegistration(@PathParam("id") Long registrationId, @Valid CustomerRegistrationApproveDto customerRegistrationApproveDto) {
+		
+		customerRegistrationApproveDto.setCustomerRegistrationId(registrationId);
+		
+		customerRegistrationService.approveRegistration(customerRegistrationApproveDto);		
+		
+		return Response.ok(customerRegistrationApproveDto).build();
+	}
+	
+	
+	//	REJECT REGISTRATION STATUS
+	
+	@PUT
+	@Path("/reject/{id}")
+	public Response rejectRegistration(@PathParam("id") Long registrationId ,@Valid CustomerRegistrationApproveDto customerRegistrationApproveDto) {
+		
+		customerRegistrationApproveDto.setCustomerRegistrationId(registrationId);
+		
+		customerRegistrationService.rejectRegistration(customerRegistrationApproveDto);
+		
+		return Response.ok(customerRegistrationApproveDto).build();
+	}
+	
+	
+	
+}

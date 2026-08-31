@@ -17,25 +17,29 @@ public class JwtAuthenticationFilter implements ContainerRequestFilter{
 	@Override
 	public void filter(ContainerRequestContext containerRequestContext) {
 		
-		System.out.println("TEST 1");
-		
 		String authorizationHeader = containerRequestContext.getHeaderString("Authorization");
-		System.out.println("TEST 2");
 		
 		String path = containerRequestContext.getUriInfo().getPath();
-		System.out.println("TEST 3");
+//System.out.println("TEST 1");
+
 		if(path.equals("/users/login")) {	// If the request is going to users/login, don't perform JWT authentication.
-			System.out.println("TEST 4");
+
 			return ;			
 		}
-		System.out.println("TEST 5");
+//System.out.println("TEST 2");	
+		if(path.startsWith("/registration")) {
+			return;
+		}
+		
+//System.out.println("TEST 3");		
+
 		if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
 			containerRequestContext.abortWith(
 					Response.status(Response.Status.UNAUTHORIZED).build()
 					);
 			return;
 		}
-	
+//System.out.println("TEST 4");	
 		
 		String token = authorizationHeader.substring(7);
 	
