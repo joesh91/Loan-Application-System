@@ -40,6 +40,7 @@ public class RoleAuthorizationFilter implements ContainerRequestFilter {
 					}
 				}
 		containerRequestContext.abortWith(
+				
 				Response.status(Response.Status.FORBIDDEN).build()
 				);
 	}

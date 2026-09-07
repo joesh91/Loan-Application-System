@@ -5,9 +5,12 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import com.loan.dao.UserDAO;
 import com.loan.dto.LoginRequestDto;
-import com.loan.dto.LoginResponseDto;
+import com.loan.dto.OtpVerificaionDto;
 import com.loan.dto.UserDto;
+import com.loan.entity.User;
+import com.loan.service.OTPService;
 import com.loan.service.UserService;
 import java.util.List;
 
@@ -42,6 +45,7 @@ public class UserResource {
 
 	@GET
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN" ,"CUSTOMER"})
 	public Response searchUser(@PathParam("id") Long userId) {
 
 		UserDto userDto = userService.findUser(userId);
@@ -90,11 +94,30 @@ public class UserResource {
 	@Path("/login")
 	public Response login(LoginRequestDto loginRequestDto) {
 		
-		LoginResponseDto loginResponseDto = userService.login(loginRequestDto);
+		userService.login(loginRequestDto);
 		
-		return Response.ok(loginResponseDto).build();
+		return Response.ok("OTP SENT").build();
 
 		
 	}
+	
+	//	VERIFY OTP
+	
+	@POST
+	@Path("/verify-otp")
+	public Response verifyOtp(OtpVerificaionDto otpVerificationDto) {
+		
+		String token = userService.verifyOtpAndGenerateToken(otpVerificationDto.getUserName(),otpVerificationDto.getEnteredOtp());
+		
+		if(token == null) {
+			return Response.status(Response.Status.UNAUTHORIZED).entity("INAVLID ONE TIME PASSWORD").build();
+		}
+
+		return Response.ok(token).build();
+	}
+	
+
+	
+
 
 }

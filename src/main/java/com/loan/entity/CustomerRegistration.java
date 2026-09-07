@@ -46,8 +46,9 @@ public class CustomerRegistration {
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 	
+	
+	@Column(name="STATUS")
 	@Enumerated(EnumType.STRING)
-	@Column(name="STATUS" , updatable=true)
 	private RegistrationStatus status;
 	
 		// EMPTY CONSTRUCTOR

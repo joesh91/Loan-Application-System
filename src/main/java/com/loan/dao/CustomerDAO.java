@@ -59,7 +59,8 @@ public class CustomerDAO {
 
 		List<Customer> customers = em.createQuery("SELECT c FROM Customer c", Customer.class).getResultList();
 		System.out.println("");
-
+		em.close();		
+		
 		return customers;
 	}
 

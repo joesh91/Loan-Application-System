@@ -6,8 +6,6 @@ public class LoginRequestDto {
 	private String passWord;
 	
 	
-	
-	
 	public LoginRequestDto() {
 	}
 	

@@ -135,7 +135,7 @@ public class UserService {
 	
 	private JwtUtil jwtUtil = new JwtUtil();
 	
-	public LoginResponseDto login(LoginRequestDto loginRequest) {
+	public void login(LoginRequestDto loginRequest) {
 		
 		User user = userDAO.findByUserName(loginRequest.getUserName());
 		
@@ -147,12 +147,39 @@ public class UserService {
 				throw new AuthenticationException("INVALID PASSWORD");
 			}
 					
-			String token = jwtUtil.generateToken(user);
-			
-			return new LoginResponseDto(token);
+			OTPService otpService = new OTPService();
+			otpService.createOtp(user);
+		
+	}
+	
+	
+	public String verifyOtpAndGenerateToken(String username ,String enteredOtp) {
+		OTPService otpService = new OTPService();
+		
+		boolean verified = otpService.verifyOtp(username, enteredOtp);
+		
+		if(!verified) {
+			return null;
+		}
+		
+		User user = userDAO.findByUserName(username);
+		
+		JwtUtil jwtUtil = new JwtUtil();
+		String token = jwtUtil.generateToken(user);
+		
+		
+		return token;
 	}
 	
 	
 	
+	
+//	CHANGE USER PASSWORD
+	
+	public void changePassword() {
+		//	 TO DO CODE
+	}
+
+
 	
 }

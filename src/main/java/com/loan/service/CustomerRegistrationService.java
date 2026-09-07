@@ -3,17 +3,28 @@ package com.loan.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.loan.dao.CustomerDAO;
 import com.loan.dao.CustomerRegistrationDAO;
+import com.loan.dao.UserDAO;
 import com.loan.dto.CustomerRegistrationApproveDto;
 import com.loan.dto.CustomerRegistrationDto;
+import com.loan.entity.Customer;
 import com.loan.entity.CustomerRegistration;
+import com.loan.entity.User;
 import com.loan.enums.RegistrationStatus;
+import com.loan.ignore.TemporaryPassword;
 
 public class CustomerRegistrationService {
 
 	CustomerRegistrationDAO customerRegistrationDAO = new CustomerRegistrationDAO();
 
 	public void saveNewCustomerRegistration(CustomerRegistrationDto customerRegistrationDto) {
+		
+		CustomerRegistration existing = customerRegistrationDAO.findActiveRegistrationByNic(customerRegistrationDto.getNic());
+		
+		if(existing != null) {
+			throw new IllegalArgumentException("DETAILS ALREADY EXIST FOR THIS NIC."); 
+		}
 
 		CustomerRegistration customerRegistration = new CustomerRegistration();
 
@@ -31,7 +42,7 @@ public class CustomerRegistrationService {
 
 	public CustomerRegistrationDto findCustomerRegistrationDtoById(Long CustomerRegistrationId) {
 
-		System.out.println("TEST 100");		
+		
 		if (CustomerRegistrationId == null) {
 			throw new IllegalArgumentException("REGISTRATION ID CANNOT BE NULL.");
 		}
@@ -136,7 +147,34 @@ public class CustomerRegistrationService {
 		
 		customerRegistration.setStatus(RegistrationStatus.APPROVED);
 		
+		Customer customer = new Customer();
+		
+		customer.setFirstName(customerRegistration.getFirstName());
+		customer.setLastName(customerRegistration.getLastName());
+		customer.setNic(customerRegistration.getNic());
+		customer.setPhone(customerRegistration.getPhone());
+		customer.setEmail(customerRegistration.getEmail());
+		customer.setAddress(customerRegistration.getAddress());	
+		
+		CustomerDAO customerDAO = new CustomerDAO();
+		customerDAO.save(customer);	
+		
 		customerRegistrationDAO.update(customerRegistration);
+		
+		TemporaryPassword tp = new TemporaryPassword();
+		String temporaryPassword = tp.generateTemporaryPassword();
+		
+		UserDAO userDao = new UserDAO();
+		User user = new User();
+		user.setRole("CUSTOMER");
+		user.setUserName(customer.getNic());
+		user.setPassWord(temporaryPassword);
+		user.setCustomer(customer);
+		
+		userDao.save(user);
+		
+		EmailService emailService = new EmailService();
+		emailService.sendCustomerCredentials(customer.getEmail(), user.getUserName(), temporaryPassword); //	(String email,String userName,String temporaryPassword)
 		
 	}
 	
@@ -156,9 +194,29 @@ public class CustomerRegistrationService {
 		
 		customerRegistrationDAO.update(customerRegistration);
 	}
+	
 
+	public boolean validateByNic(String nic) {
+		boolean isFound=false;
+		
+		CustomerRegistration customerRegistration = customerRegistrationDAO.findByNic(nic);
+		
+		if(customerRegistration != null) {
+			isFound = true;
+		}
+		return isFound;
+	}
 
-
+	public boolean hasActiveRegistration(String nic) {
+		boolean isFound = false;
+		
+		CustomerRegistration customerRegistration =  customerRegistrationDAO.findActiveRegistrationByNic(nic);
+		
+		if(customerRegistration != null) {
+			isFound = true;
+		}
+		return isFound;
+	}
 
 
 

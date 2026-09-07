@@ -1,6 +1,8 @@
 package com.loan.dao;
 
 import com.loan.entity.CustomerRegistration;
+import com.loan.enums.RegistrationStatus;
+
 import java.util.List;
 
 import jakarta.persistence.EntityManager;
@@ -97,12 +99,55 @@ public class CustomerRegistrationDAO {
 	}
 	
 	
+	// FIND A CUSTOMER REGISTRATION BY NIC
+	
+	public CustomerRegistration findByNic(String nic) {
+		
+		EntityManager em = emf.createEntityManager();
+		
+		CustomerRegistration customerRegistration = em.createQuery(
+				"SELECT C FROM CustomerRegistration C WHERE C.nic = :nic",CustomerRegistration.class)
+				.setParameter("nic", nic)
+				.getResultStream()
+				.findFirst()
+				.orElse(null);
+		em.close();
+		return customerRegistration;
+	}
+	
+	
+	//	FIND ACTIVE REGISTRATION BY NIC
+	
+	public CustomerRegistration findActiveRegistrationByNic(String nic) {
+		
+		EntityManager em = emf.createEntityManager();
+		
+		CustomerRegistration customerRegistration = em.createQuery(
+				"SELECT C FROM CustomerRegistration C WHERE "+
+				"C.nic = :nic "+
+				"AND C.status IN :statuses",
+				CustomerRegistration.class)
+				.setParameter("nic", nic)
+				.setParameter("statuses",
+				 List.of(RegistrationStatus.PENDING , RegistrationStatus.APPROVED)) // 		PROVIDE THE ACTIVE REGISTRATION STATUSES (PENDING OR APPROVED)
+				.getResultStream()													//		query is executed and the matching results are provided as a Stream.
+				.findFirst()														//		Give me the first matching registration	
+				.orElse(null);														//		if there is no matching registration return null
+		em.close();
+		
+		return customerRegistration;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
-
-
-
-
-
-
-
-

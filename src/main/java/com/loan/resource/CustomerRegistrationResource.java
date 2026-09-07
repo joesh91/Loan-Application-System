@@ -6,6 +6,7 @@ import com.loan.dto.CustomerRegistrationApproveDto;
 import com.loan.dto.CustomerRegistrationDto;
 import com.loan.service.CustomerRegistrationService;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -39,6 +40,7 @@ public class CustomerRegistrationResource {
 	
 	@GET
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN"})
 	public Response getRegistrationById(@PathParam("id") Long registrationId) {
 		
 	    CustomerRegistrationDto registrationDto = customerRegistrationService.findCustomerRegistrationDtoById(registrationId);
@@ -50,6 +52,7 @@ public class CustomerRegistrationResource {
 	//	VIEW ALL REGISTRATIONS
 	
 	@GET
+	@RolesAllowed({"ADMIN"})
 	public Response getAllRegistrations() {
 		
 		List <CustomerRegistrationDto> registrationList = customerRegistrationService.getAllCustomerRegistrationDtos();
@@ -61,6 +64,7 @@ public class CustomerRegistrationResource {
 	
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN"})
 	public Response updateRegistration(@PathParam("id") Long registrationId ,@Valid CustomerRegistrationDto customerRegistrationDto) {
 		
 		customerRegistrationDto.setCustomerRegistrationId(registrationId);
@@ -74,6 +78,7 @@ public class CustomerRegistrationResource {
 	
 	@DELETE
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN"})
 	public Response deleteRegistration(@PathParam("id")Long registrationId) {
 		
 		CustomerRegistrationDto customerRegistrationDto = customerRegistrationService.findCustomerRegistrationDtoById(registrationId);
@@ -87,6 +92,7 @@ public class CustomerRegistrationResource {
 	
 	@PUT
 	@Path("/approve/{id}")
+	//@RolesAllowed({"ADMIN"})
 	public Response approveRegistration(@PathParam("id") Long registrationId, @Valid CustomerRegistrationApproveDto customerRegistrationApproveDto) {
 		
 		customerRegistrationApproveDto.setCustomerRegistrationId(registrationId);
@@ -101,6 +107,7 @@ public class CustomerRegistrationResource {
 	
 	@PUT
 	@Path("/reject/{id}")
+	@RolesAllowed({"ADMIN"})
 	public Response rejectRegistration(@PathParam("id") Long registrationId ,@Valid CustomerRegistrationApproveDto customerRegistrationApproveDto) {
 		
 		customerRegistrationApproveDto.setCustomerRegistrationId(registrationId);
@@ -111,5 +118,23 @@ public class CustomerRegistrationResource {
 	}
 	
 	
+	//	VALIDATE BY NIC
 	
+	@GET
+	@Path("/check-nic/{nic}")
+	public Response validateNic(@PathParam("nic") String nic) {
+		
+		boolean isNicAvailable = customerRegistrationService.validateByNic(nic);
+		return Response.ok(isNicAvailable).build();
+	}
+	
+	//	VALIDATE REGISTRATION PENDING OR APPROVED 
+	
+	@GET
+	@Path("/check-registration/{nic}")
+	public Response hasActiveRegistration(@PathParam("nic") String nic) {
+		
+		boolean isRegistrationAvailable = customerRegistrationService.hasActiveRegistration(nic);		
+		return Response.ok(isRegistrationAvailable).build();
+	}
 }

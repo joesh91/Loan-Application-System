@@ -20,18 +20,36 @@ public class JwtAuthenticationFilter implements ContainerRequestFilter{
 		String authorizationHeader = containerRequestContext.getHeaderString("Authorization");
 		
 		String path = containerRequestContext.getUriInfo().getPath();
-//System.out.println("TEST 1");
+System.out.println("TEST 1");
 
 		if(path.equals("/users/login")) {	// If the request is going to users/login, don't perform JWT authentication.
 
 			return ;			
 		}
-//System.out.println("TEST 2");	
-		if(path.startsWith("/registration")) {
+System.out.println("TEST 2");	
+		if(path.equals("/registration") && containerRequestContext.getMethod().equals("POST")) {
 			return;
 		}
 		
-//System.out.println("TEST 3");		
+		if(path.startsWith("/registration/check-nic") && containerRequestContext.getMethod().equals("GET")) {
+			return;
+		}
+		
+		// TEMPORARY
+		if(path.startsWith("/registration") ) {
+			return;
+		}
+		
+		if(path.startsWith("/registration/check-registration") && containerRequestContext.getMethod().equals("GET")) {
+			return;
+		}
+		System.out.println("TEST 3");		
+		if(path.equals("/users/verify-otp")) {
+			return;
+		}
+		System.out.println("PATH : "+path);
+		
+System.out.println("TEST 3");		
 
 		if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
 			containerRequestContext.abortWith(
@@ -39,7 +57,7 @@ public class JwtAuthenticationFilter implements ContainerRequestFilter{
 					);
 			return;
 		}
-//System.out.println("TEST 4");	
+System.out.println("TEST 4");	
 		
 		String token = authorizationHeader.substring(7);
 	
