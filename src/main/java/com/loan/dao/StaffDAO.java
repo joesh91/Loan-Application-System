@@ -1,8 +1,8 @@
 package com.loan.dao;
 
-import com.loan.entity.Staff;
-
 import java.util.List;
+
+import com.loan.entity.Staff;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

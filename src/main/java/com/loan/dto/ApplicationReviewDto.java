@@ -1,6 +1,9 @@
 package com.loan.dto;
 
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.loan.enums.ReviewDecision;
 
 import jakarta.validation.constraints.NotBlank;
@@ -24,6 +27,8 @@ public class ApplicationReviewDto {
 	@Size(max = 500, message = "COMMENTS CANNOT EXCEED 500 CHARACTERS.")
 	private String comments;
 
+	//@NotNull(message = "DATE CANNOT BE NULL")
+	@JsonSerialize(using = LocalDateSerializer.class)
 	private LocalDate reviewDate;
 
 	public void setReviewId(Long reviewId) {

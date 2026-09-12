@@ -11,45 +11,61 @@ import jakarta.ws.rs.ext.Provider;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class JwtAuthenticationFilter implements ContainerRequestFilter{
-	
+
 	private JwtUtil jwtUtil = new JwtUtil();
 
 	@Override
 	public void filter(ContainerRequestContext containerRequestContext) {
-		
+
+System.out.println("JWT AUTHENTICATION CLASS IS GETTING CALLED : ");
+
 		String authorizationHeader = containerRequestContext.getHeaderString("Authorization");
-		
+
 		String path = containerRequestContext.getUriInfo().getPath();
-System.out.println("TEST 1");
+
+																									//	TEST CODE STEP
+System.out.println("AUTHORIZATION HEADER : "+authorizationHeader);
+System.out.println("PATH : "+path);
 
 		if(path.equals("/users/login")) {	// If the request is going to users/login, don't perform JWT authentication.
-
-			return ;			
+			return ;
 		}
-System.out.println("TEST 2");	
+																									//	TEST CODE STEP
+System.out.println("USER LOGIN PATH NOT SELECTED");
+
 		if(path.equals("/registration") && containerRequestContext.getMethod().equals("POST")) {
 			return;
 		}
-		
-		if(path.startsWith("/registration/check-nic") && containerRequestContext.getMethod().equals("GET")) {
+
+																									//	TEST CODE STEP
+System.out.println("REGISTRATION PATH NOT SELECTED");
+
+	/*	if(path.startsWith("/registration/check-nic") && containerRequestContext.getMethod().equals("GET")) {
 			return;
-		}
-		
-		// TEMPORARY
-		if(path.startsWith("/registration") ) {
+		}*/
+
+																									//		TEST CODE STEP
+System.out.println("CHECK NIC IN REGISTRATION PATH NOT SELECTED");
+
+	/*	if(path.startsWith("/registration") ) {
 			return;
-		}
-		
-		if(path.startsWith("/registration/check-registration") && containerRequestContext.getMethod().equals("GET")) {
+		}*/
+																									//		TEST CODE STEP
+System.out.println("START WITH REGISTRATION PATH NOT SELECTED");
+
+		/*if(path.startsWith("/registration/check-registration") && containerRequestContext.getMethod().equals("GET")) {
 			return;
-		}
-		System.out.println("TEST 3");		
+		}*/
+																									//		TEST CODE STEP
+System.out.println("START WITH REGISTRATION PATH NOT SELECTED");
+
+
 		if(path.equals("/users/verify-otp")) {
 			return;
 		}
 		System.out.println("PATH : "+path);
-		
-System.out.println("TEST 3");		
+
+System.out.println("TEST 3");										// 	CHECK AUTHORIZATION DETAILS IN POSTMAN
 
 		if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
 			containerRequestContext.abortWith(
@@ -57,22 +73,29 @@ System.out.println("TEST 3");
 					);
 			return;
 		}
-System.out.println("TEST 4");	
-		
+System.out.println("AUTHORIZATION HEADER IS NOT NULL OR START WITH BEAER KEYWORD");					//	TEST CODE STEP
+
 		String token = authorizationHeader.substring(7);
-	
+System.out.println("TOKEN : "+token);																//		TEST CODE STEP
 		try {
 		Claims claims = jwtUtil.validateToken(token);
-		
+
 		String userName = claims.getSubject();
 		String role	= claims.get("role", String.class);
-		
+
+
+System.out.println("ROLE : "+role);			
+	//	TEST CODE STEP
 		JwtSecurityContext jwtSecurityContext = new JwtSecurityContext(userName , role);
-		
+
+System.out.println("JWT SECURITY CONTEXT : "+jwtSecurityContext);									//	TEST CODE STEP
 		containerRequestContext.setSecurityContext(jwtSecurityContext);
-			
+
+System.out.println( "AFTER SETTING CONTEXT = "+ containerRequestContext.getSecurityContext().getClass().getName()
+			);							//	TEST CODE STEP
 		}catch(Exception e) {
 			containerRequestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+System.out.println("CONTAINER SECURITY CONTEXT ABORT WITH");										//	TEST CODE STEP
 		}
 	}
 }

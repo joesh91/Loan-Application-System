@@ -1,12 +1,12 @@
 package com.loan.dto;
 
 public class OtpVerificaionDto {
-	
+
 	private String userName;
 	private String enteredOtp;
-	
+
 	public OtpVerificaionDto() {
-	
+
 	}
 
 	public String getUserName() {
@@ -24,7 +24,7 @@ public class OtpVerificaionDto {
 	public void setEnteredOtp(String enteredOtp) {
 		this.enteredOtp = enteredOtp;
 	}
-	
-	
+
+
 
 }

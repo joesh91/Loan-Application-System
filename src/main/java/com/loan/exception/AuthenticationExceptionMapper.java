@@ -10,12 +10,12 @@ public class AuthenticationExceptionMapper implements ExceptionMapper <Authentic
 
 	@Override
 	public Response toResponse(AuthenticationException exception) {
-	
+
 		return Response.status(Response.Status.BAD_REQUEST)
 				.type(MediaType.APPLICATION_JSON)
 				.entity(exception)
 				.build();
 	}
 
-	
+
 }

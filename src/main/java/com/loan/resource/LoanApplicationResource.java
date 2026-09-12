@@ -1,21 +1,21 @@
 package com.loan.resource;
 
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.validation.Valid;
-
-import com.loan.service.LoanApplicationService;
-import com.loan.dto.LoanApplicationDto;
-
 import java.util.List;
 
+import com.loan.dto.LoanApplicationDto;
+import com.loan.service.LoanApplicationService;
+
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.POST;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/loanApplications")
@@ -30,6 +30,7 @@ public class LoanApplicationResource {
 	// SUBMIT LOAN APPLICATION FROM SERVICE LAYER
 
 	@POST
+	@RolesAllowed({"CUSTOMER" ,"MANAGER"})
 	public Response submitLoanApplication(@Valid LoanApplicationDto loanApplicationDto) {
 
 		loanApplicationService.submitLoanApplication(loanApplicationDto);
@@ -41,6 +42,7 @@ public class LoanApplicationResource {
 
 	@GET
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response findLoanApplication(@PathParam("id") Long loanApplicationId) {
 
 		LoanApplicationDto loanApplicationDto = loanApplicationService.searchLoanApplication(loanApplicationId);
@@ -51,6 +53,7 @@ public class LoanApplicationResource {
 	// SEARCH ALL LOAN APPLICATIONS
 
 	@GET
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response getAllLoanApplications() {
 
 		List<LoanApplicationDto> loanApplicationListdto = loanApplicationService.getAllLoanApplications();
@@ -61,8 +64,8 @@ public class LoanApplicationResource {
 
 	@PUT
 	@Path("/{id}")
-	public Response updateLoanApplication(@PathParam("id") Long loanApplicationID,
-			@Valid LoanApplicationDto loanApplicationDto) {
+	@RolesAllowed({"ADMIN","OFFICER"})
+	public Response updateLoanApplication(@PathParam("id") Long loanApplicationID, @Valid LoanApplicationDto loanApplicationDto) {
 
 		loanApplicationDto.setApplicationId(loanApplicationID);
 		loanApplicationService.updateLoanApplication(loanApplicationDto);
@@ -73,6 +76,7 @@ public class LoanApplicationResource {
 
 	@DELETE
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response deleteLoanApplication(@PathParam("id") Long loanApplicationID) {
 
 		LoanApplicationDto loanApplicationDto = loanApplicationService.searchLoanApplication(loanApplicationID);

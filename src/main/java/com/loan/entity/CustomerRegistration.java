@@ -23,7 +23,7 @@ public class CustomerRegistration {
 	@Column(name = "REGISTRATION_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long CustomerRegistrationId;
-	
+
 	@Column(name = "FIRST_NAME")
 	private String firstName;
 
@@ -45,20 +45,20 @@ public class CustomerRegistration {
 	@Column(name = "CREATED_AT", updatable = false)
 	@CreationTimestamp
 	private LocalDateTime createdAt;
-	
-	
+
+
 	@Column(name="STATUS")
 	@Enumerated(EnumType.STRING)
 	private RegistrationStatus status;
-	
+
 		// EMPTY CONSTRUCTOR
-	
+
 	public CustomerRegistration() {
-		
+
 	}
-	
+
 	// GETTERS AND SETTERS
-	
+
 	public Long getRegistrationId() {
 		return CustomerRegistrationId;
 	}
@@ -66,7 +66,7 @@ public class CustomerRegistration {
 	public void setRegistrationId(Long registrationId) {
 		this.CustomerRegistrationId = registrationId;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -131,7 +131,7 @@ public class CustomerRegistration {
 		this.status = status;
 	}
 
-	
-	
+
+
 
 }

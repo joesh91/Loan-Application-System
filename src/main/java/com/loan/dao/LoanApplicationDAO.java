@@ -1,12 +1,12 @@
 package com.loan.dao;
 
-import com.loan.entity.LoanApplication;
-
 import java.util.List;
 
+import com.loan.entity.LoanApplication;
+
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.EntityManager;
 
 public class LoanApplicationDAO {
 

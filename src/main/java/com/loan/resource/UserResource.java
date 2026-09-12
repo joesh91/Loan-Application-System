@@ -1,28 +1,25 @@
 package com.loan.resource;
 
-import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
+import java.util.List;
 
-import com.loan.dao.UserDAO;
 import com.loan.dto.LoginRequestDto;
 import com.loan.dto.OtpVerificaionDto;
 import com.loan.dto.UserDto;
-import com.loan.entity.User;
-import com.loan.service.OTPService;
+import com.loan.dto.UserRoleChangeDto;
 import com.loan.service.UserService;
-import java.util.List;
-
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.POST;
 
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/users")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -34,7 +31,7 @@ public class UserResource {
 	// REGISTER USER
 
 	@POST
-	@RolesAllowed("ADMIN")
+	@RolesAllowed({"ADMIN" , "MANAGER"})
 	public Response registerUser(@Valid UserDto userDto) {
 
 		userService.registerUser(userDto);
@@ -45,7 +42,7 @@ public class UserResource {
 
 	@GET
 	@Path("/{id}")
-	@RolesAllowed({"ADMIN" ,"CUSTOMER"})
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response searchUser(@PathParam("id") Long userId) {
 
 		UserDto userDto = userService.findUser(userId);
@@ -55,7 +52,7 @@ public class UserResource {
 	// GET ALL USERS
 
 	@GET
-	@RolesAllowed("ADMIN")
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response getAllUsers() {
 
 		List<UserDto> usersDtos = userService.getAllUsers();
@@ -67,6 +64,7 @@ public class UserResource {
 
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response updateUser(@PathParam("id") Long userId, @Valid UserDto userDto) {
 
 		userDto.setUserId(userId);
@@ -78,46 +76,56 @@ public class UserResource {
 
 	@DELETE
 	@Path("/{id}")
-	@RolesAllowed("ADMIN")
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response deleteUser(@PathParam("id") Long userId) {
-		
+
 		System.out.println("TEST DELETE");
-		
+
 		UserDto userDto = userService.findUser(userId);
 		userService.deleteUser(userDto);
 		return Response.noContent().build();
 	}
-	
+
 	// AUTHENTICATE USER
-	
+
 	@POST
 	@Path("/login")
 	public Response login(LoginRequestDto loginRequestDto) {
-		
+
 		userService.login(loginRequestDto);
-		
+
 		return Response.ok("OTP SENT").build();
 
-		
+
 	}
-	
+
 	//	VERIFY OTP
-	
+
 	@POST
 	@Path("/verify-otp")
 	public Response verifyOtp(OtpVerificaionDto otpVerificationDto) {
-		
+
 		String token = userService.verifyOtpAndGenerateToken(otpVerificationDto.getUserName(),otpVerificationDto.getEnteredOtp());
-		
+
 		if(token == null) {
 			return Response.status(Response.Status.UNAUTHORIZED).entity("INAVLID ONE TIME PASSWORD").build();
 		}
 
 		return Response.ok(token).build();
 	}
-	
 
-	
+
+	//	CHANGE ROLE OF USER
+
+	@PUT
+	@Path("/change-role/{id}")
+	@RolesAllowed({"ADMIN","MANAGER"})				// 	ONLY BY SYSTEM ADMIN
+	public Response changeRole(@PathParam("id") Long userId, UserRoleChangeDto userRoleChangeDto) {
+		System.out.println("USER RESOURCE 1");
+		UserDto userDto = userService.changeUserRole(userId,userRoleChangeDto);
+
+		return Response.ok(userDto).build();
+	}
 
 
 }

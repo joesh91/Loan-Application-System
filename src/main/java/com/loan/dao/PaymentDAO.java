@@ -1,12 +1,12 @@
 package com.loan.dao;
 
-import com.loan.entity.Payment;
-
 import java.util.List;
 
-import jakarta.persistence.Persistence;
-import jakarta.persistence.EntityManagerFactory;
+import com.loan.entity.Payment;
+
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 public class PaymentDAO {
 

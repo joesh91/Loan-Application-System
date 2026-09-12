@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table()
 public class OTP {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="OTP_ID")
@@ -23,16 +23,16 @@ public class OTP {
 	@OneToOne
 	@JoinColumn(name="USERID" ,unique=true)
 	private User userId;
-	
+
 	@Column(name="OTPCODE")
 	private String otpCode;
-	
+
 	@Column(name="EXPIRED_AT")
 	private LocalDateTime expiredAt;
-	
+
 	@Column(name="USED")
 	private boolean used = false;
-	
+
 	public OTP() {}
 
 	public Long getOtpId() {
@@ -74,7 +74,7 @@ public class OTP {
 	public void setUsed(boolean used) {
 		this.used = used;
 	}
-	
-	
+
+
 
 }

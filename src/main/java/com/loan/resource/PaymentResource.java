@@ -1,22 +1,23 @@
 package com.loan.resource;
 
-import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
+import java.util.List;
 
 import com.loan.dto.PaymentDto;
 import com.loan.dto.PaymentStatusRequest;
 import com.loan.service.PaymentService;
-import java.util.List;
 
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PUT;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/payments")
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,6 +29,7 @@ public class PaymentResource {
 	// MAKE PAYMENT
 
 	@POST
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response makePayment(@Valid PaymentDto paymentDto) {
 
 		paymentService.makePayment(paymentDto);
@@ -39,6 +41,7 @@ public class PaymentResource {
 
 	@GET
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response searchPayment(@PathParam("id") Long paymentID) {
 
 		PaymentDto paymentDto = paymentService.findPayment(paymentID);
@@ -48,6 +51,7 @@ public class PaymentResource {
 	// GET ALL PAYMENTS
 
 	@GET
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response getAllPayments() {
 
 		List<PaymentDto> payments = paymentService.getAllPayments();
@@ -58,6 +62,7 @@ public class PaymentResource {
 
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response updatePayment(@PathParam("id") Long paymentID, @Valid PaymentDto paymentDto) {
 
 		paymentDto.setPaymentId(paymentID);
@@ -69,6 +74,7 @@ public class PaymentResource {
 
 	@DELETE
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response deletePayment(@PathParam("id") Long paymentID) {
 
 		PaymentDto paymentDto = paymentService.findPayment(paymentID);
@@ -80,6 +86,7 @@ public class PaymentResource {
 
 	@PUT
 	@Path("/{id}/status")
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response makeDecision(@PathParam("id") Long paymentID, @Valid PaymentStatusRequest request) {
 
 		PaymentDto paymentDto = paymentService.findPayment(paymentID);

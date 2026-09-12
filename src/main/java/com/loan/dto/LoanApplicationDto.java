@@ -3,6 +3,9 @@ package com.loan.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -26,7 +29,9 @@ public class LoanApplicationDto {
 
 	@NotNull(message = "CUSTOMER ID IS REQUIRED.")
 	private Long customerid;
-
+	
+	//@NotNull(message = "DATE CANNOT BE NULL")
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime appDate;
 
 	public Long getApplicationId() {

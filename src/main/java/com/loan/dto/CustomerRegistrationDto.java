@@ -4,14 +4,15 @@ import java.time.LocalDateTime;
 
 import com.loan.enums.RegistrationStatus;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 
 public class CustomerRegistrationDto {
-	
-	
+
+
 	private Long CustomerRegistrationId; // VIP
-	
+
 	@NotBlank(message="FIRST NAME CANNOT BE EMPTY")
 	private String firstName;
 
@@ -22,6 +23,7 @@ public class CustomerRegistrationDto {
 	private String nic;
 
 	@NotBlank(message="EMAIL CANNOT BE EMPTY")
+	@Email(message = "INVALID EMAIL FORMAT")
 	private String email;
 
 	@NotBlank(message="PHONE NUMBER CANNOT BE EMPTY")
@@ -29,17 +31,17 @@ public class CustomerRegistrationDto {
 
 	@NotBlank(message="ADDRESS CANNOT BE EMPTY")
 	private String address;
-	
+
 	private RegistrationStatus status;
-	
+
 	private LocalDateTime createdAt;	// VIP
-	
+
 	//	INITIALIZE EMPTY CONSTRUCTOR
-	
+
 	public CustomerRegistrationDto() {}
-	
+
 	//	DECLARE GETTERS AND SETTERS
-	
+
 	public Long getCustomerRegistrationId() {
 		return CustomerRegistrationId;
 	}
@@ -112,7 +114,7 @@ public class CustomerRegistrationDto {
 	public void setStatus(RegistrationStatus status) {
 		this.status = status;
 	}
-	
-	
-	
+
+
+
 }

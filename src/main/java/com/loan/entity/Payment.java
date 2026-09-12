@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "payment")
@@ -27,7 +27,7 @@ public class Payment {
 	private Loan loan;
 
 	@Column(name = "payment_date", updatable = false)
-	@CreationTimestamp
+	@CreationTimestamp												//	automatically put the current date/time into this field
 	private LocalDate paymentDate;
 
 	@Column(name = "amount")

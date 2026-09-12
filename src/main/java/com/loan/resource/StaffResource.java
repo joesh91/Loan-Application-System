@@ -1,20 +1,22 @@
 package com.loan.resource;
 
-import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
+import java.util.List;
 
 import com.loan.dto.StaffDto;
 import com.loan.service.StaffService;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
+
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.DELETE;
-import java.util.List;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/staffs")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -26,6 +28,7 @@ public class StaffResource {
 	// REGISTER A STAFF MEMBER
 
 	@POST
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response registerStaff(@Valid StaffDto staffDto) {
 
 		staffService.registerStaff(staffDto);
@@ -36,6 +39,7 @@ public class StaffResource {
 
 	@GET
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response searchStaff(@PathParam("id") Long staffId) {
 
 		StaffDto staffDto = staffService.findStaff(staffId);
@@ -46,6 +50,7 @@ public class StaffResource {
 	// GET ALL STAFF MEMBERS
 
 	@GET
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response getAllStaff() {
 
 		List<StaffDto> staffDto = staffService.getAllStaff();
@@ -57,6 +62,7 @@ public class StaffResource {
 
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response updateStaff(@PathParam("id") Long staffId, @Valid StaffDto staffDto) {
 
 		staffDto.setStaffId(staffId);
@@ -69,6 +75,7 @@ public class StaffResource {
 
 	@DELETE
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response deleteStaff(@PathParam("id") Long staffId) {
 
 		StaffDto staffDto = staffService.findStaff(staffId);

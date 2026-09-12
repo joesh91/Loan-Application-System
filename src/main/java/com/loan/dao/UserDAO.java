@@ -1,11 +1,12 @@
 package com.loan.dao;
 
-import com.loan.entity.User;
 import java.util.List;
 
-import jakarta.persistence.Persistence;
-import jakarta.persistence.EntityManagerFactory;
+import com.loan.entity.User;
+
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 public class UserDAO {
 
@@ -62,9 +63,9 @@ public class UserDAO {
 		return users;
 
 	}
-	
+
 	public User findByUserName(String userName) {
-		
+
 		EntityManager em = emf.createEntityManager();
 		try {
 			return em.createQuery("SELECT U FROM User U WHERE U.userName = :userName",User.class)
@@ -72,9 +73,9 @@ public class UserDAO {
 					.getResultStream()
 					.findFirst()
 					.orElse(null);
-			
+
 		}finally{
-			em.close();			
+			em.close();
 		}
 	}
 }

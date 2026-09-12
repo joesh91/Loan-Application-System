@@ -1,15 +1,15 @@
 package com.loan.service;
 
-import com.loan.dto.LoanApplicationDto;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.loan.dao.CustomerDAO;
 import com.loan.dao.LoanApplicationDAO;
+import com.loan.dto.LoanApplicationDto;
 import com.loan.entity.Customer;
 import com.loan.entity.LoanApplication;
 import com.loan.exception.CustomerNotFoundException;
 import com.loan.exception.LoanApplicationNotFoundException;
-
-import java.util.List;
-import java.util.ArrayList;
 
 public class LoanApplicationService {
 

@@ -11,33 +11,33 @@ import io.jsonwebtoken.Claims;
 
 public class JwtTest {
 	public static void main(String [] args) {
-		
+
 		CustomerDAO customerDAO = new CustomerDAO();
 		Customer customer = customerDAO.findById(35l);
-		
+
 		User user = new User();
 		user.setUserName("TEST USER");
 		JwtUtil jwtUtil = new JwtUtil();
 		String token = jwtUtil.generateToken(user);
 		System.out.println(token);
-		
-		
+
+
 		// TOKEN VALIDATION TEST
-		
+
 		Claims claims = jwtUtil.validateToken(token);
-		
+
 		System.out.println("USER NAME : " + claims.getSubject());
 		System.out.println("USER NAME : " + claims.getIssuedAt());
 		System.out.println("USER NAME : " + claims.getExpiration());
-		
-		//	NEW USER CREATION TESTING 
-		
+
+		//	NEW USER CREATION TESTING
+
 		UserService u = new UserService();
-	
-		
-		
+
+
+
 		EmailService email = new EmailService();
 		email.sendCustomerCredentials("sha.eranga@gmail.com", "test1", "test1");
-		
+
 	}
 }

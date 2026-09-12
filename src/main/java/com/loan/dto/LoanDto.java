@@ -3,6 +3,11 @@ package com.loan.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -28,8 +33,11 @@ public class LoanDto {
 	@Positive(message = "DURATION MUST BE GREATER THAN ZERO.")
 	private Long duration;
 
+	@JsonSerialize(using = LocalDateSerializer.class)
 	private LocalDate startDate;
 
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate endDate;
 
 	@NotBlank(message = "STATUS IS REQUIRED.")

@@ -1,11 +1,12 @@
 package com.loan.service;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
 import com.loan.dao.CustomerDAO;
+import com.loan.dto.CustomerDto;
 import com.loan.entity.Customer;
 import com.loan.exception.CustomerNotFoundException;
-import com.loan.dto.CustomerDto;
 
 public class CustomerService {
 

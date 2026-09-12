@@ -1,7 +1,7 @@
 package com.loan.dto;
 
 public class LoginResponseDto {
-	
+
 	private String token;
 
 	public LoginResponseDto(String token) {
@@ -15,7 +15,7 @@ public class LoginResponseDto {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
-	
+
+
 
 }

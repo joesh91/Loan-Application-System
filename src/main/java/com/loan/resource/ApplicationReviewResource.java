@@ -1,23 +1,23 @@
 package com.loan.resource;
 
+import java.util.List;
+
 import com.loan.dto.ApplicationReviewDto;
 import com.loan.dto.LoanApplicationReviewDecision;
-
-import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-
 import com.loan.service.ApplicationReviewService;
 
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
 
 @Path("applicationreviews")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -29,6 +29,7 @@ public class ApplicationReviewResource {
 	// SUBMIT AN REVIEW
 
 	@POST
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response submitApplicationReview(@Valid ApplicationReviewDto applicationReviewDto) {
 
 		applicationReviewService.submitReview(applicationReviewDto);
@@ -40,6 +41,7 @@ public class ApplicationReviewResource {
 
 	@GET
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response searchApplicationReview(@PathParam("id") Long applicationReviewId) {
 
 		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewId);
@@ -50,6 +52,7 @@ public class ApplicationReviewResource {
 	// GET ALL REVIEWS
 
 	@GET
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response getAllApplicationReviews() {
 
 		List<ApplicationReviewDto> applicationReviewsDtos = applicationReviewService.getAllApplicationReview();
@@ -60,6 +63,7 @@ public class ApplicationReviewResource {
 
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response updateApplicationReview(@PathParam("id") Long applicationReviewId,
 			@Valid ApplicationReviewDto applicationReviewDto) {
 
@@ -72,6 +76,7 @@ public class ApplicationReviewResource {
 
 	@DELETE
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response deleteApplicationReview(@PathParam("id") Long applicationReviewID) {
 
 		ApplicationReviewDto applicationReviewDto = applicationReviewService.searchReview(applicationReviewID);
@@ -83,6 +88,7 @@ public class ApplicationReviewResource {
 	// MAKE A DECISION
 	@PUT
 	@Path("/{id}/decision")
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response makeDecision(@PathParam("id") Long applicationReviewId,
 			LoanApplicationReviewDecision loanApplicationReviewDecision) {
 
