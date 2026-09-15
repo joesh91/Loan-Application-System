@@ -17,6 +17,7 @@
 		<class>com.loan.entity.User</class>
 		<class>com.loan.entity.CustomerRegistration</class>
 		<class>com.loan.entity.OTP</class>
+		<class>com.loan.entity.LoanDocument</class>
 
 		<properties>
 			<property name="jakarta.persistence.jdbc.driver"

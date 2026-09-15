@@ -7,6 +7,7 @@ import com.loan.resource.ApplicationReviewResource;
 import com.loan.resource.CustomerRegistrationResource;
 import com.loan.resource.CustomerResource;
 import com.loan.resource.LoanApplicationResource;
+import com.loan.resource.LoanDocumentResource;
 import com.loan.resource.LoanResource;
 import com.loan.resource.PaymentResource;
 import com.loan.resource.StaffResource;
@@ -19,7 +20,6 @@ import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("/api")
 public class RestApplication extends Application {
-
 
 	@Override
 	public Set<Class<?>> getClasses(){
@@ -39,8 +39,9 @@ public class RestApplication extends Application {
 		classes.add(ApplicationReviewResource.class);
 		classes.add(LoanResource.class);
 		classes.add(PaymentResource.class);
-
+		classes.add(LoanDocumentResource.class);
 
 		return classes;
+		
 	}
 }

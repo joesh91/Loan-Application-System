@@ -3,6 +3,7 @@ package com.loan.resource;
 import java.util.List;
 
 import com.loan.dto.LoginRequestDto;
+import com.loan.dto.LoginResponseDto;
 import com.loan.dto.OtpVerificaionDto;
 import com.loan.dto.UserDto;
 import com.loan.dto.UserRoleChangeDto;
@@ -91,7 +92,7 @@ public class UserResource {
 	@POST
 	@Path("/login")
 	public Response login(LoginRequestDto loginRequestDto) {
-
+		System.out.println("🔥🔥 LOGIN METHOD REACHED 🔥🔥");
 		userService.login(loginRequestDto);
 
 		return Response.ok("OTP SENT").build();
@@ -111,7 +112,9 @@ public class UserResource {
 			return Response.status(Response.Status.UNAUTHORIZED).entity("INAVLID ONE TIME PASSWORD").build();
 		}
 
-		return Response.ok(token).build();
+		LoginResponseDto loginResponseDto = new LoginResponseDto(token);
+		
+		return Response.ok(loginResponseDto).build();
 	}
 
 

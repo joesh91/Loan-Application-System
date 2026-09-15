@@ -88,7 +88,7 @@ public class OTPDAO {
 		EntityManager em = emf.createEntityManager();
 
 		try {
-			OTP otp = em.createQuery("SELECT O FROM OTP O WHERE O.userId.userId=:USER_ID AND used =:STATUS",OTP.class)
+			OTP otp = em.createQuery("SELECT O FROM OTP O WHERE O.userId.userId=:USER_ID AND used =:STATUS ORDER BY O.otpId DESC",OTP.class)
 					.setParameter("USER_ID", userId)
 					.setParameter("STATUS", false)
 					.getResultStream()
