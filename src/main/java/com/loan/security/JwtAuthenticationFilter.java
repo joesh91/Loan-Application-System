@@ -31,41 +31,41 @@ System.out.println("PATH : "+path);
 			return ;
 		}
 																									//	TEST CODE STEP
-System.out.println("USER LOGIN PATH NOT SELECTED");
+System.out.println("JWT AUTHENTICATION CLASS : USER LOGIN PATH NOT SELECTED");
 
 		if(path.equals("/registration") && containerRequestContext.getMethod().equals("POST")) {
 			return;
 		}
 
 																									//	TEST CODE STEP
-System.out.println("REGISTRATION PATH NOT SELECTED");
+System.out.println("JWT AUTHENTICATION CLASS :REGISTRATION PATH NOT SELECTED");
 
 	/*	if(path.startsWith("/registration/check-nic") && containerRequestContext.getMethod().equals("GET")) {
 			return;
 		}*/
 
 																									//		TEST CODE STEP
-System.out.println("CHECK NIC IN REGISTRATION PATH NOT SELECTED");
+System.out.println("JWT AUTHENTICATION CLASS : CHECK NIC IN REGISTRATION PATH NOT SELECTED");
 
 	/*	if(path.startsWith("/registration") ) {
 			return;
 		}*/
 																									//		TEST CODE STEP
-System.out.println("START WITH REGISTRATION PATH NOT SELECTED");
+System.out.println("JWT AUTHENTICATION CLASS : START WITH REGISTRATION PATH NOT SELECTED");
 
 		/*if(path.startsWith("/registration/check-registration") && containerRequestContext.getMethod().equals("GET")) {
 			return;
 		}*/
 																									//		TEST CODE STEP
-System.out.println("START WITH REGISTRATION PATH NOT SELECTED");
+System.out.println("JWT AUTHENTICATION CLASS : START WITH REGISTRATION PATH NOT SELECTED");
 
 
 		if(path.equals("/users/verify-otp")) {
 			return;
 		}
-		System.out.println("PATH : "+path);
-
-System.out.println("TEST 3");										// 	CHECK AUTHORIZATION DETAILS IN POSTMAN
+		System.out.println("JWT AUTHENTICATION CLASS : PATH : "+path);
+		
+										// 	CHECK AUTHORIZATION DETAILS IN POSTMAN
 
 		if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
 			containerRequestContext.abortWith(
@@ -73,10 +73,10 @@ System.out.println("TEST 3");										// 	CHECK AUTHORIZATION DETAILS IN POSTMA
 					);
 			return;
 		}
-System.out.println("AUTHORIZATION HEADER IS NOT NULL OR START WITH BEAER KEYWORD");					//	TEST CODE STEP
+System.out.println("JWT AUTHENTICATION CLASS : AUTHORIZATION HEADER IS NOT NULL OR START WITH BEAER KEYWORD");					//	TEST CODE STEP
 
 		String token = authorizationHeader.substring(7);
-System.out.println("TOKEN : "+token);																//		TEST CODE STEP
+System.out.println("JWT AUTHENTICATION CLASS : TOKEN : "+token);																//		TEST CODE STEP
 		try {
 		Claims claims = jwtUtil.validateToken(token);
 
@@ -84,7 +84,7 @@ System.out.println("TOKEN : "+token);																//		TEST CODE STEP
 		String role	= claims.get("role", String.class);
 
 
-System.out.println("ROLE : "+role);			
+System.out.println("JWT AUTHENTICATION CLASS : ROLE : "+role);			
 	//	TEST CODE STEP
 		JwtSecurityContext jwtSecurityContext = new JwtSecurityContext(userName , role);
 

@@ -67,6 +67,7 @@ public class LoanDocumentResource {
 	
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response updateLoanDocument(@PathParam("id") Long loanDocumentId,LoanDocumentDto loanDocumentDto) {
 
 		loanDocumentDto.setDocumentId(loanDocumentId);

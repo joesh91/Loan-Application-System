@@ -29,7 +29,7 @@ public class PaymentResource {
 	// MAKE PAYMENT
 
 	@POST
-	@RolesAllowed({"ADMIN","OFFICER"})
+	@RolesAllowed({"CUSTOMER"})
 	public Response makePayment(@Valid PaymentDto paymentDto) {
 
 		paymentService.makePayment(paymentDto);
@@ -53,6 +53,7 @@ public class PaymentResource {
 	@GET
 	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response getAllPayments() {
+		System.out.println("PYAMENT RESOURCE CLASS GET ALL METHOD");
 
 		List<PaymentDto> payments = paymentService.getAllPayments();
 		return Response.ok(payments).build();

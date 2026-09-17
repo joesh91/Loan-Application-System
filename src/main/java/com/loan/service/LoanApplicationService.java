@@ -5,19 +5,33 @@ import java.util.List;
 
 import com.loan.dao.CustomerDAO;
 import com.loan.dao.LoanApplicationDAO;
+import com.loan.dao.UserDAO;
 import com.loan.dto.LoanApplicationDto;
 import com.loan.entity.Customer;
 import com.loan.entity.LoanApplication;
+import com.loan.entity.User;
 import com.loan.exception.CustomerNotFoundException;
 import com.loan.exception.LoanApplicationNotFoundException;
+import com.loan.exception.UserNotFoundException;
 
 public class LoanApplicationService {
 
 	LoanApplicationDAO loanApplicationDAO = new LoanApplicationDAO();
+	
+
 
 	// SUBMIT A LOAN APPLICATION
 
-	public void submitLoanApplication(LoanApplicationDto loanApplicationDto) {
+	public void submitLoanApplication(LoanApplicationDto loanApplicationDto ,String userName) {
+		
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.findByUserName(userName);
+		
+		
+		if(user == null) {
+			throw new UserNotFoundException("USER NOT FOUND");
+		}
+		
 
 		if (loanApplicationDto == null) {
 			throw new LoanApplicationNotFoundException("INCOMPLETE LOAN APPLICATION DETAILS.");
@@ -25,42 +39,45 @@ public class LoanApplicationService {
 
 		LoanApplication loanApplication = new LoanApplication();
 
-		CustomerDAO customerDao = new CustomerDAO();
-		Customer customer = customerDao.findById(loanApplicationDto.getCustomerid());
+		Customer customer = user.getCustomer();
 
 		if (customer == null) {
-			throw new CustomerNotFoundException("CUSTOMER ID " + loanApplicationDto.getCustomerid() + " IS NOT FOUND.");
+			throw new CustomerNotFoundException("CUSTOMER ID " + customer.getCustomerId() + " IS NOT FOUND.");
 		}
 
 		loanApplication.setCustomer(customer);
 		loanApplication.setLoanType(loanApplicationDto.getLoanType());
 		loanApplication.setPurpose(loanApplicationDto.getPurpose());
 		loanApplication.setRequestedAmount(loanApplicationDto.getRequestedAmount());
-		loanApplication.setStatus(loanApplicationDto.getStatus());
+		loanApplication.setStatus("PENDING");
 
 		loanApplicationDAO.save(loanApplication);
+		
+		loanApplicationDto.setApplicationId(loanApplication.getApplicationId());
 	}
 
 	// UPDATE A LOAN APPLICATION
 
 	public void updateLoanApplication(LoanApplicationDto loanApplicationDto) {
-
+		
+		
+		
 		if (loanApplicationDto == null) {
 			throw new LoanApplicationNotFoundException("LOAN APPLICATION DETAILS CANNOT EB EMPTY.");
 		}
-
+		
+		
 		LoanApplication loanApplication = loanApplicationDAO.findById(loanApplicationDto.getApplicationId());
 
 		if (loanApplication == null) {
 			throw new LoanApplicationNotFoundException(
 					"LOAN APPLICATION ID " + loanApplicationDto.getApplicationId() + "IS NOT FOUND.");
 		}
-
-		CustomerDAO customerDao = new CustomerDAO();
-		Customer customer = customerDao.findById(loanApplicationDto.getCustomerid());
-
+		CustomerDAO customerDAO = new CustomerDAO();
+		Customer customer = customerDAO.findById(loanApplicationDto.getCustomerid());
+		
 		if (customer == null) {
-			throw new CustomerNotFoundException("CUSTOMER ID " + loanApplicationDto.getCustomerid() + "IS NOT FOUND.");
+			throw new CustomerNotFoundException("CUSTOMER ID IS NOT FOUND.");
 		}
 
 		loanApplication.setCustomer(customer);
@@ -93,13 +110,15 @@ public class LoanApplicationService {
 
 	// SEARCH A LOAN APPLICATION
 
-	public LoanApplicationDto searchLoanApplication(Long loanId) {
+	public LoanApplicationDto searchLoanApplication(Long loanApplicationId) {
 
-		LoanApplication loanApplication = loanApplicationDAO.findById(loanId);
+		LoanApplication loanApplication = loanApplicationDAO.findById(loanApplicationId);
 
 		if (loanApplication == null) {
-			throw new LoanApplicationNotFoundException("LOAN APPLICATION " + loanId + " IS  NOT FOUND");
+			throw new LoanApplicationNotFoundException("LOAN APPLICATION " + loanApplicationId + " IS  NOT FOUND");
 		}
+		
+		
 
 		LoanApplicationDto loanApplicationDto = new LoanApplicationDto();
 

@@ -95,7 +95,7 @@ public class CustomerRegistrationResource {
 	@Path("/approve/{id}")
 	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response approveRegistration(@PathParam("id") Long registrationId, @Valid CustomerRegistrationApproveDto customerRegistrationApproveDto) {
-
+		System.out.println("TEST APPROVE METHOD IN CUSTOMER REGISTRATION RESOURCE CLASS");
 		customerRegistrationApproveDto.setCustomerRegistrationId(registrationId);
 
 		customerRegistrationService.approveRegistration(customerRegistrationApproveDto);

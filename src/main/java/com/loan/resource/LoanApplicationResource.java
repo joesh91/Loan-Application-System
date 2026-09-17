@@ -15,13 +15,18 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 
 @Path("/loanApplications")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class LoanApplicationResource {
+	
+	@Context
+	SecurityContext securityContext;
 
 	// GENEREATE LOAN APPLICATION SERVICE OBJECT
 
@@ -30,10 +35,12 @@ public class LoanApplicationResource {
 	// SUBMIT LOAN APPLICATION FROM SERVICE LAYER
 
 	@POST
-	@RolesAllowed({"CUSTOMER" ,"MANAGER"})
+	@RolesAllowed({"CUSTOMER" ,"MANAGER","ADMIN"})
 	public Response submitLoanApplication(@Valid LoanApplicationDto loanApplicationDto) {
 
-		loanApplicationService.submitLoanApplication(loanApplicationDto);
+		String userName = securityContext.getUserPrincipal().getName();
+		
+		loanApplicationService.submitLoanApplication(loanApplicationDto, userName);
 		return Response.status(Response.Status.CREATED).entity(loanApplicationDto).build();
 
 	}
@@ -43,7 +50,7 @@ public class LoanApplicationResource {
 	@GET
 	@Path("/{id}")
 	@RolesAllowed({"ADMIN","OFFICER"})
-	public Response findLoanApplication(@PathParam("id") Long loanApplicationId) {
+	public Response findLoanApplication(@PathParam("id") Long loanApplicationId ) {
 
 		LoanApplicationDto loanApplicationDto = loanApplicationService.searchLoanApplication(loanApplicationId);
 		return Response.status(Response.Status.FOUND).entity(loanApplicationDto).build();

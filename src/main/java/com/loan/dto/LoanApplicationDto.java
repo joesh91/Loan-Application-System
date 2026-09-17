@@ -24,15 +24,21 @@ public class LoanApplicationDto {
 	@NotBlank(message = "PURPOSE IS REQUIRED.")
 	private String purpose;
 
-	@NotBlank(message = "STATUS IS REQUIRED.")
+	//@NotBlank(message = "STATUS IS REQUIRED.")
 	private String status;
 
-	@NotNull(message = "CUSTOMER ID IS REQUIRED.")
+
 	private Long customerid;
 	
 	//@NotNull(message = "DATE CANNOT BE NULL")
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime appDate;
+	
+	
+	public LoanApplicationDto() {
+		
+		// TODO Auto-generated constructor stub
+	}
 
 	public Long getApplicationId() {
 		return applicationId;
@@ -74,6 +80,7 @@ public class LoanApplicationDto {
 		this.status = status;
 	}
 
+	
 	public Long getCustomerid() {
 		return customerid;
 	}
