@@ -16,8 +16,10 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 
 @Path("/loans")
 @Produces(MediaType.APPLICATION_JSON)
@@ -25,6 +27,8 @@ import jakarta.ws.rs.core.Response;
 public class LoanResource {
 
 	LoanService loanService = new LoanService();
+	@Context
+	SecurityContext securityContext;
 
 	// CREATE A LOAN
 
@@ -94,5 +98,23 @@ public class LoanResource {
 		loanService.makeDecision(loanDecisionDto);
 		return Response.ok(loanDecisionDto).build();
 	}
+	
+	//	GET LOANS OF SELECTED CUSTOMER 
+	
+
+	@GET
+	@Path("/my")
+	@RolesAllowed({"CUSTOMER", "DUMMY"})
+	public Response getMyLoans() {
+
+	    String username = securityContext.getUserPrincipal().getName();
+
+	    List<LoanDto> loans =
+	        loanService.getMyLoans(username);
+
+	    return Response.ok(loans).build();
+	}
+
+
 
 }

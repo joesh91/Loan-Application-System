@@ -13,7 +13,7 @@ public class UserDto {
 	@Size(max = 10, message = "USER NAME MUST NOT EXCEED 10 CHARACTERS.")
 	private String userName;
 
-	@NotBlank(message = "PASSWORD IS REQUIRED.")
+	//@NotBlank(message = "PASSWORD IS REQUIRED.")
 	@Size(max = 25, message = "PASSWORD MUST NOT EXCEED 25 CHARACTERS.")
 	private String passWord;
 
@@ -21,7 +21,7 @@ public class UserDto {
 	@Size(max = 100, message = "ROLE CHARACTERS COUNT MUST NOT EXCEED 100.")
 	private String role;
 
-	@NotNull(message = "CUSTOMER ID IS REQUIRED.")
+	//@NotNull(message = "CUSTOMER ID IS REQUIRED.")
 	@Positive(message = "CUSTOMER ID SHOULD NOT CONTAIN NEGATIVE VALUE")
 	private Long customerId;
 

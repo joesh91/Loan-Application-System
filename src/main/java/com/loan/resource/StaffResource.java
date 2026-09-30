@@ -77,7 +77,8 @@ public class StaffResource {
 	@Path("/{id}")
 	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response deleteStaff(@PathParam("id") Long staffId) {
-
+		
+		System.out.println("DELETE API CALL REACHED TO RESROUCE LAYER.");
 		StaffDto staffDto = staffService.findStaff(staffId);
 
 		staffService.deleteStaff(staffDto);

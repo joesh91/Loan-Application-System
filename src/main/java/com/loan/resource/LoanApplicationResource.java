@@ -35,7 +35,7 @@ public class LoanApplicationResource {
 	// SUBMIT LOAN APPLICATION FROM SERVICE LAYER
 
 	@POST
-	@RolesAllowed({"CUSTOMER" ,"MANAGER","ADMIN"})
+	@RolesAllowed({"CUSTOMER","DUMMY"})
 	public Response submitLoanApplication(@Valid LoanApplicationDto loanApplicationDto) {
 
 		String userName = securityContext.getUserPrincipal().getName();
@@ -53,7 +53,8 @@ public class LoanApplicationResource {
 	public Response findLoanApplication(@PathParam("id") Long loanApplicationId ) {
 
 		LoanApplicationDto loanApplicationDto = loanApplicationService.searchLoanApplication(loanApplicationId);
-		return Response.status(Response.Status.FOUND).entity(loanApplicationDto).build();
+		//return Response.status(Response.Status.FOUND).entity(loanApplicationDto).build();
+		return Response.ok(loanApplicationDto).build();
 
 	}
 
@@ -91,5 +92,51 @@ public class LoanApplicationResource {
 		return Response.noContent().build();
 
 	}
+	
+	// GET ALL LOAN APPLICATIONS BY CUSTOMER ID
+	
+	@GET
+	@Path("/my")
+	@RolesAllowed({"CUSTOMER","DUMMY"})
+	public Response getMyLoanApplications() {
+		
+		String userName = securityContext.getUserPrincipal().getName();
+		
+		List<LoanApplicationDto> loanApplicationDtos = loanApplicationService.getMyLoanApplications(userName);
+		
+		return Response.ok(loanApplicationDtos).build();
+	}
 
+	
+	//	GET MY SINGLE APPLICATION
+	
+	@GET
+	@Path("/myClick/{id}")
+	@RolesAllowed({"CUSTOMER","DUMMY"})
+	public Response getMySelectedLoanApplication(@PathParam("id") Long applicationId) {
+		
+		String userName = securityContext.getUserPrincipal().getName();
+		
+		LoanApplicationDto loanApplicationDto = loanApplicationService.getMyLoanApplication(applicationId, userName);
+				
+		return Response.ok(loanApplicationDto).build();
+	}
+	
+	
+	//	APPROVE A LOAN APPLICATION 
+	
+	@PUT
+	@Path("/approve/{id}")
+	@RolesAllowed({"MANAGER","ADMIN"})
+	public Response approveLoanAPplication(@PathParam("id") Long LoanApplicationId) {
+	
+		loanApplicationService.approveLoanApplication(LoanApplicationId);
+		
+		return Response.ok("LOAN APPLICATION APPROVED SUCCESSFULLY").build();
+	}
+	
+	
+	
+
+	
 }

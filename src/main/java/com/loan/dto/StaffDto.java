@@ -1,5 +1,9 @@
 package com.loan.dto;
 
+import com.loan.enums.StaffPosition;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,10 +20,10 @@ public class StaffDto {
 
 	@NotBlank(message = "EMAIL IS REQUIRED.")
 	@Email(message = "INVALID EMAIL FORMAT")
-	private String email;
+	private String email;	
 
-	@NotBlank(message = "POSITION IS REQURIED.")
-	private String position;
+	@Enumerated(EnumType.STRING)
+	private StaffPosition position;
 
 	public Long getStaffId() {
 		return staffId;
@@ -45,12 +49,14 @@ public class StaffDto {
 		this.email = email;
 	}
 
-	public String getPosition() {
+	public StaffPosition getPosition() {
 		return position;
 	}
 
-	public void setPosition(String position) {
+	public void setPosition(StaffPosition position) {
 		this.position = position;
 	}
+
+	
 
 }

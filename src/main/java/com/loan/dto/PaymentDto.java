@@ -6,7 +6,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.loan.enums.PaymentStatus;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -21,7 +24,7 @@ public class PaymentDto {
 	@Positive(message = "LOAN ID SHOULD NO CONTAIN NEGATIVE VALUES")
 	private Long loanId;
 
-	@NotNull(message="PAYMENT DATE CANNOT BE EMPTY")
+	//@NotNull(message="PAYMENT DATE CANNOT BE EMPTY")
 	@JsonSerialize(using = LocalDateSerializer.class)			// A serializer's job is: "How should this Java object be written into JSON?"
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate paymentDate;
@@ -30,9 +33,7 @@ public class PaymentDto {
 	@Positive(message = "AMOUT MUST BE GREATER THAN ZERO.")
 	private Double amount;
 
-	@NotBlank(message = "PAYMENT STATUS IS REQUIRED")
-	@Size(max = 25, message = "STATUS CHARACTOR COUNT MUST NOT EXCEED 25.")
-	private String paymentStatus;
+	private PaymentStatus paymentStatus;
 
 	public Long getPaymentId() {
 		return paymentId;
@@ -66,12 +67,14 @@ public class PaymentDto {
 		this.amount = amount;
 	}
 
-	public String getPaymentStatus() {
+	public PaymentStatus getPaymentStatus() {
 		return paymentStatus;
 	}
 
-	public void setPaymentStatus(String paymentStatus) {
+	public void setPaymentStatus(PaymentStatus paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
+
+
 
 }

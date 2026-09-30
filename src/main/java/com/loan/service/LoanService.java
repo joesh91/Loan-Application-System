@@ -5,12 +5,18 @@ import java.util.List;
 
 import com.loan.dao.LoanApplicationDAO;
 import com.loan.dao.LoanDAO;
+import com.loan.dao.UserDAO;
 import com.loan.dto.LoanDecisionDto;
 import com.loan.dto.LoanDto;
+import com.loan.entity.Customer;
 import com.loan.entity.Loan;
 import com.loan.entity.LoanApplication;
+import com.loan.entity.User;
+import com.loan.enums.LoanStatus;
+import com.loan.exception.CustomerNotFoundException;
 import com.loan.exception.LoanApplicationNotFoundException;
 import com.loan.exception.LoanNotFoundException;
+import com.loan.exception.UserNotFoundException;
 
 public class LoanService {
 
@@ -39,7 +45,7 @@ public class LoanService {
 		loan.setDuration(loanDto.getDuration());
 		loan.setEndDate(loanDto.getEndDate());
 		loan.setIntRate(loanDto.getIntRate());
-		loan.setStatus(loanDto.getStatus());
+		loan.setStatus(LoanStatus.PENDING);
 
 		loanDAO.save(loan);
 
@@ -159,4 +165,80 @@ public class LoanService {
 		loanDAO.update(loan);
 	}
 
+	//	FIND LOAN BY ID AND CUSTOMER ID
+	
+	public Loan findLoanByIdandCustomerId(Long loanId , Long customerId) {
+		
+		
+		Loan loan = loanDAO.findByIdandCustoemrId(loanId, customerId);
+		
+		if(loan == null) {
+			throw new LoanNotFoundException("Loan not found.");
+		}
+		
+		return loan;
+	}
+	
+	
+	//	GET ALL LOANS OF A SINGLE CUSTOMER
+	
+
+	public List<LoanDto> getMyLoans(String username) {
+
+	    UserDAO userDAO = new UserDAO();
+
+	    // Find logged-in user
+	    User user = userDAO.findByUserName(username);
+
+	    if (user == null) {
+	        throw new UserNotFoundException(
+	            "USER " + username + " NOT FOUND."
+	        );
+	    }
+
+	    // Get customer connected to this user
+	    Customer customer = user.getCustomer();
+
+	    if (customer == null) {
+	        throw new CustomerNotFoundException(
+	            "CUSTOMER NOT FOUND FOR USER " + username
+	        );
+	    }
+
+	    // Get all loans belonging to this customer
+	    List<Loan> loans =
+	        loanDAO.findLoansByCustomerId(customer.getCustomerId());
+
+	    // Convert Loan entities to LoanDto
+	    List<LoanDto> loanDtos = new ArrayList<>();
+
+	    for (Loan loan : loans) {
+
+	        LoanDto dto = new LoanDto();
+
+	        dto.setLoanId(loan.getLoanId());
+	        dto.setApplicationId(
+	            loan.getApplication().getApplicationId()
+	        );
+	        dto.setAppAmount(loan.getAppAmount());
+	        dto.setIntRate(loan.getIntRate());
+	        dto.setDuration(loan.getDuration());
+	        dto.setStartDate(loan.getStartDate());
+	        dto.setEndDate(loan.getEndDate());
+	        dto.setStatus(loan.getStatus());
+
+	        loanDtos.add(dto);
+	    }
+
+	    return loanDtos;
+	}
+
+
+	
 }
+
+
+
+
+
+

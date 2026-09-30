@@ -90,10 +90,24 @@ public class LoanDocumentDAO {
 		
 	}
 	
+	public List<LoanDocument> getAllLoanDocuments(Long loanApplicationId){
+		
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+		List<LoanDocument> loanDocuments = em.createQuery("SELECT L FROM LoanDocument L WHERE L.loanApplication.applicationId =:applicationId" ,LoanDocument.class)
+				.setParameter("applicationId",loanApplicationId)
+				.getResultList();
+		
+		return loanDocuments;
+		
+		}finally {
+			em.close();
+		}
 }
 
 
-
+}
 
 
 

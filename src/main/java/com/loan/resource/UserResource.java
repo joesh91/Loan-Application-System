@@ -19,8 +19,10 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 
 @Path("/users")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -80,7 +82,7 @@ public class UserResource {
 	@RolesAllowed({"ADMIN","MANAGER"})
 	public Response deleteUser(@PathParam("id") Long userId) {
 
-		System.out.println("TEST DELETE");
+		System.out.println("DELETE API CALL REACHED TO RESROUCE LAYER.");
 
 		UserDto userDto = userService.findUser(userId);
 		userService.deleteUser(userDto);
@@ -129,6 +131,20 @@ public class UserResource {
 
 		return Response.ok(userDto).build();
 	}
-
-
+	
+	
+	//	GET CURRENT USER
+	
+	@GET
+	@Path("/me")
+	@RolesAllowed({"CUSTOMER","ADMIN"})
+	public Response getCurrentUser(@Context SecurityContext securityContext) {
+		
+		String userName = securityContext.getUserPrincipal().getName();
+		
+		UserDto userDto = userService.findUserByUserName(userName);
+		
+		return Response.ok(userDto).build();
+	}
+	
 }

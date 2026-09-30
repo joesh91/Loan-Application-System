@@ -167,6 +167,18 @@ public class LoanDocumentResource {
 				.header("Content-Disposition","attachment; filename=\""+loanDocument.getFileName()+"\"")
 				.build();	}
 	
+	@GET
+	@Path("/getByApplicationId/{id}")
+	@RolesAllowed({"ADMIN","OFFICER","MANAGER"})
+	public Response getLoanDocumentsByLoanApplicationId(@PathParam("id") Long loanApplicationId) {
+		
+		List<LoanDocumentDto> loanDocuments = loanDocumentService.getDocumentsByLoanApplicationId(loanApplicationId);
+		
+		return Response.ok(loanDocuments).build();
+	}
+	
+	
+	
 	
 	
 }

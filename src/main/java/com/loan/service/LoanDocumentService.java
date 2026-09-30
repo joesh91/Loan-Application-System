@@ -131,6 +131,31 @@ public class LoanDocumentService {
 	}
 	
 	
+	//	GET DOCUMENTS BY LOAN APPLICATION ID
+	
+	public List<LoanDocumentDto> getDocumentsByLoanApplicationId(Long loanApplicationId) {
+		
+		List<LoanDocument> loanDocuments = loanDocumentDAO.getAllLoanDocuments(loanApplicationId);
+		
+		List<LoanDocumentDto> loanDocumentDto = new ArrayList<>();
+		
+		for(LoanDocument l : loanDocuments) {
+			
+			LoanDocumentDto loanDocumentdto = new LoanDocumentDto();
+			
+			loanDocumentdto.setDocumentId(l.getDocumentId());
+			loanDocumentdto.setDocumentType(l.getDocumentType());
+			loanDocumentdto.setFileName(l.getFileName());
+			loanDocumentdto.setLoanApplicationId(l.getLoanApplication().getApplicationId());
+			loanDocumentdto.setStatus(l.getStatus());
+			loanDocumentdto.setUploadedAt(l.getUploadedAt());
+			
+			loanDocumentDto.add(loanDocumentdto);
+		}
+		
+		
+		return loanDocumentDto;
+	}
 	
 	
 	

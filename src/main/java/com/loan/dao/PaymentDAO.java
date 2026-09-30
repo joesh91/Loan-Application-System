@@ -62,5 +62,23 @@ public class PaymentDAO {
 
 		return py;
 	}
+	
+	public List<Payment> findPaymentsByCustomerId(Long customerId) {
+
+	    EntityManager em = emf.createEntityManager();
+
+	    try {
+
+	        return em.createQuery(
+	                "SELECT P FROM Payment P " +
+	                "WHERE P.loan.application.customer.customerId = :customerId",
+	                Payment.class)
+	                .setParameter("customerId", customerId)
+	                .getResultList();
+
+	    } finally {
+	        em.close();
+	    }
+	}
 
 }

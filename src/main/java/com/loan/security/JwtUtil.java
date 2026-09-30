@@ -17,9 +17,9 @@ public class JwtUtil {
 	public JwtUtil() {
 		String secret = System.getenv("JWT_SECRET");
 
-		byte[] decodedSecret = Base64.getDecoder().decode(secret);
+		byte[] decodedSecret = Base64.getDecoder().decode(secret); //application decodes it:
 
-		key = new SecretKeySpec(decodedSecret,"HmacSHA256");
+		key = new SecretKeySpec(decodedSecret,"HmacSHA256");		// converts those bytes into a cryptographic key:
 	}
 
 

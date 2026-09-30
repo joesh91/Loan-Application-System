@@ -37,7 +37,7 @@ public class ApplicationReview {
 	@Column(name = "comments")
 	private String comments;
 
-	@Column(name = "review_date", insertable = false)
+	@Column(name = "review_date", nullable = false ,updatable = false)
 	@CreationTimestamp
 	private LocalDate reviewDate;
 

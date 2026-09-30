@@ -3,7 +3,7 @@ package com.loan.resource;
 import java.util.List;
 
 import com.loan.dto.PaymentDto;
-import com.loan.dto.PaymentStatusRequest;
+import com.loan.dto.PaymentStatusRequestDto;
 import com.loan.service.PaymentService;
 
 import jakarta.annotation.security.RolesAllowed;
@@ -16,8 +16,10 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 
 @Path("/payments")
 @Produces(MediaType.APPLICATION_JSON)
@@ -25,14 +27,18 @@ import jakarta.ws.rs.core.Response;
 public class PaymentResource {
 
 	PaymentService paymentService = new PaymentService();
+	@Context
+	SecurityContext securityContext;
 
 	// MAKE PAYMENT
 
 	@POST
-	@RolesAllowed({"CUSTOMER"})
+	@RolesAllowed({"CUSTOMER","DUMMY"})
 	public Response makePayment(@Valid PaymentDto paymentDto) {
+		
+		String userName = securityContext.getUserPrincipal().getName();
 
-		paymentService.makePayment(paymentDto);
+		paymentService.makePayment(paymentDto,userName);
 		return Response.status(Response.Status.CREATED).entity(paymentDto).build();
 
 	}
@@ -82,17 +88,32 @@ public class PaymentResource {
 		paymentService.deletePayment(paymentDto);
 		return Response.noContent().build();
 	}
-
-	// MAKE A DECISION
+/*
+ 
+	// MAKE A DECISION  for later implementation
 
 	@PUT
 	@Path("/{id}/status")
 	@RolesAllowed({"ADMIN","OFFICER"})
-	public Response makeDecision(@PathParam("id") Long paymentID, @Valid PaymentStatusRequest request) {
+	public Response makeDecision(@PathParam("id") Long paymentID, @Valid PaymentStatusRequestDto request) {
 
 		PaymentDto paymentDto = paymentService.findPayment(paymentID);
 		paymentService.makeDecision(paymentDto.getPaymentId(), request.getDecision());
 		return Response.ok(paymentDto).build();
 	}
+	*/
+	
+	@GET
+	@Path("/my")
+	@RolesAllowed({"CUSTOMER", "DUMMY"})
+	public Response getMyPayments() {
 
+	    String username =
+	            securityContext.getUserPrincipal().getName();
+
+	    List<PaymentDto> payments =
+	            paymentService.getMyPayments(username);
+
+	    return Response.ok(payments).build();
+	}
 }

@@ -65,5 +65,47 @@ public class LoanDAO {
 
 		return loans;
 	}
+	
+	
+	public Loan findByIdandCustoemrId(Long id,Long customerId) {
+		
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			return em.createQuery("SELECT L FROM Loan L WHERE L.loanId =:LoanId AND L.application.customer.customerId =:customerId",Loan.class)
+					.setParameter("LoanId",id)
+					.setParameter("customerId",customerId)
+					.getResultStream()
+					.findFirst()
+					.orElse(null);
+		}
+		finally {
+			em.close();
+		}
+	}
+	
+
+	public List<Loan> findLoansByCustomerId(Long customerId) {
+
+	    EntityManager em = emf.createEntityManager();
+
+	    try {
+
+	        return em.createQuery(
+	                "SELECT L FROM Loan L " +
+	                "WHERE L.application.customer.customerId = :customerId",
+	                Loan.class)
+	                .setParameter("customerId", customerId)
+	                .getResultList();
+
+	    } finally {
+
+	        em.close();
+	    }
+	}
+
+
+	
+
 
 }

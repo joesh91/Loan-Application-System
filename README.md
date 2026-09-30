@@ -1,338 +1,368 @@
-# Loan Application System
+# 🏦 Loan Management System — Backend
 
-A RESTful **Loan Application Management System** developed using Java, Jakarta REST, JPA/Hibernate, PostgreSQL, and Maven.
+A Java-based backend application for a **Bank Loan Management System**, designed to support core banking workflows including customer management, loan applications, application reviews, loan management, and payments.
 
-The system is designed to manage customers, users, loan applications, loans, payments, and application reviews through RESTful APIs.
+The backend is built using **Java 17, Jakarta EE, JAX-RS, Hibernate ORM, JPA, PostgreSQL, Maven, and WildFly**. It follows a layered architecture separating REST API handling, business logic, persistence, and security concerns.
+
+> **Project focus:** Enterprise Java • Banking Workflows • REST APIs • JPA/Hibernate • Authentication & Authorization • Layered Architecture
 
 ---
 
-## 🚀 Project Overview
+## 📌 Project Overview
 
-The Loan Application System provides a backend REST API for managing the complete loan application process.
+The Loan Management System manages the loan lifecycle from customer registration and loan application submission through application review, approval/status handling, loan management, and payment operations.
 
-The application follows a layered architecture:
+The backend exposes RESTful APIs consumed by a separate frontend application.
+
+The application demonstrates practical experience with:
+
+* Java application development
+* Jakarta EE and REST API development
+* Object-oriented and layered application design
+* Relational database integration
+* JPA/Hibernate persistence
+* JWT-based authentication
+* Role-based authorization
+* DTO-based API communication
+* Validation and exception handling
+* Maven-based enterprise application packaging
+
+---
+
+## ✨ Key Features
+
+### 👤 Customer & User Management
+
+* Customer registration and customer information management
+* Customer registration approval workflow
+* User account and role management
+* OTP-related functionality
+
+### 📝 Loan Application Management
+
+* Create and manage loan applications
+* Retrieve customer-specific loan applications
+* Track loan application status
+* Manage loan application information throughout the application lifecycle
+
+### 🔍 Application Review
+
+* Review submitted loan applications
+* Record review decisions and comments
+* Associate reviews with the relevant staff member and loan application
+* Update application decisions and statuses
+* Role-based access to review operations
+
+### 💳 Loan & Payment Management
+
+* Loan record management
+* Payment-related operations
+* Payment status management
+* Loan payment processing workflows
+
+### 📄 Loan Documents
+
+* Upload loan-related documents
+* Associate documents with loan applications
+* Retrieve application-related document information
+
+### 🔐 Authentication & Authorization
+
+* JWT-based authentication
+* Bearer-token authentication for protected endpoints
+* Role-based authorization
+* Custom authentication and authorization filters
+* Protected API resources based on user roles
+
+### ⚙️ Backend Engineering
+
+* RESTful API development using Jakarta REST (JAX-RS)
+* Layered architecture using Resource, Service, and DAO components
+* Hibernate ORM and JPA for persistence
+* DTOs for API data transfer
+* JPA entity relationships
+* Bean Validation
+* Custom exceptions and exception mappers
+* Maven dependency management
+* WAR packaging and deployment to WildFly
+
+---
+
+## 🛠️ Technology Stack
+
+| Technology                    | Purpose                           |
+| ----------------------------- | --------------------------------- |
+| **Java 17**                   | Core programming language         |
+| **Jakarta EE**                | Enterprise application APIs       |
+| **Jakarta REST (JAX-RS)**     | REST API development              |
+| **Hibernate ORM 6.4.4.Final** | Object-relational mapping         |
+| **Jakarta Persistence (JPA)** | Persistence and entity management |
+| **PostgreSQL**                | Relational database               |
+| **Maven**                     | Dependency management and build   |
+| **JJWT 0.13.0**               | JWT authentication                |
+| **WildFly**                   | Jakarta EE application server     |
+| **Jakarta Validation**        | Request and data validation       |
+| **Eclipse IDE**               | Development environment           |
+
+---
+
+## 🏗️ Backend Architecture
+
+The application follows a layered architecture where each layer has a specific responsibility.
 
 ```text
-Client / Postman
-       ↓
-Resource Layer
-       ↓
-Service Layer
-       ↓
-DAO Layer
-       ↓
-JPA / Hibernate
-       ↓
-PostgreSQL Database
+                    Client / Frontend
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ Resource Layer  │
+                  │    JAX-RS API   │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ Service Layer   │
+                  │ Business Logic  │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │    DAO Layer    │
+                  │ Data Access     │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ Hibernate / JPA │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │   PostgreSQL    │
+                  └─────────────────┘
 ```
 
-The project was developed to practice and demonstrate:
+### Main Layers
 
-* Java backend development
-* RESTful API development
-* Jakarta REST
-* JPA / Hibernate
-* DAO and Service Layer architecture
-* Object-relational mapping
-* PostgreSQL database integration
-* Maven project management
-* API testing using Postman
+**Resource Layer**
+
+Exposes REST endpoints and handles HTTP requests and responses.
+
+**Service Layer**
+
+Contains business logic and coordinates application operations.
+
+**DAO Layer**
+
+Handles database access and persistence operations.
+
+**Entity Layer**
+
+Contains JPA entity classes representing persistent domain objects.
+
+**DTO Layer**
+
+Defines objects used to transfer data between the API and application layers.
+
+**Security Layer**
+
+Handles JWT authentication, security context creation, and role-based authorization.
+
+**Exception Layer**
+
+Provides custom exceptions and centralized exception mapping.
+
+This separation of responsibilities helps keep the application organized, maintainable, and easier to extend.
 
 ---
 
-## 🛠️ Technologies Used
-
-| Technology   | Purpose                           |
-| ------------ | --------------------------------- |
-| Java         | Backend programming               |
-| Jakarta REST | RESTful API development           |
-| JPA          | Persistence and ORM               |
-| Hibernate    | JPA implementation                |
-| PostgreSQL   | Relational database               |
-| Maven        | Dependency and project management |
-| WildFly      | Application server                |
-| Postman      | REST API testing                  |
-
----
-
-## 🏗️ Architecture
-
-The application uses a layered architecture.
-
-### Resource Layer
-
-The Resource layer exposes REST endpoints and handles HTTP requests and responses.
-
-Example:
+## 📂 Package Structure
 
 ```text
-POST   /customers
-GET    /customers/{id}
-PUT    /customers/{id}
-DELETE /customers/{id}
-GET    /customers
+com.loan
+├── config       # REST application configuration
+├── dao          # Database access operations
+├── dto          # Data Transfer Objects
+├── entity       # JPA entity classes
+├── enums        # Application status and decision enums
+├── exception    # Custom exceptions and exception mappers
+├── ignore       # Supporting project components
+├── resource     # REST API endpoints
+├── security     # JWT authentication and authorization
+└── service      # Business logic
 ```
-
-### Service Layer
-
-The Service layer contains the application's business logic and acts as a bridge between the Resource and DAO layers.
-
-```text
-Resource → Service
-```
-
-### DAO Layer
-
-The Data Access Object (DAO) layer is responsible for communicating with the database through JPA's `EntityManager`.
-
-```text
-Service → DAO → EntityManager → Database
-```
-
-### Entity Layer
-
-The Entity classes represent database tables and their relationships using JPA annotations.
 
 ---
 
-## 🗂️ Main Entities
+## 🔐 Security
 
-The project contains the following main entities:
+Security mechanisms are implemented to protect API resources and control access based on user roles.
 
-### Customer
+The backend includes:
 
-Stores customer information such as:
+* JWT-based authentication
+* Bearer-token authentication
+* Role-based authorization
+* Authentication filters
+* Authorization filters
+* Security context handling
+* Request validation
+* Centralized exception handling
 
-* Customer ID
-* First name
-* Last name
-* NIC
-* Email
-* Phone
-* Address
-* Created date/time
+Protected requests use the following HTTP authorization header:
 
-### Users
-
-Stores system user information and maintains a relationship with a customer.
-
-Main attributes include:
-
-* User ID
-* Username
-* Password
-* Role
-* Customer
-
-### LoanApplication
-
-Represents a customer's loan application.
-
-Main attributes include:
-
-* Application ID
-* Loan type
-* Requested amount
-* Purpose
-* Status
-* Application date
-* Customer
-
-### Loan
-
-Represents an approved/created loan associated with a loan application.
-
-Main attributes include:
-
-* Loan ID
-* Loan application
-* Amount
-* Interest rate
-* Duration
-* Start date
-* End date
-* Status
-
-### Payment
-
-Stores payments made against loans.
-
-Main attributes include:
-
-* Payment ID
-* Loan
-* Payment date
-* Amount
-* Payment status
-
-### ApplicationReview
-
-Stores the review information associated with a loan application.
-
-Main attributes include:
-
-* Review ID
-* Loan application
-* Staff
-* Decision
-* Comments
-* Review date
-
----
-
-## 🔗 Entity Relationships
-
-The main relationships between the entities are:
-
-```text
-Customer
-   │
-   ├────────── Users
-   │
-   └────────── LoanApplication
-                    │
-                    ├────────── ApplicationReview
-                    │
-                    └────────── Loan
-                                  │
-                                  └────────── Payment
+```http
+Authorization: Bearer <your-jwt-token>
 ```
 
-JPA relationships such as `@ManyToOne` and `@OneToOne` are used to represent these relationships.
-
----
-
-## 🌐 REST API
-
-The application exposes RESTful endpoints for the main resources.
-
-The Resource layer includes APIs for managing:
-
-* Customers
-* Users
-* Loan Applications
-* Loans
-* Payments
-* Application Reviews
-
-The APIs support operations such as:
+Custom security components include:
 
 ```text
-GET
-POST
-PUT
-DELETE
+JwtAuthenticationFilter
+JwtSecurityContext
+JwtUtil
+RoleAuthorizationFilter
 ```
 
-Requests and responses were tested using **Postman**.
-
----
-
-## 🧪 API Testing
-
-All implemented Resource-layer API functions were tested using Postman.
-
-Testing included operations such as:
-
-* Creating records
-* Retrieving records by ID
-* Retrieving records
-* Updating records
-* Deleting records
-* Testing JSON request bodies
-* Testing relationships between entities
-* Identifying and fixing API/database errors
+> **Security note:** This project is intended for educational and portfolio purposes. Real production banking systems would require additional security controls, infrastructure, monitoring, compliance measures, and security testing.
 
 ---
 
 ## 🗄️ Database
 
-The project uses **PostgreSQL** as the relational database.
+The application uses **PostgreSQL** as its relational database and **Hibernate/JPA** for persistence.
 
-JPA/Hibernate is used to map Java entities to database tables.
-
-The application uses:
+The database setup script is included in the repository:
 
 ```text
-Java Entity
-     ↓
-JPA
-     ↓
-Hibernate
-     ↓
-JDBC
-     ↓
-PostgreSQL
+database/
+└── loanApplication_DB.sql
 ```
 
-Database relationships are represented using foreign keys and JPA relationship annotations.
+The application uses the following database:
+
+```text
+bank_loan_db
+```
+
+The data model covers areas including:
+
+* Customers
+* Users
+* Staff
+* Loan Applications
+* Loans
+* Application Reviews
+* Loan Documents
+* OTPs
+* Payments
+
+The project demonstrates the use of JPA entity relationships, persistence operations, and relational database design.
 
 ---
 
-## 📦 Maven
+## 🚀 Getting Started
 
-The project uses Maven for dependency management and project configuration.
+### Prerequisites
 
-The main dependencies include technologies for:
+Install the following:
 
-* Jakarta Persistence
-* Hibernate ORM
-* PostgreSQL JDBC connectivity
-* Jakarta REST
+* JDK 17
+* Apache Maven
+* PostgreSQL
+* WildFly
+* Eclipse IDE or another compatible Java IDE
 
-The project's dependencies and configuration are maintained in:
-
-```text
-pom.xml
-```
-
----
-
-## ⚙️ Configuration
-
-The persistence configuration is defined using:
-
-```text
-persistence.xml
-```
-
-The application is configured to connect to PostgreSQL through JPA/Hibernate.
-
-> **Note:** Database credentials should be configured locally and should not be committed to the repository.
-
----
-
-## ▶️ How to Run the Project
-
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Loan-Application-System.git
+git clone https://github.com/joesh91/Loan-Application-System.git
+cd Loan-Application-System
 ```
 
-### 2. Open the project
+### 2. Create the Database
 
-Import the project into an IDE such as Eclipse as a Maven project.
+Create a PostgreSQL database named:
 
-### 3. Configure PostgreSQL
+```sql
+CREATE DATABASE bank_loan_db;
+```
 
-Create the required PostgreSQL database and configure the database connection in the persistence configuration.
+Then execute the SQL script located at:
 
-### 4. Build the project
+```text
+database/loanApplication_DB.sql
+```
 
-Run:
+Review the script and adjust it if necessary for your local PostgreSQL environment.
+
+### 3. Configure the Application
+
+Update the persistence configuration with your local PostgreSQL connection details.
+
+Configure:
+
+* PostgreSQL username
+* PostgreSQL password
+* Database host
+* Database name
+* Required JWT configuration
+* Required email configuration
+
+> **Security:** Never commit real passwords, JWT signing secrets, API keys, or other credentials to a public repository.
+
+### 4. Build the Application
+
+From the project root:
 
 ```bash
-mvn clean install
+mvn clean package
 ```
+
+Maven generates a WAR file inside the `target` directory.
 
 ### 5. Deploy to WildFly
 
-Deploy the generated WAR file to the WildFly application server.
+Deploy the generated WAR file to your WildFly application server.
 
-### 6. Test the REST APIs
+Start WildFly and verify that the application deploys successfully.
 
-Use Postman to send requests to the application's REST endpoints.
+### 6. Access the API
+
+The local API follows this pattern:
+
+```text
+http://localhost:8080/LoanApplication-0.0.1-SNAPSHOT/api
+```
+
+The exact URL may vary depending on the deployed WAR name and WildFly configuration.
+
+---
+
+## 🧪 API Testing
+
+REST APIs can be tested using tools such as **Postman**.
+
+For protected endpoints:
+
+1. Authenticate using the login endpoint.
+2. Obtain the JWT returned by the authentication process.
+3. Include the JWT in the `Authorization` header.
+4. Send the request using the required HTTP method and endpoint.
+
+Example:
+
+```http
+GET /api/users/me
+
+Authorization: Bearer <your-jwt-token>
+```
+
+The implemented API operations can be explored through the resource classes located under:
+
+```text
+com.loan.resource
+```
 
 ---
 
@@ -340,40 +370,21 @@ Use Postman to send requests to the application's REST endpoints.
 
 ```text
 LoanApplication/
-│
 ├── src/
 │   └── main/
 │       ├── java/
 │       │   └── com/
 │       │       └── loan/
-│       │           │
 │       │           ├── config/
-│       │           │   └── ...
-│       │           │
 │       │           ├── dao/
-│       │           │   ├── CustomerDAO.java
-│       │           │   ├── LoanDAO.java
-│       │           │   ├── UsersDAO.java
-│       │           │   └── ...
-│       │           │
 │       │           ├── dto/
-│       │           │   └── ...
-│       │           │
 │       │           ├── entity/
-│       │           │   ├── Customer.java
-│       │           │   ├── Users.java
-│       │           │   ├── LoanApplication.java
-│       │           │   └── ...
-│       │           │
-│       │           ├── service/
-│       │           │   ├── CustomerService.java
-│       │           │   ├── LoanService.java
-│       │           │   └── ...
-│       │           │
-│       │           └── resource/
-│       │               ├── CustomerResource.java
-│       │               ├── LoanResource.java
-│       │               └── ...
+│       │           ├── enums/
+│       │           ├── exception/
+│       │           ├── ignore/
+│       │           ├── resource/
+│       │           ├── security/
+│       │           └── service/
 │       │
 │       └── resources/
 │           └── META-INF/
@@ -383,51 +394,66 @@ LoanApplication/
 │   └── loanApplication_DB.sql
 │
 ├── pom.xml
-├── .gitignore
 └── README.md
 ```
 
 ---
 
-## 🎯 Learning Objectives
+## 🎯 Engineering Concepts Demonstrated
 
-This project was developed to gain practical experience with:
+This project provided practical experience with:
 
-* Java backend development
-* REST API development
-* Jakarta EE technologies
-* JPA and Hibernate
-* PostgreSQL
-* Object-relational mapping
+* Object-oriented programming
+* Java application design
+* Layered architecture
+* Separation of concerns
+* RESTful API development
+* HTTP request/response handling
+* JAX-RS
+* JPA and Hibernate ORM
+* Relational database design
 * Entity relationships
-* DAO pattern
-* Service layer architecture
-* REST Resource layer
-* Maven
-* Application server deployment
-* API testing with Postman
-* Debugging database and API-related issues
+* DTO-based data transfer
+* JWT authentication
+* Role-based authorization
+* Bean Validation
+* Custom exception handling
+* Maven dependency management
+* WAR packaging
+* WildFly deployment
+* Banking-domain business workflows
 
 ---
 
-## 🔮 Future Improvements
+## 🔗 Related Repository
 
-Possible future improvements include:
+### Frontend
 
-* Authentication and authorization
-* Role-based access control
-* Input validation
-* Exception handling and standardized API responses
-* Improved API documentation
-* Automated unit and integration testing
-* Frontend integration
-* Loan approval workflow
-* Improved security for credentials and sensitive information
+The frontend is maintained as a separate repository and communicates with this backend through REST APIs.
+
+https://github.com/joesh91/LoanApplication-Frontend.git
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 About This Project
 
-**Shamal**
+The Loan Management System was developed as a practical full-stack project to strengthen **Java backend development and enterprise application engineering skills** within a banking domain.
 
-This project was developed as a practical Java backend project to strengthen knowledge of REST APIs, Jakarta EE, JPA/Hibernate, PostgreSQL, and layered application architecture.
+The project combines Java, Jakarta EE, REST APIs, Hibernate/JPA, PostgreSQL, JWT authentication, role-based authorization, and a JavaScript-based frontend to implement a realistic loan management workflow.
+
+**Domain:** Banking & Financial Services
+**Project Type:** Full-Stack Loan Management System
+**Backend:** Java 17 / Jakarta EE
+**Database:** PostgreSQL
+**Status:** Core Features Implemented
+
+### Future Development
+
+Potential future improvements include:
+
+* Automated testing
+* Improved password hashing and credential management
+* Multithreading and concurrency handling
+* Additional enterprise Java features
+* Further security hardening
+* Additional loan-processing workflows

@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.loan.dao.CustomerDAO;
+import com.loan.dao.UserDAO;
 import com.loan.dto.CustomerDto;
 import com.loan.entity.Customer;
+import com.loan.entity.User;
 import com.loan.exception.CustomerNotFoundException;
+import com.loan.exception.UserNotFoundException;
 
 public class CustomerService {
 
@@ -116,6 +119,33 @@ public class CustomerService {
 		}
 
 		customerDAO.delete(deletingCustomer);
+	}
+	
+	//	GET CUSTOMER BY USER NAME
+	
+	public CustomerDto getCustomerByUserName(String userName) {
+		
+		UserDAO userDao = new UserDAO();
+		User user = userDao.findByUserName(userName);
+		
+		if(user == null) {
+			throw new UserNotFoundException("USER NOT FOUND.");
+		}
+		
+		Customer customer = customerDAO.findById(user.getCustomer().getCustomerId());
+		
+		CustomerDto customerDto = new CustomerDto();
+		
+		customerDto.setCustomerID(customer.getCustomerId());
+		customerDto.setAddress(customer.getAddress());
+		customerDto.setEmail(customer.getEmail());
+		customerDto.setFirstName(customer.getFirstName());
+		customerDto.setLastName(customer.getLastName());
+		customerDto.setNic(customer.getNic());
+		customerDto.setPhone(customer.getPhone());
+		
+		return customerDto;		
+		
 	}
 
 }

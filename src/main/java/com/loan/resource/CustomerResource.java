@@ -15,8 +15,10 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 
 @Path("/customers")
 @Produces(MediaType.APPLICATION_JSON)
@@ -83,4 +85,16 @@ public class CustomerResource {
 
 	}
 
+	@GET
+	@Path("/me")
+	@RolesAllowed({"CUSTOMER","DUMMY"})
+	public Response getCurrentCustomer(@Context SecurityContext securityContext) {
+		
+		String userName = securityContext.getUserPrincipal().getName();
+		
+		CustomerDto customerDto = customerService.getCustomerByUserName(userName);
+		
+		return Response.ok(customerDto).build();
+	}
+	
 }

@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.loan.enums.LoanApplicationStatus;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -25,7 +28,10 @@ public class LoanApplicationDto {
 	private String purpose;
 
 	//@NotBlank(message = "STATUS IS REQUIRED.")
-	private String status;
+	//private String status;
+	
+	@Enumerated(EnumType.STRING)
+	private LoanApplicationStatus status;
 
 
 	private Long customerid;
@@ -71,16 +77,15 @@ public class LoanApplicationDto {
 	public void setPurpose(String purpose) {
 		this.purpose = purpose;
 	}
-
-	public String getStatus() {
+	
+	public LoanApplicationStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(LoanApplicationStatus status) {
 		this.status = status;
 	}
 
-	
 	public Long getCustomerid() {
 		return customerid;
 	}

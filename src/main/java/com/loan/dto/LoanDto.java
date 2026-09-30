@@ -7,7 +7,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.loan.enums.LoanStatus;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -40,9 +43,12 @@ public class LoanDto {
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate endDate;
 
-	@NotBlank(message = "STATUS IS REQUIRED.")
-	@Size(max = 25, message = "STATUS CHARACTOR COUNT MUST NOT EXCEED 25.")
-	private String status;
+	//@NotBlank(message = "STATUS IS REQUIRED.")
+	//@Size(max = 25, message = "STATUS CHARACTOR COUNT MUST NOT EXCEED 25.")
+	//private String status;
+	
+	@Enumerated(EnumType.STRING)
+	private LoanStatus status;
 
 	public Long getLoanId() {
 		return loanId;
@@ -100,12 +106,13 @@ public class LoanDto {
 		this.endDate = endDate;
 	}
 
-	public String getStatus() {
+	public LoanStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(LoanStatus status) {
 		this.status = status;
 	}
+
 
 }

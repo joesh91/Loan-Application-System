@@ -1,9 +1,14 @@
 package com.loan.entity;
 
+import com.loan.enums.StaffPosition;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "staff")
@@ -20,8 +25,10 @@ public class Staff {
 	private String email;
 
 	@Column(name = "position")
-	private String position;
-
+	@Enumerated(EnumType.STRING)
+	private StaffPosition position;
+	
+	
 	// EMPTY CONSTRUCTOR
 
 	public Staff() {
@@ -54,11 +61,11 @@ public class Staff {
 		this.email = email;
 	}
 
-	public String getPosition() {
+	public StaffPosition getPosition() {
 		return position;
 	}
 
-	public void setPosition(String position) {
+	public void setPosition(StaffPosition position) {
 		this.position = position;
 	}
 

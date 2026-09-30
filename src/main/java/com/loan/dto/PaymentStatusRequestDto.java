@@ -2,12 +2,12 @@ package com.loan.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class PaymentStatusRequest {
+public class PaymentStatusRequestDto {
 
 	@NotBlank(message = "DECISION IS REQUIRED")
 	private String decision;
 
-	public PaymentStatusRequest() {
+	public PaymentStatusRequestDto() {
 
 	}
 

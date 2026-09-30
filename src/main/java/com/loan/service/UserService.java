@@ -62,7 +62,7 @@ public class UserService {
 		}
 
 		user.setCustomer(customer);
-		user.setPassWord(userDto.getPassWord());
+		//user.setPassWord(userDto.getPassWord());
 		user.setRole(userDto.getRole());
 		user.setUserName(userDto.getUserName());
 
@@ -99,7 +99,7 @@ public class UserService {
 		UserDto userDto = new UserDto();
 
 		userDto.setCustomerId(user.getCustomer().getCustomerId());
-		userDto.setPassWord(user.getPassWord());
+		//userDto.setPassWord(user.getPassWord());
 		userDto.setRole(user.getRole());
 		userDto.setUserId(user.getUserId());
 		userDto.setUserName(user.getUserName());
@@ -120,7 +120,7 @@ public class UserService {
 			UserDto userDto = new UserDto();
 
 			userDto.setCustomerId(u.getCustomer().getCustomerId());
-			userDto.setPassWord(u.getPassWord());
+			//userDto.setPassWord(u.getPassWord());
 			userDto.setRole(u.getRole());
 			userDto.setUserId(u.getUserId());
 			userDto.setUserName(u.getUserName());
@@ -201,6 +201,27 @@ public class UserService {
 		//	 TO DO CODE
 	}
 
+	//	FIND USER BY USERNAME
+	
+	public UserDto findUserByUserName(String userName) {
+				
+		User user = userDAO.findByUserName(userName);
+		
+		  if (user == null) {
+		        throw new UserNotFoundException("USER NOT FOUND.");
+		    }
+		
+		UserDto userDto = new UserDto();
+		userDto.setUserName(user.getUserName());
+		userDto.setUserId(user.getUserId());
+		userDto.setRole(user.getRole());
+		
+		if(user.getCustomer()!=null) {
+			userDto.setCustomerId(user.getCustomer().getCustomerId());
+		}
 
+		return userDto;
+		
+	}
 
 }

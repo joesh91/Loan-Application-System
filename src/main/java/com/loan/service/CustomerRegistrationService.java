@@ -12,7 +12,7 @@ import com.loan.entity.Customer;
 import com.loan.entity.CustomerRegistration;
 import com.loan.entity.User;
 import com.loan.enums.RegistrationStatus;
-import com.loan.ignore.TemporaryPassword;
+import com.loan.helper.TemporaryPassword;
 
 public class CustomerRegistrationService {
 

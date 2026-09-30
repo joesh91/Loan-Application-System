@@ -4,8 +4,12 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.loan.enums.PaymentStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,8 +37,13 @@ public class Payment {
 	@Column(name = "amount")
 	private Double amount;
 
-	@Column(name = "payment_status")
-	private String paymentStatus;
+	//@Column(name = "payment_status")
+	//private String paymentStatus;
+	
+	@Column(name="payment_status")
+	@Enumerated(EnumType.STRING)
+	private PaymentStatus paymentStatus;
+	
 
 	public Payment() {
 
@@ -73,11 +82,11 @@ public class Payment {
 		this.amount = amount;
 	}
 
-	public String getPaymentStatus() {
+	public PaymentStatus getPaymentStatus() {
 		return paymentStatus;
 	}
 
-	public void setPaymentStatus(String paymentStatus) {
+	public void setPaymentStatus(PaymentStatus paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
 

@@ -66,7 +66,8 @@ public class ApplicationReviewResource {
 	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response updateApplicationReview(@PathParam("id") Long applicationReviewId,
 			@Valid ApplicationReviewDto applicationReviewDto) {
-
+		
+		System.out.println("called");		
 		applicationReviewDto.setReviewId(applicationReviewId);
 		applicationReviewService.updateReview(applicationReviewDto);
 		return Response.ok(applicationReviewDto).build();

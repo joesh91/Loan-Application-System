@@ -65,4 +65,50 @@ public class LoanApplicationDAO {
 		em.close();
 		return la;
 	}
-}
+	
+	public List<LoanApplication> findByCustomerId(Long custoemrId){
+		
+		EntityManager em = emf.createEntityManager();		
+		
+		List<LoanApplication> loanApplications = em.createQuery("SELECT L FROM LoanApplication L WHERE L.customer.customerId =:customerId",
+				LoanApplication.class)
+				.setParameter("customerId",custoemrId)
+				.getResultList();
+		
+		em.close();
+		
+		return loanApplications;
+		
+	}
+	
+	public LoanApplication findByIdandCustomerId(Long id,Long customerId) {
+		
+		EntityManager em = emf.createEntityManager();
+		
+		LoanApplication loanApplication = em.createQuery("SELECT L FROM LoanApplication L WHERE L.applicationId =:applicationId AND L.customer.customerId =:customerId",LoanApplication.class)
+				.setParameter("applicationId", id)
+				.setParameter("customerId", customerId)
+				.getResultStream()
+				.findFirst()
+				.orElse(null);
+				
+		em.close();
+		return loanApplication;
+	}
+	
+	/*public void updateLoanApplicationStatus(Long applicationId , LoanApplicationStatus status) {
+		
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			em.getTransaction().begin();
+			
+			
+		}catch(Exception e) {
+			
+		}finally {
+			
+		}*/
+	}
+	
+	

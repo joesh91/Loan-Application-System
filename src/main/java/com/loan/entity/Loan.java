@@ -5,8 +5,12 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.loan.enums.LoanStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,8 +47,11 @@ public class Loan {
 	@Column(name = "END_DATE")
 	private LocalDate endDate;
 
-	@Column(name = "STATUS")
-	private String status;
+	//@Column(name = "STATUS")
+	//private String status;
+	
+	@Enumerated(EnumType.STRING)
+	private LoanStatus status;
 
 	public Loan() {
 
@@ -107,11 +114,11 @@ public class Loan {
 		this.endDate = endDate;
 	}
 
-	public String getStatus() {
+	public LoanStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(LoanStatus status) {
 		this.status = status;
 	}
 

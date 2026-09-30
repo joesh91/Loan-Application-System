@@ -10,6 +10,7 @@ import com.loan.dto.ApplicationReviewDto;
 import com.loan.entity.ApplicationReview;
 import com.loan.entity.LoanApplication;
 import com.loan.entity.Staff;
+import com.loan.enums.LoanApplicationStatus;
 import com.loan.enums.ReviewDecision;
 import com.loan.exception.ApplicationReviewNotFoundException;
 import com.loan.exception.LoanApplicationNotFoundException;
@@ -46,6 +47,17 @@ public class ApplicationReviewService {
 		applicationReview.setDecision(applicationReviewDto.getDecision().name());
 
 		applicationReviewDAO.save(applicationReview);
+		
+		if(applicationReviewDto.getDecision().name()=="APPROVED") {
+			loanApplication.setStatus(LoanApplicationStatus.APPROVED);
+			loanApplicationDao.update(loanApplication);
+		}
+		
+		if(applicationReviewDto.getDecision().name()=="REJECTED") {
+			loanApplication.setStatus(LoanApplicationStatus.REJECTED);
+			loanApplicationDao.update(loanApplication);
+		}
+		
 
 	}
 
@@ -121,7 +133,7 @@ public class ApplicationReviewService {
 		applicationReviewDto.setComments(applicationReview.getComments());
 		applicationReviewDto.setReviewId(applicationReview.getReviewId());
 		applicationReviewDto.setDecision(ReviewDecision.valueOf(applicationReview.getDecision()));
-
+		applicationReviewDto.setReviewDate(applicationReview.getReviewDate());
 		return applicationReviewDto;
 	}
 

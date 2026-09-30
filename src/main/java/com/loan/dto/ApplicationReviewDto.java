@@ -20,7 +20,7 @@ public class ApplicationReviewDto {
 	@NotNull(message = "STAFF ID IS REQUIRED.")
 	private Long staff;
 
-	@NotNull(message = "DECISION IS REQUIRED.")
+	//@NotNull(message = "DECISION IS REQUIRED.")
 	private ReviewDecision decision;
 
 	@NotBlank(message = "COMMENTS ARE REQUIRED.")
