@@ -88,6 +88,11 @@ The application demonstrates practical experience with:
 
 ---
 
+
+## 🖥️ Application Preview
+
+![Backend Project Preview](screenshots/back.png)
+
 ## 🛠️ Technology Stack
 
 | Technology                    | Purpose                           |
