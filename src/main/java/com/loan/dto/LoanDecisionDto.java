@@ -11,10 +11,6 @@ public class LoanDecisionDto {
 	@NotNull(message = "LOAN IS IS REQUIRED")
 	private Long loanId;
 
-	//@NotBlank(message = "STATUS IS REQUIRED")
-	//private String status;
-	
-	
 	@Enumerated(EnumType.STRING)
 	private LoanStatus status;
 

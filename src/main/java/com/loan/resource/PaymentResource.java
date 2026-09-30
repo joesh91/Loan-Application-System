@@ -3,7 +3,6 @@ package com.loan.resource;
 import java.util.List;
 
 import com.loan.dto.PaymentDto;
-import com.loan.dto.PaymentStatusRequestDto;
 import com.loan.service.PaymentService;
 
 import jakarta.annotation.security.RolesAllowed;
@@ -59,7 +58,6 @@ public class PaymentResource {
 	@GET
 	@RolesAllowed({"ADMIN","OFFICER"})
 	public Response getAllPayments() {
-		System.out.println("PYAMENT RESOURCE CLASS GET ALL METHOD");
 
 		List<PaymentDto> payments = paymentService.getAllPayments();
 		return Response.ok(payments).build();

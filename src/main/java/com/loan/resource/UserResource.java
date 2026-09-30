@@ -34,7 +34,7 @@ public class UserResource {
 	// REGISTER USER
 
 	@POST
-	@RolesAllowed({"ADMIN" , "MANAGER"})
+	@RolesAllowed({ "ADMIN", "MANAGER" })
 	public Response registerUser(@Valid UserDto userDto) {
 
 		userService.registerUser(userDto);
@@ -45,7 +45,7 @@ public class UserResource {
 
 	@GET
 	@Path("/{id}")
-	@RolesAllowed({"ADMIN","MANAGER"})
+	@RolesAllowed({ "ADMIN", "MANAGER" })
 	public Response searchUser(@PathParam("id") Long userId) {
 
 		UserDto userDto = userService.findUser(userId);
@@ -55,7 +55,7 @@ public class UserResource {
 	// GET ALL USERS
 
 	@GET
-	@RolesAllowed({"ADMIN","MANAGER"})
+	@RolesAllowed({ "ADMIN", "MANAGER" })
 	public Response getAllUsers() {
 
 		List<UserDto> usersDtos = userService.getAllUsers();
@@ -67,7 +67,7 @@ public class UserResource {
 
 	@PUT
 	@Path("/{id}")
-	@RolesAllowed({"ADMIN","MANAGER"})
+	@RolesAllowed({ "ADMIN", "MANAGER" })
 	public Response updateUser(@PathParam("id") Long userId, @Valid UserDto userDto) {
 
 		userDto.setUserId(userId);
@@ -79,10 +79,8 @@ public class UserResource {
 
 	@DELETE
 	@Path("/{id}")
-	@RolesAllowed({"ADMIN","MANAGER"})
+	@RolesAllowed({ "ADMIN", "MANAGER" })
 	public Response deleteUser(@PathParam("id") Long userId) {
-
-		System.out.println("DELETE API CALL REACHED TO RESROUCE LAYER.");
 
 		UserDto userDto = userService.findUser(userId);
 		userService.deleteUser(userDto);
@@ -94,57 +92,55 @@ public class UserResource {
 	@POST
 	@Path("/login")
 	public Response login(LoginRequestDto loginRequestDto) {
-		System.out.println("🔥🔥 LOGIN METHOD REACHED 🔥🔥");
+
 		userService.login(loginRequestDto);
 
 		return Response.ok("OTP SENT").build();
 
-
 	}
 
-	//	VERIFY OTP
+	// VERIFY OTP
 
 	@POST
 	@Path("/verify-otp")
 	public Response verifyOtp(OtpVerificaionDto otpVerificationDto) {
 
-		String token = userService.verifyOtpAndGenerateToken(otpVerificationDto.getUserName(),otpVerificationDto.getEnteredOtp());
+		String token = userService.verifyOtpAndGenerateToken(otpVerificationDto.getUserName(),
+				otpVerificationDto.getEnteredOtp());
 
-		if(token == null) {
+		if (token == null) {
 			return Response.status(Response.Status.UNAUTHORIZED).entity("INAVLID ONE TIME PASSWORD").build();
 		}
 
 		LoginResponseDto loginResponseDto = new LoginResponseDto(token);
-		
+
 		return Response.ok(loginResponseDto).build();
 	}
 
-
-	//	CHANGE ROLE OF USER
+	// CHANGE ROLE OF USER
 
 	@PUT
 	@Path("/change-role/{id}")
-	@RolesAllowed({"ADMIN","MANAGER"})				// 	ONLY BY SYSTEM ADMIN
+	@RolesAllowed({ "ADMIN", "MANAGER" }) // ONLY BY SYSTEM ADMIN
 	public Response changeRole(@PathParam("id") Long userId, UserRoleChangeDto userRoleChangeDto) {
-		System.out.println("USER RESOURCE 1");
-		UserDto userDto = userService.changeUserRole(userId,userRoleChangeDto);
+
+		UserDto userDto = userService.changeUserRole(userId, userRoleChangeDto);
 
 		return Response.ok(userDto).build();
 	}
-	
-	
-	//	GET CURRENT USER
-	
+
+	// GET CURRENT USER
+
 	@GET
 	@Path("/me")
-	@RolesAllowed({"CUSTOMER","ADMIN"})
+	@RolesAllowed({ "CUSTOMER", "ADMIN" })
 	public Response getCurrentUser(@Context SecurityContext securityContext) {
-		
+
 		String userName = securityContext.getUserPrincipal().getName();
-		
+
 		UserDto userDto = userService.findUserByUserName(userName);
-		
+
 		return Response.ok(userDto).build();
 	}
-	
+
 }

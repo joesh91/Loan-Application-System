@@ -49,39 +49,28 @@ public class OTPService {
 	//	VERIFY OTP
 
 	public boolean verifyOtp(String userName,String enteredOtp) {
-		System.out.println("TEST OTP_SERVICE_1");
-
+	
 		UserDAO userDAO = new UserDAO();
 		User user = userDAO.findByUserName(userName);
 
-		System.out.println("TEST OTP_SERVICE_2");
-
-
 		OTP otp = otpDAO.getUnusedOtp(user.getUserId());
 
-	
-		
-		System.out.println("TEST OTP_SERVICE_3");
 		if(otp == null) {
 			return false;
 		}
 
-		System.out.println("TEST OTP_SERVICE_4");
 		if(otp.isUsed()) {
 			return false;
 		}
 
-		System.out.println("TEST OTP_SERVICE_5");
 		if(otp.getExpiredAt().isBefore(LocalDateTime.now())) {
 			return false;
 		}
 
-		System.out.println("TEST OTP_SERVICE_6");
 		if(!otp.getOtpCode().equals(enteredOtp)) {
 			return false;
 		}
 
-		System.out.println("TEST OTP_SERVICE_7");
 		otp.setUsed(true);
 		otpDAO.updateOtp(otp);
 

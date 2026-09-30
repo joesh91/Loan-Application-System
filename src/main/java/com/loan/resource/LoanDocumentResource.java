@@ -38,8 +38,7 @@ public class LoanDocumentResource {
 
 	@POST
 	public Response saveLoanDocument(@Valid LoanDocumentDto loanDOcumentDto) {
-		System.out.println("TEST");
-		
+				
 		//loanDocumentService.uploadDocument();
 		
 		return Response.status(Response.Status.CREATED).entity(loanDOcumentDto).build();
@@ -92,10 +91,7 @@ public class LoanDocumentResource {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@RolesAllowed({"ADMIN","OFFICER","CUSTOMER"})
 	public Response uploadFile(MultipartFormDataInput input){
-		
-		System.out.print("UPLOAD TEST");
-		
-		
+
 		try {
 			
 			Map <String,List<InputPart>>formData = input.getFormDataMap();

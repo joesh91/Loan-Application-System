@@ -22,14 +22,11 @@ public class RoleAuthorizationFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter (ContainerRequestContext containerRequestContext) throws IOException{
-System.out.println("ROLES AUTHORIZATION CLASS IS ACCESSED");										// 	 TEST CASE
+									
 		Method method = resourceInfo.getResourceMethod();
 
-System.out.println("METHOD NAME : "+method);														// 	 TEST CASE
+													
 		RolesAllowed rolesAllowed = method.getAnnotation(RolesAllowed.class);
-
-
-System.out.println("ROLES ALLOWED : "+rolesAllowed);												// 	 TEST CASE
 
 		if(rolesAllowed == null) {
 			return;
@@ -37,30 +34,17 @@ System.out.println("ROLES ALLOWED : "+rolesAllowed);												// 	 TEST CASE
 
 		String [] allowedRoles = rolesAllowed.value();
 	
-System.out.println("ALLOWED ROLES : "+allowedRoles[0]+" <> "+allowedRoles[1]);
-
-// 	 TEST CASE
 		SecurityContext securityContext = containerRequestContext.getSecurityContext();
-			
-		String result = securityContext.getClass().getName();
-System.out.println("RESULT  : "+result );
-		
-System.out.println("SECURITY CONTEXT : "+securityContext);
-System.out.println("SECURITY CONTEXT CLASS = " + securityContext.getClass().getName());
-				for(String allowedRole : allowedRoles) {
-					
-System.out.println("FOR LOOP 1");					
-					if(securityContext.isUserInRole(allowedRole)==true) {
-System.out.println("FOR LOOP 2");							
+
+				for(String allowedRole : allowedRoles) {							
+					if(securityContext.isUserInRole(allowedRole)==true) {		
 						return;
-					}
-					
+					}				
 				}
 
 		containerRequestContext.abortWith(
 				Response.status(Response.Status.FORBIDDEN).build()
-				);
-System.out.println("SECURITY CONTEXT ABORTED WITH / REQUEST DENIED : ");												// 	 TEST CASE
+				);								
 	}
 
 }

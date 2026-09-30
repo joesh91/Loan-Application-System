@@ -46,9 +46,6 @@ public class Loan {
 
 	@Column(name = "END_DATE")
 	private LocalDate endDate;
-
-	//@Column(name = "STATUS")
-	//private String status;
 	
 	@Enumerated(EnumType.STRING)
 	private LoanStatus status;

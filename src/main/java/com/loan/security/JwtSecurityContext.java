@@ -48,16 +48,14 @@ public class JwtSecurityContext implements SecurityContext{
 
 	@Override
 	public boolean isUserInRole(String role) {
-		System.out.println("isUserInRole IN jwt security context class method is called : "+role);
-
+	
 		return this.getRole().equals(role);
-	//	return this.role.equals(role);
-
+	
 	}
 
 	@Override
 	public boolean isSecure() {
-		System.out.println("ROLE CHECK 2");
+
 		// TODO Auto-generated method stub
 		return false;
 	}

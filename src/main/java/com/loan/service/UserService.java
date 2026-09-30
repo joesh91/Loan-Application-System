@@ -174,14 +174,14 @@ public class UserService {
 //	CHANGE USER ROLE
 
 	public UserDto changeUserRole(Long userId,UserRoleChangeDto userRoleChangeDto) {
-		System.out.println("USER SERVICE  CHANGE ROLE METHOD 1 ");
+	
 		User user = userDAO.findById(userId);
 
 		if(user == null) {
 			throw new UserNotFoundException("USER NOT FOUND");
 		}
 
-		System.out.println("USER SERVICE  CHANGE ROLE METHOD 2 ");
+
 		user.setRole(userRoleChangeDto.getRole());
 
 		userDAO.update(user);

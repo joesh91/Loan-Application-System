@@ -53,7 +53,7 @@ public class LoanApplicationResource {
 	public Response findLoanApplication(@PathParam("id") Long loanApplicationId ) {
 
 		LoanApplicationDto loanApplicationDto = loanApplicationService.searchLoanApplication(loanApplicationId);
-		//return Response.status(Response.Status.FOUND).entity(loanApplicationDto).build();
+	
 		return Response.ok(loanApplicationDto).build();
 
 	}

@@ -20,14 +20,13 @@ public class ApplicationReviewDto {
 	@NotNull(message = "STAFF ID IS REQUIRED.")
 	private Long staff;
 
-	//@NotNull(message = "DECISION IS REQUIRED.")
+	
 	private ReviewDecision decision;
 
 	@NotBlank(message = "COMMENTS ARE REQUIRED.")
 	@Size(max = 500, message = "COMMENTS CANNOT EXCEED 500 CHARACTERS.")
 	private String comments;
 
-	//@NotNull(message = "DATE CANNOT BE NULL")
 	@JsonSerialize(using = LocalDateSerializer.class)
 	private LocalDate reviewDate;
 

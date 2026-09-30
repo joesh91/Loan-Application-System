@@ -83,10 +83,6 @@ public class EmailService {
 
 			Transport.send(message);
 
-			// FOR THE CONSOLE
-
-			System.out.println("EMAIL SENT SUCCESSFULLY.");
-
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -160,10 +156,6 @@ public class EmailService {
 
 				Transport.send(message);
 
-				// FOR THE CONSOLE
-
-				System.out.println("EMAIL SENT SUCCESSFULLY.");
-
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -213,7 +205,6 @@ public class EmailService {
 				);
 
 		Transport.send(message);
-		System.out.println("EMAIL SENT SUCCESSFULLY.");
 
 		}catch(Exception e) {
 			e.printStackTrace();

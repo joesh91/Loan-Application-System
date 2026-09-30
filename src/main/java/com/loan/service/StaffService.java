@@ -2,16 +2,11 @@ package com.loan.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.loan.dao.CustomerDAO;
 import com.loan.dao.StaffDAO;
-import com.loan.dao.UserDAO;
 import com.loan.dto.StaffDto;
-import com.loan.entity.Customer;
 import com.loan.entity.Staff;
-import com.loan.entity.User;
 import com.loan.exception.StaffNotFoundException;
-import com.loan.helper.TemporaryPassword;
+
 
 public class StaffService {
 

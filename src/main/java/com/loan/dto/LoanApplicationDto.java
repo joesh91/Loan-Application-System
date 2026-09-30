@@ -27,16 +27,12 @@ public class LoanApplicationDto {
 	@NotBlank(message = "PURPOSE IS REQUIRED.")
 	private String purpose;
 
-	//@NotBlank(message = "STATUS IS REQUIRED.")
-	//private String status;
-	
 	@Enumerated(EnumType.STRING)
 	private LoanApplicationStatus status;
 
 
 	private Long customerid;
 	
-	//@NotNull(message = "DATE CANNOT BE NULL")
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime appDate;
 	

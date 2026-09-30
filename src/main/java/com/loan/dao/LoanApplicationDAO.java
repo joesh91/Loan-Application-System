@@ -31,7 +31,7 @@ public class LoanApplicationDAO {
 		em.remove(em.merge(lapp));
 		em.getTransaction().commit();
 		em.close();
-		System.out.println("PERSIST DONE");
+		
 	}
 
 	public void update(LoanApplication lapp) {

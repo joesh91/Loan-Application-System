@@ -37,9 +37,6 @@ public class Payment {
 	@Column(name = "amount")
 	private Double amount;
 
-	//@Column(name = "payment_status")
-	//private String paymentStatus;
-	
 	@Column(name="payment_status")
 	@Enumerated(EnumType.STRING)
 	private PaymentStatus paymentStatus;
