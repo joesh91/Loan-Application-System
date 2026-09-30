@@ -393,6 +393,9 @@ LoanApplication/
 ├── database/
 │   └── loanApplication_DB.sql
 │
+├── screenshots/
+│	└── back.png
+│
 ├── pom.xml
 └── README.md
 ```
