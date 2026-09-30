@@ -30,7 +30,7 @@
 				value="postgres" />
 
 			<property name="jakarta.persistence.jdbc.password"
-				value="postgresql" />
+				value="" />
 				
 				
 			<!--  Tells Hibernate which SQL dialect to use for generating queries. -->
