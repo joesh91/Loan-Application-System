@@ -26,7 +26,7 @@ public class EmailService {
 
 	//	APP PASSWORD
 
-		final String senderPassword = "pvpv hilm mssb dqzh";
+		final String senderPassword = "type your email password here";
 
 	//	SMTP CONFIGURATION
 
